@@ -1,0 +1,1 @@
+# helsingborg-viva-api-adapter
