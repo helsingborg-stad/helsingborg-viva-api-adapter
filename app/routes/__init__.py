@@ -1,3 +1,2 @@
-from .students import Students
-from .student import Student
-from . import viva
+from .my_pages import MyPages
+from .applications import Applications
