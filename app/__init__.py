@@ -30,4 +30,9 @@ def create_app():
             '/viva/mypages/<string:hash_id>'
         )
 
+        api.add_resource(
+            routes.Applications,
+            '/viva/applications/'
+        )
+
         return app
