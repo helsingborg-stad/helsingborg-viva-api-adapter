@@ -5,13 +5,14 @@ from .viva import Viva
 
 class MyPages(Viva):
 
-    def __init__(self, usr, pnr, wsdl='MyPages'):
+    def __init__(self, wsdl='MyPages', usr=str, pnr=str):
         super(MyPages, self).__init__()
 
         self.usr = usr
         self.pnr = pnr
 
         self._service = self._get_service(wsdl)
+
         self.person_info = self.get_person_info()
         self.person_cases = self.get_person_cases()
 
