@@ -32,7 +32,7 @@ def create_app():
 
         api.add_resource(
             routes.Applications,
-            '/viva/applications/'
+            '/viva/applications'
         )
 
         return app
