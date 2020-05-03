@@ -1,6 +1,6 @@
 import xmltodict
 
-from . import Viva
+from .viva import Viva
 
 
 class MyPages(Viva):
