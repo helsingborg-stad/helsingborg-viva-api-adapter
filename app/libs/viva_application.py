@@ -1,4 +1,4 @@
-from .Viva import Viva
+from .viva import Viva
 from .my_pages import MyPages
 
 
