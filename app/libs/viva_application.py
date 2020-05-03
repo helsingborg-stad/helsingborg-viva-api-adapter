@@ -37,14 +37,14 @@ class VivaApplication(Viva):
 
         return self._helpers.serialize_object(response_new_application)
 
-    def new_re_application(self, key, period, re_application, ip='127.0.0.1'):
+    def new_re_application(self, key=int, period=dict, re_application=dict, ip='127.0.0.1'):
 
         response_new_re_application = self._service.NEWREAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
             KEY=key,
 
             # Aktuell användares personnummer
-            USER=user,
+            USER=self.usr,
 
             # Aktuell användares IP-adress
             IP=ip,
