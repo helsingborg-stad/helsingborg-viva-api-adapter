@@ -9,7 +9,7 @@ from zeep.transports import Transport
 
 class Viva(object):
 
-    def __init__(self, envs="/vivaEnvs", zeep_helpers=zeep_helpers):
+    def __init__(self, envs='/vivaEnvs', zeep_helpers=zeep_helpers):
         self._helpers = zeep_helpers
         self._params = self._get_params(envs)
         cookie = self._get_cookie()
@@ -17,11 +17,11 @@ class Viva(object):
 
     def _get_params(self, prefix):
         store = SSMParameterStore(prefix=prefix)
-        return json.loads(store[os.getenv("stage")])
+        return json.loads(store[os.getenv('stage')])
 
     def _set_cookie_jar(self, cookie):
         jar = requests.cookies.RequestsCookieJar()
-        jar.set(self._params["cookie_auth_name"], cookie)
+        jar.set(self._params['cookie_auth_name'], cookie)
         return jar
 
     def _get_session(self):
@@ -33,7 +33,7 @@ class Viva(object):
         session.cookies = self._cookie_jar
         transport = Transport(session=session)
 
-        wsdl_url = self._params["wsdl_url"] + "/" + wsdl + "?WSDL"
+        wsdl_url = self._params['wsdl_url'] + '/' + wsdl + '?WSDL'
         client = Client(wsdl=wsdl_url, transport=transport)
 
         return client.service
@@ -43,12 +43,12 @@ class Viva(object):
 
     def _get_cookie(self):
         response = requests.post(
-            self._params["login_post_url"],
+            self._params['login_post_url'],
             data={
-                "username": self._params["auth"]["username"],
-                "password": self._params["auth"]["password"],
+                'username': self._params['auth']['username'],
+                'password': self._params['auth']['password'],
             },
             allow_redirects=False
         )
 
-        return response.cookies[self._params["cookie_auth_name"]]
+        return response.cookies[self._params['cookie_auth_name']]

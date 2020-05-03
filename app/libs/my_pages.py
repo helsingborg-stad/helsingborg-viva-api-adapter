@@ -5,7 +5,7 @@ from . import Viva
 
 class MyPages(Viva):
 
-    def __init__(self, usr, pnr, wsdl="MyPages"):
+    def __init__(self, usr, pnr, wsdl='MyPages'):
         super(MyPages, self).__init__()
 
         self.usr = usr
@@ -19,7 +19,7 @@ class MyPages(Viva):
         response_info = self._service.PERSONINFO(
             USER=self.usr,
             PNR=self.pnr,
-            RETURNAS="xml"
+            RETURNAS='xml'
         )
 
         return xmltodict.parse(response_info)
@@ -28,7 +28,7 @@ class MyPages(Viva):
         response_cases = self._service.PERSONCASES(
             USER=self.usr,
             PNR=self.pnr,
-            RETURNAS="xml",
+            RETURNAS='xml',
             SYSTEM=1
         )
 

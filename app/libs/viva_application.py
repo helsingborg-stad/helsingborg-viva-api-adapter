@@ -1,9 +1,10 @@
-from . import Viva, MyPages
+from .Viva import Viva
+from .my_pages import MyPages
 
 
 class VivaApplication(Viva):
 
-    def __init__(self, wsdl="VivaApplication", usr=str, pnr=str, my_pages=MyPages):
+    def __init__(self, wsdl='VivaApplication', usr=str, pnr=str, my_pages=MyPages):
         super(VivaApplication, self).__init__()
         self._service = self._get_service(wsdl)
 
@@ -19,24 +20,24 @@ class VivaApplication(Viva):
         return self._my_pages.person_cases
 
     def _get_ssi(self):
-        return self._person_cases["vivadata"]["vivacases"]["vivacase"]["casessi"]
+        return self._person_cases['vivadata']['vivacases']['vivacase']['casessi']
 
     def _get_workflow_id(self):
-        return self._person_cases["vivadata"]
+        return self._person_cases['vivadata']
 
-    def new_application(self, key, application, ip="127.0.0.1"):
+    def new_application(self, key, application, ip='127.0.0.1'):
         response_new_application = self._service.NEWAPPLICATION(
             KEY=key,        # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
             USER=user,      # Aktuell användares personnummer
             IP=ip,          # Aktuell användares IP-adress
-            CASETYPE="",    # Ärendetyp. Lämna tomt för "01" = ekonomiskt bistånd
+            CASETYPE='',    # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             SYSTEM=1,
             APPLICATION=application,
         )
 
         return self._helpers.serialize_object(response_new_application)
 
-    def new_re_application(self, key, period, re_application, ip="127.0.0.1"):
+    def new_re_application(self, key, period, re_application, ip='127.0.0.1'):
 
         response_new_re_application = self._service.NEWREAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
@@ -58,8 +59,8 @@ class VivaApplication(Viva):
 
             # Period som ansökan avser
             PERIOD={
-                "START": "2018-06-01",
-                "END": "2018-06-30"
+                'START': '2018-06-01',
+                'END': '2018-06-30'
             },
 
             REAPPLICATION=re_application,
