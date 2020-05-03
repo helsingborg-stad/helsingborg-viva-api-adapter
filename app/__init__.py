@@ -5,7 +5,11 @@ from flask_restful import Api
 def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object('config.Config')
-    app.config.from_object('config.DevConfig')
+
+    if app.config['ENV'] == 'development':
+        app.config.from_object('config.DevConfig')
+    else:
+        app.config.from_object('config.ProdConfig')
 
     try:
         os.makedirs(app.instance_path)
