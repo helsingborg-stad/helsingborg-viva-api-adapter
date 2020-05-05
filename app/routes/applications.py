@@ -13,11 +13,10 @@ class Applications(Resource):
 
     def post(self):
         json_data = parser.parse_args()
+        appli_type = json_data.type
 
-        vivaAppli = VivaApplication(
-            usr='19760819T1234',
-            pnr='19760819T1234'
-        )
+        usr = json_data.body.usr
+        pnr = json_data.body.pnr
 
         response = vivaAppli.new_re_application(
             key=123,
