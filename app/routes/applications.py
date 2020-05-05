@@ -4,7 +4,7 @@ from flask_restful import Resource, reqparse
 from ..libs.viva_application import VivaApplication
 
 parser = reqparse.RequestParser()
-parser.add_argument('type', required=True)
+parser.add_argument('application_type', type=str, required=True)
 parser.add_argument('body', type=dict, required=True)
 
 
