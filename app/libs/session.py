@@ -26,18 +26,18 @@ class Session(object):
 
     def _get_cookie(self):
 
-        if not Session._cookie == None:
-            return Session._cookie
+        if Session._cookie == None:
+            login_conf = self._config['VIVA']['login']
 
-        response = self._requests.post(
-            self._config['VIVA']['login']['url'],
-            data={
-                'username': self._config['VIVA']['login']['username'],
-                'password': self._config['VIVA']['login']['password'],
-            },
-            allow_redirects=False
-        )
+            response = self._requests.post(
+                login_conf['url'],
+                data={
+                    'username': login_conf['username'],
+                    'password': login_conf['password'],
+                },
+                allow_redirects=False
+            )
 
-        Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
+            Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
 
         return Session._cookie
