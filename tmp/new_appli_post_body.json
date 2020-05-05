@@ -1,11 +1,7 @@
 {
-  "type": "new",
-  "body": {
-    "KEY": "",
-    "USER": "19941201T5851",
-    "IP": "127.0.0.1",
-    "CASETYPE": "",
-    "SYSTEM": 1,
+  "application_type": "new",
+  "user": "19941201T5851",
+  "data": {
     "APPLICATION": {
       "RAWDATA": "Lorem ipsum dolor",
       "RAWDATATYPE": "PDF",
