@@ -6,7 +6,7 @@ from ..libs.viva_application import VivaApplication
 parser = reqparse.RequestParser()
 parser.add_argument('application_type', type=str, required=True)
 parser.add_argument('user', type=str, required=True)
-parser.add_argument('body', type=dict, required=True)
+parser.add_argument('data', type=dict, required=True)
 
 
 class Applications(Resource):
@@ -18,8 +18,8 @@ class Applications(Resource):
 
         application = VivaApplication(
             application_type=json_payload.application_type,
-            user=json_payload.user,
-            application_data=json_payload.body
+            application_data=json_payload.data,
+            user=json_payload.user
         )
 
         response = application.create()
