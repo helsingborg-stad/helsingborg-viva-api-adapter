@@ -8,8 +8,8 @@ class VivaApplication(Viva):
                  wsdl='VivaApplication',
                  my_pages=MyPages,
                  application_type=str,
-                 user=str,
-                 application_data=dict
+                 application_data=dict,
+                 user=str
                  ):
         super(VivaApplication, self).__init__()
 
