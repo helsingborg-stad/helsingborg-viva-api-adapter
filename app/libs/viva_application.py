@@ -24,10 +24,7 @@ class VivaApplication(Viva):
             'renew': self._new_re_application
         }
 
-        self._my_pages = my_pages(
-            self._user,
-            self._user
-        )
+        self._my_pages = my_pages(user_pnr=self._user)
 
     def create(self):
         if self._validate(self._application_data) == True:
