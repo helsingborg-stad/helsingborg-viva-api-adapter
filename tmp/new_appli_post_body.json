@@ -1,0 +1,103 @@
+{
+	"type": "new",
+	"body": {
+    "KEY": "",
+    "USER": "19941201T5851",
+    "IP": "127.0.0.1",
+    "CASETYPE": "",
+    "SYSTEM": 1,
+		"APPLICATION": {
+      "RAWDATA": "Lorem ipsum dolor",
+      "RAWDATATYPE": "PDF",
+			"CLIENT": {
+        "PNUMBER": "19941201T5851",
+				"FNAME": "Kalle",
+				"LNAME": "Testarsson",
+				"ADDRESSES": [
+					{
+						"ADDRESS": {
+              "TYPE": "FB",
+							"ADDRESS": "Testgatan 22",
+							"CO": "Olofsson",
+							"ZIP": 12345,
+							"CITY": "Teststaden"
+						}
+					}
+				],
+				"PHONENUMBERS": [
+					{
+						"PHONENUMBER": {
+							"TYPE": "Mobiltelefon",
+							"NUMBER": "+46700121212",
+							"SMS": true
+						}
+					}
+				],
+				"EMAIL": {
+					"EMAIL": "testarsson@example.com",
+					"NOTIFY": true
+        },
+        "FOREGINCITIZEN": false,
+        "RESIDENCEPERMITTYPE": "",
+        "RESIDENCEPERMITDATE": "",
+        "CIVILSTATUS": "G",
+        "ALTCIVILSTATUS": ""
+      },
+      "EXPENSES": [
+        {
+          "EXPENSE": {
+            "TYPE": "Mobiltelefon",
+            "DESCRIPTION": "avtal",
+            "APPLIESTO": "coapplicant",
+            "FREQUENCY": "12",
+            "PERIOD": "2017-11-01 - 2017-11-30",
+            "AMOUNT": "199",
+            "DATE": "2017-11-05"
+          }
+        },
+        {
+          "EXPENSE": {
+            "TYPE": "Mobiltelefon",
+            "DESCRIPTION": "avtal",
+            "APPLIESTO": "applicant",
+            "FREQUENCY": "12",
+            "PERIOD": "2017-11-01 - 2017-11-30",
+            "AMOUNT": "169",
+            "DATE": "2017-11-05"
+          }
+        }
+      ],
+      "INCOMES": [
+        {
+          "INCOME": {
+            "TYPE": "Hyra",
+            "DESCRIPTION": "Uthyrning av garage",
+            "APPLIESTO": "applicant",
+            "FREQUENCY": "12",
+            "PERIOD": "2017-11-01 - 2017-11-30",
+            "AMOUNT": "250",
+            "DATE": "2017-11-05"
+          }
+        }
+      ],
+      "ASSETS": [
+        {
+          "ASSET": {
+            "TYPE": "MC",
+            "DESCRIPTION": "Motocross",
+            "APPLIESTO": "applicant",
+            "AMOUNT": 16000
+          }
+        },
+        {
+          "ASSET": {
+            "TYPE": "Bil",
+            "DESCRIPTION": "Opel Ascona med körförbud",
+            "APPLIESTO": "applicant",
+            "AMOUNT": 4000
+          }
+        }
+  	  ]
+		}
+	}
+}
