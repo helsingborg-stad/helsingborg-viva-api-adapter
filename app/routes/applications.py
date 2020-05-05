@@ -5,7 +5,7 @@ from ..libs.viva_application import VivaApplication
 
 parser = reqparse.RequestParser()
 parser.add_argument('type', required=True)
-parser.add_argument('application', type=dict, required=True)
+parser.add_argument('body', type=dict, required=True)
 
 class Applications(Resource):
     def get(self):
