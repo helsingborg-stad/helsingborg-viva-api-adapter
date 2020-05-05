@@ -18,10 +18,17 @@ class Applications(Resource):
         usr = json_data.body.usr
         pnr = json_data.body.pnr
 
-        response = vivaAppli.new_re_application(
-            key=123,
-            period={},
-            re_application={ 'some': 'value' }
-        )
+        viva_appli = VivaApplication(usr=usr, pnr=pnr)
 
-        return jsonify(response)
+        if appli_type == 'renew':
+  
+            renew_response = viva_appli.new_re_application(
+                key=123,
+                period={},
+                re_application={ 'some': 'value' }
+            )
+
+            return jsonify(renew_response)
+
+        elif appli_type == 'new':
+            return jsonify(json_data)
