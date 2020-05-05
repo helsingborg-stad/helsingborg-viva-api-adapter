@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_restful import Api
 
+
 def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object('config.Config')
@@ -15,7 +16,6 @@ def create_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
 
     with app.app_context():
 

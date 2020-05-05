@@ -1,41 +1,41 @@
 {
-	"type": "new",
-	"body": {
+  "type": "new",
+  "body": {
     "KEY": "",
     "USER": "19941201T5851",
     "IP": "127.0.0.1",
     "CASETYPE": "",
     "SYSTEM": 1,
-		"APPLICATION": {
+    "APPLICATION": {
       "RAWDATA": "Lorem ipsum dolor",
       "RAWDATATYPE": "PDF",
-			"CLIENT": {
+      "CLIENT": {
         "PNUMBER": "19941201T5851",
-				"FNAME": "Kalle",
-				"LNAME": "Testarsson",
-				"ADDRESSES": [
-					{
-						"ADDRESS": {
+        "FNAME": "Kalle",
+        "LNAME": "Testarsson",
+        "ADDRESSES": [
+          {
+            "ADDRESS": {
               "TYPE": "FB",
-							"ADDRESS": "Testgatan 22",
-							"CO": "Olofsson",
-							"ZIP": 12345,
-							"CITY": "Teststaden"
-						}
-					}
-				],
-				"PHONENUMBERS": [
-					{
-						"PHONENUMBER": {
-							"TYPE": "Mobiltelefon",
-							"NUMBER": "+46700121212",
-							"SMS": true
-						}
-					}
-				],
-				"EMAIL": {
-					"EMAIL": "testarsson@example.com",
-					"NOTIFY": true
+              "ADDRESS": "Testgatan 22",
+              "CO": "Olofsson",
+              "ZIP": 12345,
+              "CITY": "Teststaden"
+            }
+          }
+        ],
+        "PHONENUMBERS": [
+          {
+            "PHONENUMBER": {
+              "TYPE": "Mobiltelefon",
+              "NUMBER": "+46700121212",
+              "SMS": true
+            }
+          }
+        ],
+        "EMAIL": {
+          "EMAIL": "testarsson@example.com",
+          "NOTIFY": true
         },
         "FOREGINCITIZEN": false,
         "RESIDENCEPERMITTYPE": "",
@@ -97,7 +97,7 @@
             "AMOUNT": 4000
           }
         }
-  	  ]
-		}
-	}
+      ]
+    }
+  }
 }

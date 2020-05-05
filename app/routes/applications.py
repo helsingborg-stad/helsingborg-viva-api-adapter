@@ -7,6 +7,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('type', required=True)
 parser.add_argument('body', type=dict, required=True)
 
+
 class Applications(Resource):
     def get(self):
         return 'APPLICATIONS'
@@ -21,11 +22,11 @@ class Applications(Resource):
         viva_appli = VivaApplication(usr=usr, pnr=pnr)
 
         if appli_type == 'renew':
-  
+
             renew_response = viva_appli.new_re_application(
                 key=123,
                 period={},
-                re_application={ 'some': 'value' }
+                re_application={'some': 'value'}
             )
 
             return jsonify(renew_response)
