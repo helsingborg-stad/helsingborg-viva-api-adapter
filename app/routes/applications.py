@@ -11,26 +11,17 @@ parser.add_argument('body', type=dict, required=True)
 
 class Applications(Resource):
     def get(self):
-        return 'APPLICATIONS'
+        return 'APPLICATIONS LIST'
 
     def post(self):
-        json_data = parser.parse_args()
-        appli_type = json_data.type
+        json_payload = parser.parse_args()
 
-        usr = json_data.body.usr
-        pnr = json_data.body.pnr
+        application = VivaApplication(
+            application_type=json_payload.application_type,
+            user=json_payload.user,
+            application_data=json_payload.body
+        )
 
-        viva_appli = VivaApplication(usr=usr, pnr=pnr)
+        response = application.create()
 
-        if appli_type == 'renew':
-
-            renew_response = viva_appli.new_re_application(
-                key=123,
-                period={},
-                re_application={'some': 'value'}
-            )
-
-            return jsonify(renew_response)
-
-        elif appli_type == 'new':
-            return jsonify(json_data)
+        return jsonify(response)
