@@ -4,58 +4,73 @@ from .my_pages import MyPages
 
 class VivaApplication(Viva):
 
-    def __init__(self, wsdl='VivaApplication', usr=str, pnr=str, my_pages=MyPages):
+    def __init__(self,
+                 wsdl='VivaApplication',
+                 my_pages=MyPages,
+                 application_type=str,
+                 user=str,
+                 application_data=dict
+                 ):
         super(VivaApplication, self).__init__()
+
         self._service = self._get_service(wsdl)
 
-        self.usr = usr
-        self.pnr = pnr
+        self._application_type = application_type
+        self._application_data = application_data
+        self._user = user
 
-        self._my_pages = my_pages(usr, pnr)
-        self._person_cases = self._get_person_cases()
-        self._ssi = self._get_ssi()
-        self._workflow_id = self._get_workflow_id()
+        self._application_types = {
+            'new': self._new_application,
+            'renew': self._new_re_application
+        }
 
-    def _get_person_cases(self):
-        return self._my_pages.person_cases
-
-    def _get_ssi(self):
-        return self._person_cases['vivadata']['vivacases']['vivacase']['casessi']
-
-    def _get_workflow_id(self):
-        return self._person_cases['vivadata']
-
-    def new_application(self, key, application, ip='127.0.0.1'):
-        response_new_application = self._service.NEWAPPLICATION(
-            KEY=key,        # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
-            USER=user,      # Aktuell användares personnummer
-            IP=ip,          # Aktuell användares IP-adress
-            CASETYPE='',    # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
-            SYSTEM=1,
-            APPLICATION=application,
+        self._my_pages = my_pages(
+            self._user,
+            self._user
         )
 
-        return self._helpers.serialize_object(response_new_application)
+    def create(self):
+        if self._validate(self._application_data) == True:
+            return self._application_types[self._application_type]()
 
-    def new_re_application(self, key=int, period=dict, re_application=dict, ip='127.0.0.1'):
+        return self._helpers.serialize_object({'error': 'Create application failed!'})
 
-        response_new_re_application = self._service.NEWREAPPLICATION(
+    def _new_application(self):
+        response = self._service.NEWAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
-            KEY=key,
+            KEY=None,
 
             # Aktuell användares personnummer
-            USER=self.usr,
+            USER=self._user,
+            IP='127.0.0.1',
 
-            # Aktuell användares IP-adress
-            IP=ip,
+            # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
+            CASETYPE=None,
+
+            SYSTEM=1,
+
+            APPLICATION=self._application_data
+        )
+
+        return self._helpers.serialize_object(response)
+
+    def _new_re_application(self, body=dict):
+
+        ssi = self._get_ssi()
+        workflow_id = self._get_workflow_id()
+
+        response = self._service.NEWREAPPLICATION(
+            KEY=None,
+            USER=self._user,
+            IP='127.0.0.1',
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
             # See MyPages.PersonCases
-            SSI=self._ssi,
+            SSI=ssi,
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID=self._workflow_id,
+            WORKFLOWID=workflow_id,
 
             # Period som ansökan avser
             PERIOD={
@@ -63,7 +78,16 @@ class VivaApplication(Viva):
                 'END': '2018-06-30'
             },
 
-            REAPPLICATION=re_application,
+            REAPPLICATION=body.REAPPLICATION,
         )
 
-        return self._helpers.serialize_object(response_new_re_application)
+        return self._helpers.serialize_object(response)
+
+    def _validate(self, data):
+        return True
+
+    def _get_ssi(self):
+        return self._my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
+
+    def _get_workflow_id(self):
+        return 1
