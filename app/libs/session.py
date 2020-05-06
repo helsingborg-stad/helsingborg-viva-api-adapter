@@ -25,8 +25,7 @@ class Session(object):
         return transport
 
     def _get_cookie(self):
-
-        if Session._cookie == None:
+        if Session._cookie is None:
             login_conf = self._config['VIVA']['login']
 
             response = self._requests.post(
