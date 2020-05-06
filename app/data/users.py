@@ -10,12 +10,8 @@ hashids = Hashids(
 USERS = {
     hashids.encode(199412015852): {
         'name': 'Kalle Testarsson',
-        'age': 44,
-        'spec': 'Ensam',
     },
     hashids.encode(199612240201): {
         'name': 'Therese Blom',
-        'age': 42,
-        'spec': 'Sambo med barn',
     },
 }
