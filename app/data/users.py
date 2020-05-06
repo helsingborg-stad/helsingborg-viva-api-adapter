@@ -8,14 +8,14 @@ hashids = Hashids(
 
 # mock data
 USERS = {
-    hashids.encode(199412015851): {
-        'name': 'Dan Nilsson',
+    hashids.encode(199412015852): {
+        'name': 'Kalle Testarsson',
         'age': 44,
-        'spec': 'Is Cool!',
+        'spec': 'Ensam',
     },
-    hashids.encode(196602124321): {
-        'name': 'Agaton Sax',
+    hashids.encode(199612240201): {
+        'name': 'Therese Blom',
         'age': 42,
-        'spec': 'Is Love!',
+        'spec': 'Sambo med barn',
     },
 }

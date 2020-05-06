@@ -3,11 +3,7 @@ from flask_restful import Resource, reqparse
 from hashids import Hashids
 
 from .. import data
-
-hashids = Hashids(
-    salt=current_app.config['SALT'],
-    min_length=32
-)
+from ..libs.my_pages import MyPages as VivaMyPages
 
 
 class MyPages(Resource):
@@ -15,7 +11,7 @@ class MyPages(Resource):
         if hash_id is None:
             return 'Not found', 404
 
-        pnr_decoded = hashids.decode(hash_id)[0]
+        pnr_decoded = data.hashids.decode(hash_id)[0]
 
         return {
             'users': data.USERS,
