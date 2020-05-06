@@ -26,6 +26,7 @@ def create_app():
         # Viva
         api.add_resource(
             routes.MyPages,
+            '/viva/mypages/',
             '/viva/mypages/<string:hash_id>'
         )
 
