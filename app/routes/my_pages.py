@@ -16,11 +16,13 @@ class MyPages(Resource):
 
         my_pages = VivaMyPages(user_pnr=user_pnr)
 
+        print(my_pages.get_person_info())
+
         return {
             'user': {
                 'pnr': user_pnr,
                 'mockData': data.USERS[hash_id],
-                **my_pages,
+                'viva': 'HEPP',
             }
         }, 200
 
