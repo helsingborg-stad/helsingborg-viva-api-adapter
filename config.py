@@ -3,7 +3,7 @@ import os
 
 class Config:
     SALT = os.environ.get('SALT')
-    COOKIE_AUTH_NAME = os.environ.get('COOKIE_AUTH_NAME'),
+    COOKIE_AUTH_NAME = os.environ.get('COOKIE_AUTH_NAME')
 
 
 class DevConfig:
