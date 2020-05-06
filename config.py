@@ -6,7 +6,7 @@ class Config:
     COOKIE_AUTH_NAME = os.environ.get('COOKIE_AUTH_NAME')
 
 
-class DevConfig:
+class DevConfig(Config):
     DEBUG = True
     STAGE = 'dev'
     VIVA = {
@@ -19,7 +19,7 @@ class DevConfig:
     }
 
 
-class ProdConfig:
+class ProdConfig(Config):
     DEBUG = False
     STAGE = 'prod'
     WSDL_URL = os.environ.get('PROD_WSDL_URL')
