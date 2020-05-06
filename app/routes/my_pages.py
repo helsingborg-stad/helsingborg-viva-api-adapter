@@ -8,15 +8,19 @@ from ..libs.my_pages import MyPages as VivaMyPages
 
 class MyPages(Resource):
     def get(self, hash_id=None):
+
         if not hash_id:
-            return {
-                'users': data.USERS,
-            }
+            return { 'users': data.USERS }
+
+        user_pnr = self._parse_pnr(hash_id)
+
+        my_pages = VivaMyPages(user_pnr=user_pnr)
 
         return {
             'user': {
-                'pnr': self._parse_pnr(hash_id),
-                **data.USERS[hash_id]
+                'pnr': user_pnr,
+                'mockData': data.USERS[hash_id],
+                **my_pages,
             }
         }, 200
 
