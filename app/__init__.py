@@ -35,4 +35,9 @@ def create_app():
             '/viva/applications'
         )
 
+        api.add_resource(
+            routes.TestCookie,
+            '/viva/testcookie/'
+        )
+
         return app
