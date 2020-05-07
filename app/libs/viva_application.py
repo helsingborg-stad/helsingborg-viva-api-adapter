@@ -17,7 +17,7 @@ class VivaApplication(Viva):
 
         self._application_type = application_type
         self._application_data = application_data
-        self._user = user
+        self._user_pnr = user
 
         self._application_types = {
             'new': self._new_application,
@@ -59,7 +59,7 @@ class VivaApplication(Viva):
 
         response = self._service.NEWREAPPLICATION(
             KEY=None,
-            USER=self._user,
+            USER=self._user_pnr,
             IP='127.0.0.1',
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
