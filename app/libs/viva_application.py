@@ -35,14 +35,14 @@ class VivaApplication(Viva):
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
-            KEY=None,
+            KEY='',
 
             # Aktuell användares personnummer
-            USER=self._user,
+            USER=self._user_pnr,
             IP='127.0.0.1',
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
-            CASETYPE=None,
+            CASETYPE='',
 
             SYSTEM=1,
 
