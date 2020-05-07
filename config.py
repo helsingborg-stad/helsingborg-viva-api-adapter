@@ -22,7 +22,11 @@ class DevConfig(Config):
 class ProdConfig(Config):
     DEBUG = False
     STAGE = 'prod'
-    WSDL_URL = os.environ.get('PROD_WSDL_URL')
-    LOGIN_POST_URL = os.environ.get('PROD_LOGIN_POST_URL')
-    LOGIN_POST_USERNAME = os.environ.get('PROD_LOGIN_POST_USERNAME')
-    LOGIN_POST_PASSWORD = os.environ.get('PROD_LOGIN_POST_PASSWORD')
+    VIVA = {
+        'wsdl_url': os.environ.get('PROD_WSDL_URL'),
+        'login': {
+            'url': os.environ.get('PROD_LOGIN_POST_URL'),
+            'username': os.environ.get('PROD_LOGIN_POST_USERNAME'),
+            'password': os.environ.get('PROD_LOGIN_POST_PASSWORD'),
+        },
+    }
