@@ -46,7 +46,7 @@ class VivaApplication(Viva):
 
             SYSTEM=1,
 
-            APPLICATION=self._application_data
+            APPLICATION=self._application_data['APPLICATION']
         )
 
         return self._helpers.serialize_object(response)
