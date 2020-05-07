@@ -14,4 +14,7 @@ USERS = {
     hashids.encode(199612240201): {
         'name': 'Therese Blom',
     },
+    hashids.encode(197010108095): {
+        'name': 'Some Name',
+    }
 }
