@@ -18,8 +18,8 @@ class Applications(Resource):
 
         application = VivaApplication(
             application_type=json_payload.application_type,
-            application_data=json_payload.data,
-            user=json_payload.user
+            user=json_payload.user,
+            application_data=json_payload.data
         )
 
         response = application.create()
