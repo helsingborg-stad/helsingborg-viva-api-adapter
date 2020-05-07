@@ -52,8 +52,9 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(response)
 
     def _new_re_application(self, body=dict):
+        my_pages = self._my_pages(user_pnr_hash=self._user_pnr)
+        ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
 
-        ssi = self._get_ssi()
         workflow_id = self._get_workflow_id()
 
         response = self._service.NEWREAPPLICATION(
@@ -82,9 +83,6 @@ class VivaApplication(Viva):
 
     def _validate(self, data):
         return True
-
-    def _get_ssi(self):
-        return self._my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
 
     def _get_workflow_id(self):
         return 1
