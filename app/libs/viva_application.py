@@ -14,6 +14,7 @@ class VivaApplication(Viva):
         super(VivaApplication, self).__init__()
 
         self._service = self._get_service(wsdl)
+        self._my_pages = my_pages
 
         self._application_type = application_type
         self._application_data = application_data
@@ -23,8 +24,6 @@ class VivaApplication(Viva):
             'new': self._new_application,
             'renew': self._new_re_application
         }
-
-        self._my_pages = my_pages(user_pnr=self._user)
 
     def create(self):
         if self._validate(self._application_data) == True:
