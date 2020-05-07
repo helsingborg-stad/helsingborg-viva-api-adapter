@@ -19,8 +19,9 @@ class MyPages(Resource):
             my_pages = VivaMyPages(user_pnr_hash=hash_id)
 
             return {
-                'user': {
-                    **my_pages.person_info
+                'person': {
+                    'info': my_pages.person_info['vivadata'],
+                    'cases': my_pages.person_cases['vivadata']
                 }
             }, 200
 
