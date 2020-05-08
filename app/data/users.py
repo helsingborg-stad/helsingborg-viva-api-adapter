@@ -16,5 +16,8 @@ USERS = {
     },
     hashids.encode(197010108095): {
         'name': 'Some Name',
+    },
+    hashids.encode(197105016161): {
+        'name': 'Unge...',
     }
 }
