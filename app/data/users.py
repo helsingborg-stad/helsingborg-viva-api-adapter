@@ -1,10 +1,5 @@
 from flask import current_app
-from hashids import Hashids
-
-hashids = Hashids(
-    salt=current_app.config['SALT'],
-    min_length=32
-)
+from ..libs import hashids
 
 # mock data
 USERS = {
@@ -18,6 +13,6 @@ USERS = {
         'name': 'Some Name',
     },
     hashids.encode(197105016161): {
-        'name': 'Unge...',
+        'name': 'Filippa Unge',
     }
 }

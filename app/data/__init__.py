@@ -1,1 +1,1 @@
-from .users import USERS, hashids
+from .users import USERS
