@@ -53,6 +53,8 @@ class VivaApplication(Viva):
     def _new_re_application(self):
         my_pages = self._my_pages(user=self._user)
         ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
+        
+        # TODO
         workflow_id = '123'
 
         response = self._service.NEWREAPPLICATION(
@@ -62,7 +64,11 @@ class VivaApplication(Viva):
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
             # See MyPages.PersonCases
-            SSI=ssi,
+            SSI={
+                'SERVER': ssi['server'],
+                'PATH': ssi['path'],
+                'ID': ssi['id']
+            },
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
@@ -70,11 +76,12 @@ class VivaApplication(Viva):
 
             # Period som ansökan avser
             PERIOD={
-                'START': '2018-06-01',
-                'END': '2018-06-30'
+                'START': '2020-05-01',
+                'END': '2020-05-31'
             },
 
             REAPPLICATION=self._application_data['REAPPLICATION'],
+            NOTIFYINFOS=self._application_data['NOTIFYINFOS']
         )
 
         return self._helpers.serialize_object(response)
