@@ -10,7 +10,7 @@ USERS = {
         'name': 'Therese Blom',
     },
     hashids.encode(197010108095): {
-        'name': 'Some Name',
+        'name': 'Ahmad Saloui',
     },
     hashids.encode(197105016161): {
         'name': 'Filippa Unge',
