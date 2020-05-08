@@ -1,20 +1,17 @@
 import xmltodict
-import re
 
+from .hashids import parse_hash
 from .viva import Viva
-from .. import data
 
 
 class MyPages(Viva):
 
-    _hashids = data.hashids
-
-    def __init__(self, wsdl='MyPages', user_pnr_hash=str):
+    def __init__(self, wsdl='MyPages', user_pnr_hashed=str):
         super(MyPages, self).__init__()
 
         self._service = self._get_service(wsdl)
 
-        self._user = MyPages._parse_hash(user_pnr_hash)
+        self._user = parse_hash(hashid=user_pnr_hashed)
         self._pnr = self._user
 
         self.person_info = self._get_person_info()
@@ -38,11 +35,3 @@ class MyPages(Viva):
         )
 
         return xmltodict.parse(response_cases)
-
-    @classmethod
-    def _parse_hash(cls, number=int):
-        decoded = str(cls._hashids.decode(number)[0])
-        regex = re.compile('([0-9]{8})([0-9]{4})')
-        parts = regex.match(decoded).groups()
-        formated = 'T'.join(parts)
-        return formated

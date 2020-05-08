@@ -16,7 +16,7 @@ class MyPages(Resource):
             }
 
         try:
-            my_pages = VivaMyPages(user_pnr_hash=hash_id)
+            my_pages = VivaMyPages(user_pnr_hashed=hash_id)
 
             return {
                 'person': {
