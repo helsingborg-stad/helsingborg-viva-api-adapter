@@ -22,6 +22,7 @@ $ brew install pipenv
 ### Clone repo
 ```
 $ git clone git@github.com:helsingborg-stad/helsingborg-viva-api-adapter.git
+$ cd helsingborg-viva-api-adapter
 ```
 
 ### Setup python env
