@@ -1,0 +1,90 @@
+{
+  "application_type": "renew",
+  "user_hash": "v5bAOgnKYqN2GlVD6KrJ0JWlwDmXa6QB",
+  "data": {
+    "REAPPLICATION": {
+      "RAWDATA": "Lorem ipsum dolor",
+      "RAWDATATYPE": "PDF",
+      "HOUSEHOLDINFO": "STUFF",
+      "EXPENSES": [
+        {
+          "EXPENSE": {
+            "TYPE": "Mobiltelefon",
+            "DESCRIPTION": "avtal",
+            "APPLIESTO": "coapplicant",
+            "FREQUENCY": 12,
+            "PERIOD": "2020-05-01 - 2020-05-31",
+            "AMOUNT": 199,
+            "DATE": "2020-05-08"
+          }
+        },
+        {
+          "EXPENSE": {
+            "TYPE": "Mobiltelefon",
+            "DESCRIPTION": "avtal",
+            "APPLIESTO": "applicant",
+            "FREQUENCY": 12,
+            "PERIOD": "2020-05-01 - 2020-05-31",
+            "AMOUNT": 169,
+            "DATE": "2020-05-08"
+          }
+        }
+      ],
+      "INCOMES": [
+        {
+          "INCOME": {
+            "TYPE": "Hyra",
+            "DESCRIPTION": "Uthyrning av garage",
+            "APPLIESTO": "applicant",
+            "FREQUENCY": 12,
+            "PERIOD": "2020-05-01 - 2020-05-31",
+            "AMOUNT": 250,
+            "DATE": "2020-05-08"
+          }
+        }
+      ],
+      "ASSETS": [
+        {
+          "ASSET": {
+            "TYPE": "MC",
+            "DESCRIPTION": "Motocross",
+            "APPLIESTO": "applicant",
+            "AMOUNT": 16000
+          }
+        },
+        {
+          "ASSET": {
+            "TYPE": "Bil",
+            "DESCRIPTION": "Opel Ascona med körförbud",
+            "APPLIESTO": "applicant",
+            "AMOUNT": 4000
+          }
+        }
+      ],
+      "OTHER": "Lite text från Övriga upplysningar. Till exempel om du sökt utbildning eller planering med Arbetsförmedlingen.",
+      "SIGNATURES": [
+        {
+          "SIGNATURE": {
+            "ID": "19710501T6161",
+            "VISIBLEDATA": "Härmed intygar jag att...",
+            "NONVISIBLEDATA": "data",
+            "SIGNATUREDATA": "data",
+            "OCSPRESPONSE": "data",
+            "TRANSACTIONID": 1232,
+            "IP": "127.0.0.1",
+            "TIMESTAMP": "2020-05-08T23:46:00+01:00"
+          }
+        }
+      ]
+    },
+    "NOTIFYINFOS": [
+      {
+        "NOTIFYINFO": {
+          "ID": "19710501T6161",
+          "ADDRESS": "070555555",
+          "ADDRESSTYPE": "sms"
+        }
+      }
+    ]
+  }
+}
