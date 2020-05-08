@@ -6,7 +6,7 @@ from ..libs.hashids import parse_hash
 
 parser = reqparse.RequestParser()
 parser.add_argument('application_type', type=str, required=True)
-parser.add_argument('user', type=str, required=True)
+parser.add_argument('user_hash', type=str, required=True)
 parser.add_argument('data', type=dict, required=True)
 
 
@@ -19,7 +19,7 @@ class Applications(Resource):
 
         application = VivaApplication(
             application_type=json_payload.application_type,
-            user=parse_hash(hashid=json_payload.user),
+            user=parse_hash(hashid=json_payload.user_hash),
             application_data=json_payload.data
         )
 
