@@ -1,17 +1,16 @@
 import xmltodict
 
-from .hashids import parse_hash
 from .viva import Viva
 
 
 class MyPages(Viva):
 
-    def __init__(self, wsdl='MyPages', user_pnr_hashed=str):
+    def __init__(self, wsdl='MyPages', user=str):
         super(MyPages, self).__init__()
 
         self._service = self._get_service(wsdl)
 
-        self._user = parse_hash(hashid=user_pnr_hashed)
+        self._user = user
         self._pnr = self._user
 
         self.person_info = self._get_person_info()
