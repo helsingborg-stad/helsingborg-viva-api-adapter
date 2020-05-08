@@ -1,9 +1,8 @@
-from flask import current_app
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from zeep.exceptions import Fault
 
-
 from .. import data
+from ..libs.hashids import parse_hash
 from ..libs.my_pages import MyPages as VivaMyPages
 
 
@@ -16,7 +15,8 @@ class MyPages(Resource):
             }
 
         try:
-            my_pages = VivaMyPages(user_pnr_hashed=hash_id)
+            user = parse_hash(hashid=hash_id)
+            my_pages = VivaMyPages(user=user)
 
             return {
                 'person': {

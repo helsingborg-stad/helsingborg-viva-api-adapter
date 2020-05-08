@@ -18,7 +18,7 @@ class VivaApplication(Viva):
 
         self._application_type = application_type
         self._application_data = application_data
-        self._user_pnr = user
+        self._user = user
 
         self._application_types = {
             'new': self._new_application,
@@ -37,7 +37,7 @@ class VivaApplication(Viva):
             KEY='',
 
             # Aktuell användares personnummer
-            USER=self._user_pnr,
+            USER=self._user,
             IP='127.0.0.1',
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
@@ -50,15 +50,14 @@ class VivaApplication(Viva):
 
         return self._helpers.serialize_object(response)
 
-    def _new_re_application(self, body=dict):
-        my_pages = self._my_pages(user_pnr_hashed=self._user_pnr)
+    def _new_re_application(self):
+        my_pages = self._my_pages(user=self._user)
         ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
-
-        workflow_id = self._get_workflow_id()
+        workflow_id = '123'
 
         response = self._service.NEWREAPPLICATION(
-            KEY=None,
-            USER=self._user_pnr,
+            KEY='',
+            USER=self._user,
             IP='127.0.0.1',
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
@@ -75,13 +74,10 @@ class VivaApplication(Viva):
                 'END': '2018-06-30'
             },
 
-            REAPPLICATION=body.REAPPLICATION,
+            REAPPLICATION=self._application_data,
         )
 
         return self._helpers.serialize_object(response)
 
     def _validate(self, data):
         return True
-
-    def _get_workflow_id(self):
-        return 1
