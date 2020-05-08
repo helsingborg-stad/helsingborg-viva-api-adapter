@@ -74,7 +74,7 @@ class VivaApplication(Viva):
                 'END': '2018-06-30'
             },
 
-            REAPPLICATION=self._application_data,
+            REAPPLICATION=self._application_data['REAPPLICATION'],
         )
 
         return self._helpers.serialize_object(response)
