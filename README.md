@@ -3,7 +3,7 @@
 ## Requirements
 
 - Homebrew
-- Python 3.7+
+- Python 3.7.7
 - Pipenv
 
 ## Getting started
