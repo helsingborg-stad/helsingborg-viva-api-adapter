@@ -1,9 +1,9 @@
 {
   "application_type": "renew",
-  "user_hash": "v5bAOgnKYqN2GlVD6KrJ0JWlwDmXa6QB",
+  "user_hash": "INSERT_HASHED_PERSON_NUMBER_HERE ie: <197105016161>",
   "data": {
     "REAPPLICATION": {
-      "RAWDATA": "Lorem ipsum dolor",
+      "RAWDATA": "TESTING CREATE RE-APPLICATION USING VADA API ADAPTER",
       "RAWDATATYPE": "PDF",
       "HOUSEHOLDINFO": "STUFF",
       "EXPENSES": [
