@@ -1,22 +1,22 @@
 {
   "application_type": "new",
-  "user": "19941201T5851",
+  "user_hash": "INSERT_HASHED_PERSON_NUMBER_HERE ie: <199612240201>",
   "data": {
     "APPLICATION": {
-      "RAWDATA": "Lorem ipsum dolor",
+      "RAWDATA": "TESTING CREATE APPLICATION USING VADA API ADAPTER",
       "RAWDATATYPE": "PDF",
       "CLIENT": {
-        "PNUMBER": "19941201T5851",
-        "FNAME": "Kalle",
-        "LNAME": "Testarsson",
+        "PNUMBER": "19961224T0201",
+        "FNAME": "Therese",
+        "LNAME": "Blom",
         "ADDRESSES": [
           {
             "ADDRESS": {
-              "TYPE": "FB",
-              "ADDRESS": "Testgatan 22",
-              "CO": "Olofsson",
-              "ZIP": 12345,
-              "CITY": "Teststaden"
+              "TYPE": "P",
+              "ADDRESS": "Gamla vägen 3",
+              "CO": "",
+              "ZIP": "254 68",
+              "CITY": "Helsingborg"
             }
           }
         ],
@@ -30,10 +30,10 @@
           }
         ],
         "EMAIL": {
-          "EMAIL": "testarsson@example.com",
+          "EMAIL": "blom@example.com",
           "NOTIFY": true
         },
-        "FOREGINCITIZEN": false,
+        "FOREIGNCITIZEN": false,
         "RESIDENCEPERMITTYPE": "",
         "RESIDENCEPERMITDATE": "",
         "CIVILSTATUS": "G",
@@ -93,7 +93,8 @@
             "AMOUNT": 4000
           }
         }
-      ]
+      ],
+      "OTHER": "Testing... BLOM"
     }
   }
 }
