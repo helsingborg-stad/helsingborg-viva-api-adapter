@@ -16,11 +16,10 @@ class Viva(object):
         self._config = current_app.config['VIVA']
         self._helpers = zeep_helpers
         self._session = session()
-        self._settings = Settings(strict=False, xml_huge_tree=True)
 
     def _get_service(self, wsdl):
         transport = self._session.get_transport()
         wsdl_url = self._config['wsdl_url'] + '/' + wsdl + '?WSDL'
-        client = Client(wsdl=wsdl_url, transport=transport, settings=self._settings)
+        client = Client(wsdl=wsdl_url, transport=transport)
 
         return client.service
