@@ -28,6 +28,8 @@ class MyPages(Resource):
         except Fault as fault:
             return {
                 'fault': {
-                    'message': fault,
+                    'message': fault.message,
+                    'detail': fault.detail,
+                    'code': fault.code,
                 }
             }, 500
