@@ -16,7 +16,7 @@ class Viva(object):
         self._config = current_app.config['VIVA']
         self._helpers = zeep_helpers
         self._session = session()
-        self._settings = settings(force_https=False)
+        self._settings = settings(force_https=True)
 
     def _get_service(self, wsdl):
         transport = self._session.get_transport()
