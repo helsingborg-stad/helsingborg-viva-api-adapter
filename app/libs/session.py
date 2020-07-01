@@ -19,6 +19,7 @@ class Session(object):
         cookie_jar.set(self._config['COOKIE_AUTH_NAME'], cookie)
 
         session = self._requests.Session()
+        session.headers.update({'User-Agent': 'Mozilla/5.0'})
         session.cookies = cookie_jar
         transport = Transport(session=session)
 
