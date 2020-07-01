@@ -12,6 +12,9 @@ class Session(object):
         self._requests = requests
         self._transport = transport
 
+        self._requests.packages.urllib3.disable_warnings(
+            self._requests.packages.urllib3.exceptions.InsecureRequestWarning)
+
     def get_transport(self):
         cookie = self._get_cookie()
 
@@ -19,7 +22,6 @@ class Session(object):
         cookie_jar.set(self._config['COOKIE_AUTH_NAME'], cookie)
 
         session = self._requests.Session()
-        session.headers.update({'User-Agent': 'Mozilla/5.0'})
         session.cookies = cookie_jar
         transport = Transport(session=session)
 
@@ -27,6 +29,13 @@ class Session(object):
 
     def _get_cookie(self):
         if Session._cookie is None:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0',
+                'Connection': 'close',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Upgrade-Insecure-Requests': '1',
+            }
             login_conf = self._config['VIVA']['login']
 
             response = self._requests.post(
@@ -36,7 +45,8 @@ class Session(object):
                     'password': login_conf['password'],
                 },
                 allow_redirects=False,
-                verify=True,
+                verify=False,
+                headers=headers,
             )
 
             Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
