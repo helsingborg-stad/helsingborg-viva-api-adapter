@@ -35,7 +35,6 @@ class Session(object):
                     'password': login_conf['password'],
                 },
                 allow_redirects=False,
-                verify=False,
             )
 
             Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
