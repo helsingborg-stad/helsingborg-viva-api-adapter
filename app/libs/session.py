@@ -12,9 +12,6 @@ class Session(object):
         self._requests = requests
         self._transport = transport
 
-        # self._requests.packages.urllib3.disable_warnings(
-        #     self._requests.packages.urllib3.exceptions.InsecureRequestWarning)
-
     def get_transport(self):
         cookie = self._get_cookie()
 
@@ -38,6 +35,7 @@ class Session(object):
                     'password': login_conf['password'],
                 },
                 allow_redirects=False,
+                verify=False,
             )
 
             Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
