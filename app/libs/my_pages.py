@@ -15,6 +15,7 @@ class MyPages(Viva):
 
         self.person_info = self._get_person_info()
         self.person_cases = self._get_person_cases()
+        self.person_caseworkflow = self._get_person_caseworkflow()
 
     def _get_person_info(self):
         response_info = self._service.PERSONINFO(
@@ -34,3 +35,23 @@ class MyPages(Viva):
         )
 
         return xmltodict.parse(response_cases)
+
+    def _get_person_caseworkflow(self):
+        if self.person_cases['vivadata']['vivacases'] is None:
+            return False
+
+        casessi = self.person_cases['vivadata']['vivacases']['vivacase']['casessi']
+
+        response_caseworkflow = self._service.PERSONCASEWORKFLOW(
+            USER=self._user,
+            PNR=self._pnr,
+            SSI={
+                'SERVER': casessi['server'],
+                'PATH': casessi['path'],
+                'ID': casessi['id']
+            },
+            MAXWORKFLOWS=0,
+            RETURNAS='xml'
+        )
+
+        return xmltodict.parse(response_caseworkflow)
