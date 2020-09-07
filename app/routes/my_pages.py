@@ -18,12 +18,17 @@ class MyPages(Resource):
             user = parse_hash(hashid=hash_id)
             my_pages = VivaMyPages(user=user)
 
-            return {
+            response = {
                 'person': {
                     'info': my_pages.person_info['vivadata'],
-                    'cases': my_pages.person_cases['vivadata']
+                    'cases': my_pages.person_cases['vivadata'],
                 }
-            }, 200
+            }
+
+            if my_pages.person_caseworkflow is not False:
+                response['person']['caseworkflow'] = my_pages.person_caseworkflow['vivadata']
+
+            return response, 200
 
         except Fault as fault:
             return {
