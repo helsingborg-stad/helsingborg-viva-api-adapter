@@ -37,7 +37,7 @@ class MyPages(Viva):
         return xmltodict.parse(response_cases)
 
     def _get_person_caseworkflow(self):
-        if self.person_cases['vivadata']['vivacases'] is None:
+        if not self.person_cases['vivadata']['vivacases']:
             return False
 
         casessi = self.person_cases['vivadata']['vivacases']['vivacase']['casessi']
@@ -46,9 +46,7 @@ class MyPages(Viva):
             USER=self._user,
             PNR=self._pnr,
             SSI={
-                'SERVER': casessi['server'],
-                'PATH': casessi['path'],
-                'ID': casessi['id']
+                key.upper():value for key, value in casessi.items()
             },
             MAXWORKFLOWS=0,
             RETURNAS='xml'
