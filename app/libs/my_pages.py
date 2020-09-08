@@ -16,6 +16,7 @@ class MyPages(Viva):
         self.person_info = self._get_person_info()
         self.person_cases = self._get_person_cases()
         self.person_caseworkflow = self._get_person_caseworkflow()
+        self.get_person_booked_payments = self.__get_person_booked_payments()
 
     def _get_person_info(self):
         response_info = self._service.PERSONINFO(
@@ -53,3 +54,13 @@ class MyPages(Viva):
         )
 
         return xmltodict.parse(response_caseworkflow)
+
+    def __get_person_booked_payments(self):
+        response_booked_payments = self._service.PERSONBOOKEDPAYMENTS(
+            PUSER=self._user,
+            PPNR=self._pnr,
+            PSYSTEM=1,
+            PRETURNAS='xml',
+        )
+
+        return xmltodict.parse(response_booked_payments)

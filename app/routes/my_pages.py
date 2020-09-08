@@ -22,6 +22,7 @@ class MyPages(Resource):
                 'person': {
                     'info': my_pages.person_info['vivadata'],
                     'cases': my_pages.person_cases['vivadata'],
+                    'booked_payments': my_pages.get_person_booked_payments['vivadata'],
                 }
             }
 
