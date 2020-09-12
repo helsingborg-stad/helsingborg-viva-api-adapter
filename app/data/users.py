@@ -2,17 +2,21 @@ from flask import current_app
 from ..libs import hashids
 
 # mock data
-USERS = {
-    hashids.encode(199412015852): {
+USERS = [
+    {
         'name': 'Kalle Testarsson',
+        'mypages_url': '/mypages/' + hashids.encode(199412015852),
     },
-    hashids.encode(199612240201): {
+    {
         'name': 'Therese Blom',
+        'mypages_url': '/mypages/' + hashids.encode(199612240201),
     },
-    hashids.encode(197010108095): {
+    {
         'name': 'Ahmad Saloui',
+        'mypages_url': '/mypages/' + hashids.encode(197010108095),
     },
-    hashids.encode(197105016161): {
+    {
         'name': 'Filippa Unge',
+        'mypages_url': '/mypages/' + hashids.encode(197105016161),
     }
-}
+]
