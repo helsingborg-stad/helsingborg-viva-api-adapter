@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_restful import Api
 
@@ -11,38 +10,32 @@ def create_app():
     else:
         app.config.from_object('config.ProdConfig')
 
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
     with app.app_context():
 
-        # routes
         from . import routes
 
         api = Api(app)
 
-        # Viva
+        # Viva adapter api endpoints
         api.add_resource(
             routes.MyPages,
-            '/viva/mypages/',
-            '/viva/mypages/<string:hash_id>'
+            '/mypages/',
+            '/mypages/<string:hash_id>'
         )
 
         api.add_resource(
             routes.Applications,
-            '/viva/applications'
+            '/applications'
         )
 
         api.add_resource(
             routes.TestCookie,
-            '/viva/testcookie/'
+            '/testcookie/'
         )
 
         api.add_resource(
-            routes.Hello,
-            '/hello/'
+            routes.Index,
+            '/'
         )
 
         return app
