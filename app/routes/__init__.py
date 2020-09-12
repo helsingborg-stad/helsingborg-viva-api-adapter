@@ -1,4 +1,4 @@
 from .my_pages import MyPages
 from .applications import Applications
 from .testcookie import TestCookie
-from .hello import Hello
+from .index import Index
