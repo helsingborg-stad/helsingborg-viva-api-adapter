@@ -52,8 +52,12 @@ class VivaApplication(Viva):
 
     def _new_re_application(self):
         my_pages = self._my_pages(user=self._user)
-        ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
-        
+
+        try:
+            ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
+        except Exception:
+            return self._helpers.serialize_object({'error': 'SSI not found'})
+
         # TODO
         workflow_id = '123'
 
@@ -76,8 +80,8 @@ class VivaApplication(Viva):
 
             # Period som ansökan avser
             PERIOD={
-                'START': '2020-05-01',
-                'END': '2020-05-31'
+                'START': '2020-09-01',
+                'END': '2020-09-30'
             },
 
             REAPPLICATION=self._application_data['REAPPLICATION'],
