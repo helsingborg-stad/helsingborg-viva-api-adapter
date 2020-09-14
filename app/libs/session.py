@@ -5,8 +5,6 @@ from zeep.transports import Transport
 
 class Session(object):
 
-    _cookie = None
-
     def __init__(self, transport=Transport, requests=requests, current_app=current_app):
         self._config = current_app.config
         self._requests = requests
@@ -25,18 +23,17 @@ class Session(object):
         return transport
 
     def _get_cookie(self):
-        if Session._cookie is None:
-            login_conf = self._config['VIVA']['login']
+        login_conf = self._config['VIVA']['login']
 
-            response = self._requests.post(
-                login_conf['url'],
-                data={
-                    'username': login_conf['username'],
-                    'password': login_conf['password'],
-                },
-                allow_redirects=False,
-            )
+        response = self._requests.post(
+            login_conf['url'],
+            data={
+                'username': login_conf['username'],
+                'password': login_conf['password'],
+            },
+            allow_redirects=False,
+        )
 
-            Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
+        Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
 
         return Session._cookie
