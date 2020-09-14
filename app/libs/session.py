@@ -5,8 +5,6 @@ from zeep.transports import Transport
 
 class Session(object):
 
-    _cookie = None
-
     def __init__(self, transport=Transport, requests=requests, current_app=current_app):
         self._config = current_app.config
         self._requests = requests
