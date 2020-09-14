@@ -47,7 +47,7 @@ class MyPages(Viva):
             USER=self._user,
             PNR=self._pnr,
             SSI={
-                key.upper():value for key, value in casessi.items()
+                key.upper(): value for key, value in casessi.items()
             },
             MAXWORKFLOWS=0,
             RETURNAS='xml'
