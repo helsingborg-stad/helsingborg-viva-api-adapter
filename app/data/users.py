@@ -27,10 +27,30 @@ USERS = [
         'name': 'Petra Hansson',
         'pnr': 199604014440,
         'mypages_url': '/mypages/' + hashids.encode(199604014440),
+        'info': 'Ongoing application, in relation to with Joel Holmgren',
     },
     {
         'name': 'Joel Holmgren',
         'pnr': 199612011214,
         'mypages_url': '/mypages/' + hashids.encode(199612011214),
+        'info': 'Ongoing application, in relation to with Petra Hansson',
+    },
+    {
+        'name': 'Felix Persson',
+        'pnr': 196912191118,
+        'mypages_url': '/mypages/' + hashids.encode(196912191118),
+        'info': 'Ongoing application',
+    },
+    {
+        'name': 'Victor Blixt',
+        'pnr': 197503014552,
+        'mypages_url': '/mypages/' + hashids.encode(197503014552),
+        'info': 'Ongoing application',
+    },
+    {
+        'name': 'Anna Berg',
+        'pnr': 199809081400,
+        'mypages_url': '/mypages/' + hashids.encode(199809081400),
+        'info': 'Ongoing application',
     },
 ]
