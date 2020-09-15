@@ -45,7 +45,7 @@ USERS = [
         'name': 'Victor Blixt',
         'pnr': 197503014552,
         'mypages_url': '/mypages/' + hashids.encode(197503014552),
-        'info': 'Ongoing application',
+        'info': 'Ongoing application, calculations',
     },
     {
         'name': 'Anna Berg',
