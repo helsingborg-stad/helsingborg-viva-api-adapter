@@ -53,4 +53,10 @@ USERS = [
         'mypages_url': '/mypages/' + hashids.encode(199809081400),
         'info': 'Ongoing application',
     },
+    {
+        'name': 'Love Johansson',
+        'pnr': 196510102426,
+        'mypages_url': '/mypages/' + hashids.encode(196510102426),
+        'info': 'New case created as of 2020-09-15. First application period created as of 2020-09-15',
+    },
 ]
