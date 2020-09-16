@@ -19,6 +19,19 @@ class DevConfig(Config):
     }
 
 
+class TestConfig(Config):
+    DEBUG = False
+    STAGE = 'test'
+    VIVA = {
+        'wsdl_url': os.environ.get('TEST_WSDL_URL'),
+        'login': {
+            'url': os.environ.get('TEST_LOGIN_POST_URL'),
+            'username': os.environ.get('TEST_LOGIN_POST_USERNAME'),
+            'password': os.environ.get('TEST_LOGIN_POST_PASSWORD'),
+        },
+    }
+
+
 class ProdConfig(Config):
     DEBUG = False
     STAGE = 'prod'
