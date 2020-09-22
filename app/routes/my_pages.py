@@ -1,3 +1,4 @@
+from flask import current_app
 from flask_restful import Resource
 from zeep.exceptions import Fault
 
@@ -16,6 +17,10 @@ class MyPages(Resource):
 
         try:
             user = parse_hash(hashid=hash_id)
+
+            if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
+                user = make_test_pnr(user)
+
             my_pages = VivaMyPages(user=user)
 
             response = {
