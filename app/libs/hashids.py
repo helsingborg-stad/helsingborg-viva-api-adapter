@@ -10,12 +10,5 @@ hashids = Hashids(
 )
 
 
-def parse_hash(hashid=int, env=current_app.config['ENV']):
-    decoded = str(hashids.decode(hashid)[0])
-
-    if env == 'development' or env == 'test':
-        regex = re.compile('([0-9]{8})([0-9]{4})')
-        parts = regex.match(decoded).groups()
-        return 'T'.join(parts)
-    else:
-        return decoded
+def parse_hash(hashid=int):
+    return str(hashids.decode(hashid)[0])
