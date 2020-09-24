@@ -9,7 +9,10 @@ class VivaApplication(Viva):
                  my_pages=MyPages,
                  application_type=str,
                  application_data=dict,
-                 user=str
+                 user=str,
+                 personal_number=str,
+                 client_ip=str,
+                 workflow_id=str
                  ):
         super(VivaApplication, self).__init__()
 
@@ -19,10 +22,13 @@ class VivaApplication(Viva):
         self._application_type = application_type
         self._application_data = application_data
         self._user = user
+        self._personal_number = personal_number
+        self._client_ip = client_ip
+        self._workflow_id = workflow_id
 
         self._application_types = {
-            'new': self._new_application,
-            'renew': self._new_re_application
+            'basic': self._new_application,
+            'recurrent': self._new_re_application
         }
 
     def create(self):
@@ -51,7 +57,7 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(response)
 
     def _new_re_application(self):
-        my_pages = self._my_pages(user=self._user)
+        my_pages = self._my_pages(user=self._personal_number)
 
         try:
             ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
@@ -63,8 +69,8 @@ class VivaApplication(Viva):
 
         response = self._service.NEWREAPPLICATION(
             KEY='',
-            USER=self._user,
-            IP='127.0.0.1',
+            USER=self._personal_number,
+            IP=self._client_ip,
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
             # See MyPages.PersonCases
@@ -76,12 +82,12 @@ class VivaApplication(Viva):
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID=workflow_id,
+            WORKFLOWID=self._workflow_id,
 
             # Period som ansökan avser
             PERIOD={
-                'START': '2020-09-01',
-                'END': '2020-09-30'
+                'START': self._period_end_date,
+                'END': self._period_start_date
             },
 
             REAPPLICATION=self._application_data['REAPPLICATION'],
