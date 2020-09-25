@@ -12,12 +12,13 @@ cost_types = ['EXPENSES', "INCOMES"]
 def parse_application_data(data, period, parent_key=None, initial_data={}):
     for key, value in data.items():
         if parent_key == None and type(value) is dict and key.upper() in cost_types:
-            key = key.upper()
+            # create a new key on the initial_data param and call this function again to create the value for the key.
+            key = key.upper()  # transform the key to uppercase to match zeep viva json object
             initial_data[key] = parse_application_data(
                 value, period, parent_key=key, initial_data=[])
 
         if parent_key in cost_types and type(value) is dict:
-
+            # create a single income or expense and add it to the array passed thorugh initial_data.
             applies_to = "coapplication" if "Partner" in key else "applicant"
             period_string = f"{period['start_date']} - {period['end_date']}"
 
@@ -29,15 +30,6 @@ def parse_application_data(data, period, parent_key=None, initial_data={}):
                 "PERIOD": period_string,
                 "DATE": value['date']
             }})
-
-        if parent_key == "ASSETS" and type(value) is dict:
-            applies_to = "coapplication" if "Partner" in key else "applicant"
-            initial_data.append({parent_key[:-1]: {
-                "TYPE": key,
-                "APPLIESTO": applies_to,
-                "AMOUNT": value['amount'],
-            }})
-
     return initial_data
 
 
@@ -54,6 +46,7 @@ class Applications(Resource):
         except ValidationError as error:
             return jsonify(error.messages)
 
+        # this object is missing the root key "‹"
         initial_data = {
             "RAWDATATYPE": "PDF",
             "HOUSEHOLDINFO": "",
@@ -62,15 +55,17 @@ class Applications(Resource):
         viva_application_data = parse_application_data(
             data=validated_data['data'], period=validated_data['period'], initial_data=initial_data)
         print(viva_application_data)
+        # pass viva_application_data to viva and
         # application = VivaApplication(
         #     application_type=validated_data['application_type'],
         #     personal_number=parse_hash(
         #         hashid=validated_data['personal_number']),
         #     client_ip=validated_data['client_ip'],
         #     workflow_id=validated_data['workflow_id'],
-        #     application_data=viva_json_data
-        # )
+        #     application_data=viva_application_data
+        # )ß
 
+        # return something better as an response
         return jsonify(viva_application_data)
 
 
@@ -92,7 +87,7 @@ class Applications(Resource):
 #     "application_type": "renew",
 #     "user_hash": "INSERT_HASHED_PERSON_NUMBER_HERE ie: <197105016161>",
 #     "data": {
-#         "REAPPLICATION": {
+#         "ç": {
 #             "RAWDATA": "TESTING CREATE RE-APPLICATION USING VADA API ADAPTER",
 #             "RAWDATATYPE": "PDF",
 #             "HOUSEHOLDINFO": "STUFF",
