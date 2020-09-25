@@ -16,6 +16,15 @@ def parse_hash(hashid=int, env=current_app.config['ENV']):
     if env == 'development':
         regex = re.compile('([0-9]{8})([0-9]{4})')
         parts = regex.match(decoded).groups()
-        return 'T'.join(parts)
+
+        # Ylva Jansson
+        # In sync with Navet, BankId, AWS, and Viva
+        # TODO
+        # Move this check to separate handler
+        if '195809262743' in decoded:
+            return '-'.join(parts)
+        else:
+            return 'T'.join(parts)
+
     else:
         return decoded
