@@ -7,6 +7,7 @@ USERS = [
         'name': 'Ylva Jansson',
         'pnr': 195809262743,
         'mypages_url': '/mypages/' + hashids.encode(195809262743),
+        'info': 'Ongoing application. Exists in Navet, BankId, AWS and Viva',
     },
     {
         'name': 'Kalle Testarsson',
