@@ -4,6 +4,11 @@ from ..libs import hashids
 # mock data
 USERS = [
     {
+        'name': 'Ylva Jansson',
+        'pnr': 195809262743,
+        'mypages_url': '/mypages/' + hashids.encode(195809262743),
+    },
+    {
         'name': 'Kalle Testarsson',
         'pnr': 199412015852,
         'mypages_url': '/mypages/' + hashids.encode(199412015852),
