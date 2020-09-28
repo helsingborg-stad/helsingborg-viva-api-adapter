@@ -11,11 +11,13 @@ class ApplicationBodySchema(Schema):
 
 
 class ApplicationSchema(Schema):
-    application_type = fields.Str(validate=validate.OneOf(
-        ["recurrent", "basic"]), required=True, data_key="applicationType")
+    application_type = fields.Str(
+        data_key='applicationType',
+        required=True,
+        validate=validate.OneOf(['recurrent', 'basic']),
+    )
+    client_ip = fields.Str(data_key='clientIp', required=True)
+    workflow_id = fields.Str(data_key='workflowId', required=True)
+    personal_number = fields.Str(data_key='personalNumber', required=True)
     period = fields.Nested(PeriodSchema())
-    personal_number = fields.Str(data_key="personalNumber", required=True)
-    client_ip = fields.Str(data_key="clientIp", required=True)
-    workflow_id = fields.Str(data_key="workflowId", required=True)
-    data = fields.Nested(ApplicationDataSchema(), required=True)
     application_body = fields.Nested(ApplicationBodySchema(), data_key='applicationBody', required=True)
