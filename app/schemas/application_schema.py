@@ -2,7 +2,7 @@ from marshmallow import validate, Schema, fields
 from .period_schema import PeriodSchema
 
 
-class ApplicationDataSchema(Schema):
+class ApplicationBodySchema(Schema):
     expenses = fields.Raw(required=True)
     incomes = fields.Raw(required=True)
     housingInfo = fields.Raw(required=True)
@@ -18,3 +18,4 @@ class ApplicationSchema(Schema):
     client_ip = fields.Str(data_key="clientIp", required=True)
     workflow_id = fields.Str(data_key="workflowId", required=True)
     data = fields.Nested(ApplicationDataSchema(), required=True)
+    application_body = fields.Nested(ApplicationBodySchema(), data_key='applicationBody', required=True)
