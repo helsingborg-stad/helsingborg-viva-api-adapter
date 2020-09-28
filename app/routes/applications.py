@@ -55,12 +55,14 @@ class Applications(Resource):
             return jsonify(error.messages)
 
         viva_application_data = parse_application_data(
-            data=validated_data['data'],
+            data=validated_data['application_body'],
+            period=validated_data['period'],
             initial_data={
                 'RAWDATA': '',
                 'RAWDATATYPE': 'PDF',
                 'HOUSEHOLDINFO': '',
                 'OTHER': ''
             }
+        )
             period=validated_data['period'],
         )
