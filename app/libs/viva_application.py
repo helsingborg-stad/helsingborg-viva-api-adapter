@@ -86,8 +86,8 @@ class VivaApplication(Viva):
                 'END': self._period_start_date
             },
 
-            REAPPLICATION=self._application_data['REAPPLICATION'],
             NOTIFYINFOS=self._application_data['NOTIFYINFOS']
+            REAPPLICATION=self._application_data,
         )
 
         return self._helpers.serialize_object(response)
