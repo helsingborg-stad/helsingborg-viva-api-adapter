@@ -63,9 +63,6 @@ class VivaApplication(Viva):
         except Exception:
             return self._helpers.serialize_object({'error': 'SSI not found'})
 
-        # TODO
-        workflow_id = '123'
-
         response = self._service.NEWREAPPLICATION(
             KEY='',
             USER=self._personal_number,
