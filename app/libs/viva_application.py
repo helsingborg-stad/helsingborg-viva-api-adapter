@@ -82,12 +82,19 @@ class VivaApplication(Viva):
 
             # Period som ansökan avser
             PERIOD={
-                'START': self._period_end_date,
-                'END': self._period_start_date
+                'START': '2020-10-01',
+                'END': '2020-10-31'
             },
 
-            NOTIFYINFOS=self._application_data['NOTIFYINFOS']
             REAPPLICATION=self._application_data,
+
+            NOTIFYINFOS={
+                'NOTIFYINFO': {
+                    'ID': '19691219T1118',
+                    'ADDRESS': '070555555',
+                    'ADDRESSTYPE': 'sms'
+                }
+            }
         )
 
         return self._helpers.serialize_object(response)
