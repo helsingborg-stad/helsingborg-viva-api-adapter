@@ -9,7 +9,6 @@ class VivaApplication(Viva):
                  my_pages=MyPages,
                  application_type=str,
                  application_data=dict,
-                 user=str,
                  personal_number=str,
                  client_ip=str,
                  workflow_id=str
@@ -21,7 +20,6 @@ class VivaApplication(Viva):
 
         self._application_type = application_type
         self._application_data = application_data
-        self._user = user
         self._personal_number = personal_number
         self._client_ip = client_ip
         self._workflow_id = workflow_id
@@ -43,7 +41,7 @@ class VivaApplication(Viva):
             KEY='',
 
             # Aktuell användares personnummer
-            USER=self._user,
+            USER=self._personal_number,
             IP='127.0.0.1',
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
