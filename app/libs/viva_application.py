@@ -11,7 +11,8 @@ class VivaApplication(Viva):
                  application_data=dict,
                  personal_number=str,
                  client_ip=str,
-                 workflow_id=str
+                 workflow_id=str,
+                 period=dict,
                  ):
         super(VivaApplication, self).__init__()
 
