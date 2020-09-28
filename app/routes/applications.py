@@ -54,14 +54,13 @@ class Applications(Resource):
         except ValidationError as error:
             return jsonify(error.messages)
 
-        # this object is missing the root key "‹"
-        initial_data = {
-            "RAWDATATYPE": "PDF",
-            "HOUSEHOLDINFO": "",
-        }
-
         viva_application_data = parse_application_data(
             data=validated_data['data'],
+            initial_data={
+                'RAWDATA': '',
+                'RAWDATATYPE': 'PDF',
+                'HOUSEHOLDINFO': '',
+                'OTHER': ''
+            }
             period=validated_data['period'],
-            initial_data=initial_data
         )
