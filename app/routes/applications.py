@@ -6,7 +6,7 @@ from ..libs.viva_application import VivaApplication
 from ..libs import decode_hash_personal_number
 from ..schemas.application_schema import ApplicationSchema
 
-cost_types = ['EXPENSES', "INCOMES"]
+cost_types = ['EXPENSES', 'INCOMES']
 
 
 def parse_application_data(data, period, parent_key=None, initial_data={}):
@@ -30,6 +30,7 @@ def parse_application_data(data, period, parent_key=None, initial_data={}):
                 "PERIOD": period_string,
                 "DATE": value['date']
             }})
+
     return initial_data
 
 
@@ -53,17 +54,20 @@ class Applications(Resource):
         }
 
         viva_application_data = parse_application_data(
-            data=validated_data['data'], period=validated_data['period'], initial_data=initial_data)
+            data=validated_data['data'],
+            period=validated_data['period'],
+            initial_data=initial_data
+        )
         print(viva_application_data)
         # pass viva_application_data to viva and
         # application = VivaApplication(
         #     application_type=validated_data['application_type'],
         #     personal_number=parse_hash(
-        #         hashid=validated_data['personal_number']),
+        #     hashid=validated_data['personal_number']),
         #     client_ip=validated_data['client_ip'],
         #     workflow_id=validated_data['workflow_id'],
         #     application_data=viva_application_data
-        # )ß
+        # )
 
         # return something better as an response
         return jsonify(viva_application_data)
