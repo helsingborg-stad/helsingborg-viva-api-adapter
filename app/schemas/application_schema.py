@@ -7,6 +7,7 @@ class ApplicationDataSchema(Schema):
     incomes = fields.Raw(required=True)
     housingInfo = fields.Raw(required=True)
     personalInfo = fields.Raw(required=True)
+    receivingBenefits = fields.String(required=False)
 
 
 class ApplicationSchema(Schema):
