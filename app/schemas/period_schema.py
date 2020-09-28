@@ -3,5 +3,5 @@ from marshmallow_jsonapi import fields
 
 
 class PeriodSchema(SimpleSchema):
-    start_date = fields.Date(data_key="startDate")
-    end_date = fields.Date(data_key="endDate")
+    start_date = fields.String(data_key='startDate')
+    end_date = fields.String(data_key='endDate')
