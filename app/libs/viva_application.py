@@ -82,7 +82,10 @@ class VivaApplication(Viva):
             WORKFLOWID=ssi['id'],
 
             # Period som ansökan avser
-            PERIOD=self._period,
+            PERIOD={
+                'START': self._period['start_date'],
+                'END': self._period['end_date']
+            },
 
             REAPPLICATION=self._application_data,
 
