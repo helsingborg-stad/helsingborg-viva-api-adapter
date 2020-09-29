@@ -103,20 +103,3 @@ class VivaApplication(Viva):
 
     def _validate(self, data):
         return True
-
-
-# "REAPPLICATION": {
-#     "RAWDATA": "Lorem ipsum dolor",
-#     "RAWDATATYPE": "PDF",
-#     "HOUSEHOLDINFO": "My House",
-#     "OTHER": "Lorem ipsum dolor"
-# },
-# "NOTIFYINFOS": [
-#     {
-#         "NOTIFYINFO": {
-#             "ID": "19691219T1118",
-#             "ADDRESS": "070555555",
-#             "ADDRESSTYPE": "sms"
-#         }
-#     }
-# ]
