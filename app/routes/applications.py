@@ -68,7 +68,8 @@ class Applications(Resource):
         application = VivaApplication(
             application_type=validated_data['application_type'],
             application_data=viva_application_data,
-            personal_number=parse_hash(hashid=validated_data['personal_number']),
+            personal_number=parse_hash(
+                hashid=validated_data['personal_number']),
             client_ip=validated_data['client_ip'],
             workflow_id=validated_data['workflow_id'],
             period=validated_data['period'],
