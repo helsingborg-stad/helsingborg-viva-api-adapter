@@ -4,7 +4,7 @@ from flask_restful import Resource
 
 from ..libs.viva_application import VivaApplication
 from ..libs.hashids import parse_hash
-from ..schemas.application_schema import ApplicationSchema
+from ..schemas import ApplicationSchema, ResponseSchema
 
 
 cost_types = ['EXPENSES', 'INCOMES']
@@ -47,14 +47,14 @@ class Applications(Resource):
 
     def post(self):
         json_payload = request.json
-        schema = ApplicationSchema()
 
+        application_schema = ApplicationSchema()
         try:
-            validated_data = schema.load(json_payload)
+            validated_data = application_schema.load(json_payload)
         except ValidationError as error:
             return jsonify(error.messages)
 
-        viva_application_data = parse_application_data(
+        application_data = parse_application_data(
             data=validated_data['application_body'],
             period=validated_data['period'],
             initial_data={
@@ -67,7 +67,7 @@ class Applications(Resource):
 
         application = VivaApplication(
             application_type=validated_data['application_type'],
-            application_data=viva_application_data,
+            application_data=application_data,
             personal_number=parse_hash(
                 hashid=validated_data['personal_number']),
             client_ip=validated_data['client_ip'],
@@ -77,5 +77,9 @@ class Applications(Resource):
 
         response = application.create()
 
-        return response
-        # return jsonify({"ok": "success"})
+        response_schema = ResponseSchema()
+        try:
+            validated_response = response_schema.load(response)
+            return validated_response
+        except ValidationError as error:
+            return jsonify(error.messages)
