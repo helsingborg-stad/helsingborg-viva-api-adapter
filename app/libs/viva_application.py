@@ -24,6 +24,7 @@ class VivaApplication(Viva):
         self._personal_number = personal_number
         self._client_ip = client_ip
         self._workflow_id = workflow_id
+        self._period = period
 
         self._application_types = {
             'basic': self._new_application,
@@ -81,16 +82,13 @@ class VivaApplication(Viva):
             WORKFLOWID=self._workflow_id,
 
             # Period som ansökan avser
-            PERIOD={
-                'START': '2020-10-01',
-                'END': '2020-10-31'
-            },
+            PERIOD=self._period,
 
             REAPPLICATION=self._application_data,
 
             NOTIFYINFOS={
                 'NOTIFYINFO': {
-                    'ID': '19691219T1118',
+                    'ID': self._personal_number,
                     'ADDRESS': '070555555',
                     'ADDRESSTYPE': 'sms'
                 }
