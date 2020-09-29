@@ -89,11 +89,12 @@ class VivaApplication(Viva):
 
             REAPPLICATION=self._application_data,
 
+            # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
                 'NOTIFYINFO': {
                     'ID': self._personal_number,
-                    'ADDRESS': '070555555',
-                    'ADDRESSTYPE': 'sms'
+                    'ADDRESS': '',
+                    'ADDRESSTYPE': ''
                 }
             }
         )
