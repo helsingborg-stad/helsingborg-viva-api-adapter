@@ -64,36 +64,26 @@ class Applications(Resource):
             }
         )
 
+        personal_number = decode_hash_personal_number(
+            hash_id=validated_data['personal_number'])
 
-<< << << < HEAD
-== == == =
+        if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
+            personal_number = make_test_personal_number(personal_number)
 
-personal_number = decode_hash_personal_number(
-     hash_id=validated_data['personal_number'])
+        application = VivaApplication(
+            application_type=validated_data['application_type'],
+            application_data=application_data,
+            personal_number=personal_number,
+            client_ip=validated_data['client_ip'],
+            workflow_id=validated_data['workflow_id'],
+            period=validated_data['period'],
+        )
 
- if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
-      personal_number = make_test_personal_number(personal_number)
->>>>>> > d9af03c644e536aa7f5cf7893d079acb81af308c
+        response = application.create()
 
-application = VivaApplication(
-     application_type=validated_data['application_type'],
-     application_data=application_data,
-     << << << < HEAD
-     personal_number=parse_hash(
-          hashid=validated_data['personal_number']),
-     == == == =
-     personal_number=personal_number,
-     >>>>>> > d9af03c644e536aa7f5cf7893d079acb81af308c
-     client_ip=validated_data['client_ip'],
-     workflow_id=validated_data['workflow_id'],
-     period=validated_data['period'],
-     )
-
- response = application.create()
-
-  response_schema = ResponseSchema()
-   try:
-        validated_response = response_schema.load(response)
-        return validated_response
-    except ValidationError as error:
-        return jsonify(error.messages)
+        response_schema = ResponseSchema()
+        try:
+            validated_response = response_schema.load(response)
+            return validated_response
+        except ValidationError as error:
+            return jsonify(error.messages)
