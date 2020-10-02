@@ -15,6 +15,7 @@ xmltodict = "*"
 flask-restful = "*"
 hashids = "*"
 python-dotenv = "*"
+marshmallow = "*"
 
 [requires]
 python_version = "3.7"
