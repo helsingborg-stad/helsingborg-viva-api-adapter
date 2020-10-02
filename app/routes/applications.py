@@ -2,7 +2,7 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 
 from ..libs.viva_application import VivaApplication
-from ..libs.hashids import parse_hash
+from ..libs import decode_hash_personal_number
 
 parser = reqparse.RequestParser()
 parser.add_argument('application_type', type=str, required=True)
@@ -19,7 +19,7 @@ class Applications(Resource):
 
         application = VivaApplication(
             application_type=json_payload.application_type,
-            user=parse_hash(hashid=json_payload.user_hash),
+            user=decode_hash_personal_number(hash_id=json_payload.user_hash),
             application_data=json_payload.data
         )
 
