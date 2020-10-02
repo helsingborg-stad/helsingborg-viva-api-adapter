@@ -3,8 +3,8 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 
 from .. import data
-from ..libs.hashids import parse_hash
-from ..libs.my_pages import MyPages as VivaMyPages
+from ..libs import decode_hash_personal_number, make_test_personal_number
+from ..libs import MyPages as VivaMyPages
 
 
 class MyPages(Resource):
@@ -16,12 +16,12 @@ class MyPages(Resource):
             }
 
         try:
-            user = parse_hash(hashid=hash_id)
+            personal_number = decode_hash_personal_number(hash_id=hash_id)
 
             if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
-                user = make_test_pnr(user)
+                personal_number = make_test_personal_number(personal_number)
 
-            my_pages = VivaMyPages(user=user)
+            my_pages = VivaMyPages(user=personal_number)
 
             response = {
                 'person': {
