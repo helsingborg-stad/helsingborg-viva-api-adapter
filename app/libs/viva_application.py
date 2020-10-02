@@ -79,7 +79,7 @@ class VivaApplication(Viva):
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID=ssi['id'],
+            WORKFLOWID='',
 
             # Period som ansökan avser
             PERIOD={

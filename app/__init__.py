@@ -7,6 +7,8 @@ def create_app():
 
     if app.config['ENV'] == 'development':
         app.config.from_object('config.DevConfig')
+    elif app.config['ENV'] == 'test':
+        app.config.from_object('config.TestConfig')
     else:
         app.config.from_object('config.ProdConfig')
 
