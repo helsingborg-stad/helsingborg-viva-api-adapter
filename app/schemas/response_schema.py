@@ -1,5 +1,4 @@
-from marshmallow import Schema as SimpleSchema
-from marshmallow_jsonapi import fields
+from marshmallow import Schema as SimpleSchema, fields
 
 
 class ResponseSchema(SimpleSchema):
