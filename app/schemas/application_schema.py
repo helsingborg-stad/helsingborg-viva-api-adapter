@@ -1,6 +1,6 @@
 from marshmallow import validate, Schema, fields
-from . import PeriodSchema
-from . import ApplicationBodySchema
+from .period_schema import PeriodSchema
+from .application_body_schema import ApplicationBodySchema
 
 
 class ApplicationSchema(Schema):
