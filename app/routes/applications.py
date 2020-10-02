@@ -1,10 +1,9 @@
-from flask import jsonify, request
+from flask import jsonify, request, current_app
 from marshmallow import ValidationError
 from flask_restful import Resource
 
-from ..libs.viva_application import VivaApplication
-from ..libs import decode_hash_personal_number
-from ..schemas.application_schema import ApplicationSchema
+from ..libs import VivaApplication, decode_hash_personal_number, make_test_personal_number
+from ..schemas import ApplicationSchema, ResponseSchema
 
 
 cost_types = ['EXPENSES', 'INCOMES']
@@ -65,11 +64,16 @@ class Applications(Resource):
             }
         )
 
+        personal_number = decode_hash_personal_number(
+            hash_id=validated_data['personal_number'])
+
+        if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
+            personal_number = make_test_personal_number(personal_number)
+
         application = VivaApplication(
             application_type=validated_data['application_type'],
             application_data=application_data,
-            personal_number=parse_hash(
-                hashid=validated_data['personal_number']),
+            personal_number=personal_number,
             client_ip=validated_data['client_ip'],
             workflow_id=validated_data['workflow_id'],
             period=validated_data['period'],
