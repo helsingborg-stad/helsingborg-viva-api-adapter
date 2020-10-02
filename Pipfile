@@ -16,7 +16,6 @@ flask-restful = "*"
 hashids = "*"
 python-dotenv = "*"
 marshmallow = "*"
-marshmallow-jsonapi = "*"
 
 [requires]
 python_version = "3.7"
