@@ -1,4 +1,4 @@
 from .application_schema import ApplicationSchema
-from .application_body_schema import ApplicationBodySchema
+from .application_answer_schema import ApplicationAnswerSchema
 from .period_schema import PeriodSchema
 from .response_schema import ResponseSchema
