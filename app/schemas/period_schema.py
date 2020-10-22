@@ -1,6 +1,6 @@
-from marshmallow import Schema as SimpleSchema, fields
+from marshmallow import Schema, fields
 
 
-class PeriodSchema(SimpleSchema):
-    start_date = fields.String(data_key='startDate')
-    end_date = fields.String(data_key='endDate')
+class PeriodSchema(Schema):
+    start_date = fields.String(data_key='startDate', required=True)
+    end_date = fields.String(data_key='endDate', required=True)

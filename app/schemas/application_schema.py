@@ -14,5 +14,5 @@ class ApplicationSchema(Schema):
     personal_number = fields.Str(data_key='personalNumber', required=True)
     period = fields.Nested(PeriodSchema())
     answers = fields.List(
-        fields.Nested(ApplicationAnswerSchema()), required=True
+        fields.Nested(ApplicationAnswerSchema(), required=True), required=True
     )
