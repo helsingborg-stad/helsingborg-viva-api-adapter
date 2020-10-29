@@ -13,11 +13,17 @@ user_inputs = set(['amount', 'date'])
 applies_to_type = 'coapplicant'
 
 
-def parse_application_data(answers=list, period=str):
+def parse_application_data(answers=list, period=dict, initial_data=dict):
     if not answers:
         return False
 
-    period_string = f"{period['start_date']} - {period['end_date']}"
+    start_date = datetime.fromtimestamp(
+        period['start_date'] / 1000).strftime('%Y-%m-%d')
+    end_date = datetime.fromtimestamp(
+        period['end_date'] / 1000).strftime('%Y-%m-%d')
+
+    period_string = f"{start_date} - {end_date}"
+
     data = dict()
 
     for answer in answers:
@@ -64,4 +70,4 @@ def parse_application_data(answers=list, period=str):
 
             data[category_list_name].append(category_data)
 
-    return data
+    return {**initial_data, **data}
