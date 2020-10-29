@@ -1,7 +1,6 @@
 from flask import jsonify, request
-from marshmallow import ValidationError
 from flask_restful import Resource
-from pprint import pprint
+from marshmallow import ValidationError
 
 from ..schemas import ApplicationSchema
 from ..libs import parse_application_data, decode_hash_personal_number
@@ -14,23 +13,25 @@ class Foo(Resource):
         application_schema = ApplicationSchema()
 
         try:
-            valid_application_data = application_schema.load(json_payload)
+            application_data = application_schema.load(json_payload)
         except ValidationError as error:
             return jsonify(error.messages)
 
-        initial_data = {
+        initial_application_data = {
             'RAWDATA': '',
             'RAWDATATYPE': 'PDF',
             'HOUSEHOLDINFO': '',
             'OTHER': ''
         }
 
-        period = valid_application_data['period']
-        period_string = f"{period['start_date']} - {period['end_date']}"
-
         parsed_application_data = parse_application_data(
-            answers=valid_application_data['answers'],
-            period_string=period_string
+            answers=application_data['answers'],
+            period=application_data['period']
         )
 
-        return parsed_application_data, 200
+        if not parsed_application_data:
+            return {
+                'error': 'No data'
+            }, 400
+
+        return {**initial_application_data, **parsed_application_data}, 200
