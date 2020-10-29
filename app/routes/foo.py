@@ -2,8 +2,8 @@ from flask import jsonify, request
 from flask_restful import Resource
 from marshmallow import ValidationError
 
-from ..schemas import ApplicationSchema
 from ..libs import parse_application_data, decode_hash_personal_number
+from ..schemas import ApplicationSchema
 
 
 class Foo(Resource):
