@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from .viva import Viva
 from .my_pages import MyPages
 
@@ -64,6 +66,11 @@ class VivaApplication(Viva):
         except Exception:
             return self._helpers.serialize_object({'error': 'SSI not found'})
 
+        start_date = datetime.fromtimestamp(
+            self._period['start_date'] / 1000).strftime('%Y-%m-%d')
+        end_date = datetime.fromtimestamp(
+            self._period['end_date'] / 1000).strftime('%Y-%m-%d')
+
         response = self._service.NEWREAPPLICATION(
             KEY='',
             USER=self._personal_number,
@@ -79,12 +86,12 @@ class VivaApplication(Viva):
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID='',
+            WORKFLOWID=self._workflow_id,
 
             # Period som ansökan avser
             PERIOD={
-                'START': self._period['start_date'],
-                'END': self._period['end_date']
+                'START': start_date,
+                'END': end_date
             },
 
             REAPPLICATION=self._application_data,
