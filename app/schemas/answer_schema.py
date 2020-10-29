@@ -1,10 +1,10 @@
 from marshmallow import validate, Schema, fields
 
 
+class FieldSchema(Schema):
+    tags = fields.List(fields.Str(required=True), required=True)
+
+
 class AnswerSchema(Schema):
-    field = fields.Dict(
-        tags=fields.List(fields.Str()),
-        required=True
-    )
-    field_type = fields.Str(data_key='type')
-    value = fields.Raw()
+    field = fields.Nested(FieldSchema(), required=True)
+    value = fields.Raw(required=True)
