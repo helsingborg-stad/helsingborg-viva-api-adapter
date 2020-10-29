@@ -1,6 +1,6 @@
 from marshmallow import validate, Schema, fields
 from .period_schema import PeriodSchema
-from .application_answer_schema import ApplicationAnswerSchema
+from .answer_schema import AnswerSchema
 
 
 class ApplicationSchema(Schema):
@@ -14,5 +14,5 @@ class ApplicationSchema(Schema):
     personal_number = fields.Str(data_key='personalNumber', required=True)
     period = fields.Nested(PeriodSchema())
     answers = fields.List(
-        fields.Nested(ApplicationAnswerSchema(), required=True), required=True
+        fields.Nested(AnswerSchema(), required=True), required=True
     )
