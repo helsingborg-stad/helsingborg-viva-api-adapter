@@ -11,8 +11,9 @@ class ApplicationSchema(Schema):
     )
     client_ip = fields.Str(data_key='clientIp', required=True)
     workflow_id = fields.Str(data_key='workflowId', required=True)
-    personal_number = fields.Str(data_key='personalNumber', required=True)
-    period = fields.Nested(PeriodSchema())
+    applicant = fields.Str(required=True)
+    period = fields.Nested(PeriodSchema(), required=True)
     answers = fields.List(
-        fields.Nested(AnswerSchema(), required=True), required=True
+        fields.Nested(AnswerSchema(), required=True),
+        required=True
     )
