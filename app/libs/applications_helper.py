@@ -1,5 +1,7 @@
 from datetime import datetime
+from .helpers import date_from_milliseconds
 
+# Viva category pattern
 categories = set(['expenses', 'incomes', 'assets'])
 category_types = {
     'boende': 'Hyra',
@@ -12,19 +14,22 @@ category_types = {
 user_inputs = set(['amount', 'date'])
 applies_to_type = 'coapplicant'
 
+initial_data = {
+    'RAWDATA': '',
+    'RAWDATATYPE': 'PDF',
+    'HOUSEHOLDINFO': '',
+    'OTHER': '',
+}
 
-def parse_application_data(answers=list, period=dict, initial_data=dict):
+def parse_application(answers=list, period=dict, initial_data=initial_data):
     if not answers:
         return False
 
-    start_date = datetime.fromtimestamp(
-        period['start_date'] / 1000).strftime('%Y-%m-%d')
-    end_date = datetime.fromtimestamp(
-        period['end_date'] / 1000).strftime('%Y-%m-%d')
-
-    period_string = f"{start_date} - {end_date}"
-
     data = dict()
+
+    start_date = date_from_milliseconds(period['start_date'])
+    end_date = date_from_milliseconds(period['end_date'])
+    period_string = f"{start_date} - {end_date}"
 
     for answer in answers:
         tags = answer['field']['tags']
@@ -36,9 +41,8 @@ def parse_application_data(answers=list, period=dict, initial_data=dict):
         category_type_description = category_types[category_type]
 
         param_user_input = [v for v in tags if v in user_inputs].pop()
-        if param_user_input == 'date':
-            answer['value'] = datetime.fromtimestamp(
-                answer['value'] / 1000).strftime('%Y-%m-%d')
+        if 'date' in param_user_input:
+            answer['value'] = date_from_milliseconds(answer['value'])
 
         applies_to = [a for a in tags if a == applies_to_type]
         if applies_to:
@@ -50,21 +54,22 @@ def parse_application_data(answers=list, period=dict, initial_data=dict):
         if category_list_name not in data:
             data[category_list_name] = []
 
-        item = [z for z in data[category_list_name]
+        items = [z for z in data[category_list_name]
                 if category_type == z[category_name]['TYPE']
                 and applies_to == z[category_name]['APPLIESTO']]
 
-        if item:
-            item[0][category_name][param_user_input.upper()] = str(answer['value'])
+        if items:
+            item = items.pop()
+            item[category_name][param_user_input.upper()] = str(answer['value'])
         else:
             category_data = {
                 category_name: {
-                    'TYPE': category_type,
+                    'TYPE': str(category_type),
                     'FREQUENCY': '',
-                    'APPLIESTO': applies_to,
-                    'DESCRIPTION': category_type_description,
-                    'PERIOD': period_string,
-                    param_user_input.upper(): str(answer['value'])
+                    'APPLIESTO': str(applies_to),
+                    'DESCRIPTION': str(category_type_description),
+                    'PERIOD': str(period_string),
+                    param_user_input.upper(): str(answer['value']),
                 }
             }
 
