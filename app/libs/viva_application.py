@@ -2,6 +2,7 @@ from datetime import datetime
 
 from .viva import Viva
 from .my_pages import MyPages
+from .helpers import date_from_milliseconds
 
 
 class VivaApplication(Viva):
@@ -10,32 +11,24 @@ class VivaApplication(Viva):
                  wsdl='VivaApplication',
                  my_pages=MyPages,
                  application_type=str,
-                 application_data=dict,
-                 personal_number=str,
-                 client_ip=str,
-                 workflow_id=str,
-                 period=dict,
+                 data=dict
                  ):
         super(VivaApplication, self).__init__()
 
         self._service = self._get_service(wsdl)
         self._my_pages = my_pages
 
-        self._application_type = application_type
-        self._application_data = application_data
-        self._personal_number = personal_number
-        self._client_ip = client_ip
-        self._workflow_id = workflow_id
-        self._period = period
+        self._type = application_type
+        self._data = data
 
-        self._application_types = {
+        self._types = {
             'basic': self._new_application,
             'recurrent': self._new_re_application
         }
 
     def create(self):
-        if self._validate(self._application_data) == True:
-            return self._application_types[self._application_type]()
+        if self._validate(self._data) == True:
+            return self._types[self._type]()
 
         return self._helpers.serialize_object({'error': 'Create application failed!'})
 
@@ -45,31 +38,28 @@ class VivaApplication(Viva):
             KEY='',
 
             # Aktuell användares personnummer
-            USER=self._personal_number,
-            IP='127.0.0.1',
+            USER=self._data['personal_number'],
+            IP=self._data['client_ip'],
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             CASETYPE='',
 
             SYSTEM=1,
-
-            APPLICATION=self._application_data['APPLICATION']
+            APPLICATION=self._data['application']
         )
 
         return self._helpers.serialize_object(response)
 
     def _new_re_application(self):
-        my_pages = self._my_pages(user=self._personal_number)
+        my_pages = self._my_pages(user=self._data['personal_number'])
 
         try:
             ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
         except Exception:
             return self._helpers.serialize_object({'error': 'SSI not found'})
 
-        start_date = datetime.fromtimestamp(
-            self._period['start_date'] / 1000).strftime('%Y-%m-%d')
-        end_date = datetime.fromtimestamp(
-            self._period['end_date'] / 1000).strftime('%Y-%m-%d')
+        start_date = date_from_milliseconds(self._data['period']['start_date'])
+        end_date = date_from_milliseconds(self._data['period']['end_date'])
 
         response = self._service.NEWREAPPLICATION(
             KEY='',
@@ -94,12 +84,12 @@ class VivaApplication(Viva):
                 'END': end_date
             },
 
-            REAPPLICATION=self._application_data,
+            REAPPLICATION=self._data['application'],
 
             # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
                 'NOTIFYINFO': {
-                    'ID': self._personal_number,
+                    'ID': self._data['personal_number'],
                     'ADDRESS': '',
                     'ADDRESSTYPE': ''
                 }
