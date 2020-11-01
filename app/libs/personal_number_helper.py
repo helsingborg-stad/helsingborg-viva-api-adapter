@@ -10,7 +10,7 @@ hashids_instace = Hashids(
 )
 
 
-def decode_hash_personal_number(hash_id=int):
+def personal_number_from_hash(hash_id=int):
     return str(hashids_instace.decode(hash_id)[0])
 
 

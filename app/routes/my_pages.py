@@ -3,7 +3,7 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 
 from .. import data
-from ..libs import decode_hash_personal_number, make_test_personal_number
+from ..libs import personal_number_from_hash, make_test_personal_number
 from ..libs import MyPages as VivaMyPages
 
 
@@ -16,7 +16,7 @@ class MyPages(Resource):
             }
 
         try:
-            personal_number = decode_hash_personal_number(hash_id=hash_id)
+            personal_number = personal_number_from_hash(hash_id=hash_id)
 
             if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
                 personal_number = make_test_personal_number(personal_number)
