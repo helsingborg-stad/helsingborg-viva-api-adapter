@@ -21,7 +21,68 @@ initial_data = {
     'OTHER': '',
 }
 
+
 def parse_application(answers=list, period=dict, initial_data=initial_data):
+    """
+    Helper function for building the Viva specific data structure from
+    answers list stored in AWS DynamoDB cases data structure.
+
+    From this:
+    "answers": [
+    {
+        "field": {
+            "tags": [
+                "expenses",
+                "boende",
+                "date"
+            ]
+        },
+        "value": 1601994748326
+    },
+    {
+        "field": {
+            "tags": [
+                "expenses",
+                "boende",
+                "amount"
+            ]
+        },
+        "value": 8760
+    },
+    ..
+    ..
+    ..
+
+    To this:
+    "EXPENSES": [
+        {
+          "EXPENSE": {
+            "TYPE": "Mobiltelefon",
+            "DESCRIPTION": "avtal",
+            "APPLIESTO": "coapplicant",
+            "FREQUENCY": 12,
+            "PERIOD": "2020-05-01 - 2020-05-31",
+            "AMOUNT": 199,
+            "DATE": "2020-05-08"
+          }
+        },
+        {
+          "EXPENSE": {
+            "TYPE": "Mobiltelefon",
+            "DESCRIPTION": "avtal",
+            "APPLIESTO": "applicant",
+            "FREQUENCY": 12,
+            "PERIOD": "2020-05-01 - 2020-05-31",
+            "AMOUNT": 169,
+            "DATE": "2020-05-08"
+          }
+        }
+      ],
+    ..
+    ..
+    ..
+
+    """
     if not answers:
         return False
 
@@ -55,8 +116,8 @@ def parse_application(answers=list, period=dict, initial_data=initial_data):
             data[category_list_name] = []
 
         items = [z for z in data[category_list_name]
-                if category_type == z[category_name]['TYPE']
-                and applies_to == z[category_name]['APPLIESTO']]
+                 if category_type == z[category_name]['TYPE']
+                 and applies_to == z[category_name]['APPLIESTO']]
 
         if items:
             item = items.pop()
