@@ -103,7 +103,7 @@ def parse_application(answers=list, period=dict, initial_data=initial_data):
 
         param_user_input = [v for v in tags if v in user_inputs].pop()
         if 'date' in param_user_input:
-            answer['value'] = date_from_milliseconds(answer['value'])
+            answer['value'] = date_from_milliseconds(int(answer['value']))
 
         applies_to = [a for a in tags if a == applies_to_type]
         if applies_to:
