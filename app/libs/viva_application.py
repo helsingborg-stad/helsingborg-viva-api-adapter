@@ -63,8 +63,8 @@ class VivaApplication(Viva):
 
         response = self._service.NEWREAPPLICATION(
             KEY='',
-            USER=self._personal_number,
-            IP=self._client_ip,
+            USER=self._data['personal_number'],
+            IP=self._data['client_ip'],
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
             # See MyPages.PersonCases
@@ -76,7 +76,7 @@ class VivaApplication(Viva):
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID=self._workflow_id,
+            WORKFLOWID=self._data['workflow_id'],
 
             # Period som ansökan avser
             PERIOD={
