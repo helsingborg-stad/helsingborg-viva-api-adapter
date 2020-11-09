@@ -26,13 +26,13 @@ class Applications(Resource):
         )
 
         personal_number = personal_number_from_hash(
-            hash_id=validated_data['applicant'])
+            hash_id=validated_data['personal_number'])
 
         if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
             personal_number = make_test_personal_number(personal_number)
 
         application = VivaApplication(
-            type=validated_data['application_type'],
+            application_type=validated_data['application_type'],
             data={
                 'client_ip': validated_data['client_ip'],
                 'workflow_id': validated_data['workflow_id'],
