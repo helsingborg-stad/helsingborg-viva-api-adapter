@@ -16,7 +16,7 @@ flask-restful = "*"
 hashids = "*"
 python-dotenv = "*"
 marshmallow = "*"
-jwt = "*"
+pyjwt = "*"
 cryptography = "*"
 
 [requires]
