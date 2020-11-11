@@ -2,7 +2,7 @@ from flask import jsonify, request, current_app
 from flask_restful import Resource
 from marshmallow import ValidationError
 
-from ..libs import VivaApplication,
+from ..libs import VivaApplication
 from ..libs import personal_number_from_hash
 from ..libs import make_test_personal_number
 from ..libs import parse_application
