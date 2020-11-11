@@ -2,11 +2,18 @@ from flask import jsonify, request, current_app
 from flask_restful import Resource
 from marshmallow import ValidationError
 
-from ..libs import VivaApplication, personal_number_from_hash, make_test_personal_number, parse_application
+from ..libs import VivaApplication,
+from ..libs import personal_number_from_hash
+from ..libs import make_test_personal_number
+from ..libs import parse_application
+from ..libs import authenticate
+
 from ..schemas import ApplicationSchema, ResponseSchema
 
 
 class Applications(Resource):
+    method_decorators = [authenticate]
+
     def get(self):
         return 'APPLICATIONS LIST'
 
