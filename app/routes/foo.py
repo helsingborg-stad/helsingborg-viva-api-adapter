@@ -16,8 +16,7 @@ def authentication():
 
     try:
         jwt.decode(token, public_key, algorithms=['RS256'])
-    except Exception as e:
-        print(e)
+    except Exception:
         return False
 
     return True
