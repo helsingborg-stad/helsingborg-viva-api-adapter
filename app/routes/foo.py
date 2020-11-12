@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from flask_restful import Resource, abort, wraps
+from flask_restful import Resource
 from marshmallow import ValidationError
 
 from ..libs import parse_application, authenticate
