@@ -7,4 +7,4 @@ class FieldSchema(Schema):
 
 class AnswerSchema(Schema):
     field = fields.Nested(FieldSchema(), required=True)
-    value = fields.Integer(required=True)
+    value = fields.Raw(required=True)
