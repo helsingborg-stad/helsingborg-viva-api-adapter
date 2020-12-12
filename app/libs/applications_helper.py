@@ -6,12 +6,26 @@ categories = set(['expenses', 'incomes', 'assets'])
 category_types = {
     'boende': 'Hyra',
     'el': 'El',
-    'reskostnad': 'Busskort',
+    'reskostnad': 'Reskostnad',
+    'hemforsakring': 'Hemförsäkring',
+    'aldreforsorjningsstod': 'Äldreförsörjningsstöd',
+    'akassa': 'A-kassa',
+    'barnomsorg': 'Barnomsorg',
+    'bredband': 'Bredband',
+    'medicin': 'Medicin',
+    'akuttandvard': 'Akut tandvård',
+    'tandvard': 'Tandvård',
+    'annantandvard': 'Annan tandvård',
+    'lakarvard': 'Läkarvård',
     'lon': 'Lön',
-    'car': 'Bil',
-    'mobile': 'Mobiltelefon'
+    'bil': 'Bil',
+    'lagenhet': 'Lägenhet',
+    'motorcykel': 'Motorcykel',
+    'hus': 'Hus',
+    'mobile': 'Mobiltelefon',
+    'annan': 'Övrigt',
 }
-user_inputs = set(['amount', 'date'])
+user_inputs = set(['amount', 'date', 'description'])
 applies_to_type = 'coapplicant'
 
 initial_data = {
