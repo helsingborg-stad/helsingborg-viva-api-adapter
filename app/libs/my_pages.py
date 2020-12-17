@@ -19,6 +19,18 @@ class MyPages(Viva):
         self.person_caseworkflow = self._get_person_caseworkflow()
         self.person_application = self._get_person_application()
 
+    def get_phone_number(self):
+        if not self.person_cases['vivadata']['vivacases']:
+            return False
+
+        return self.person_cases['vivadata']['vivacases']['vivacase']['phonenumbers']['phonenumber']['number']
+
+    def get_personal_number(self):
+        if not self.person_info['vivadata']['vivaperson']['pnumber']:
+            return False
+
+        return self.person_info['vivadata']['vivaperson']['pnumber']
+
     def get_period(self):
         if not self.person_application['vivadata']['vivaapplication']:
             return False
