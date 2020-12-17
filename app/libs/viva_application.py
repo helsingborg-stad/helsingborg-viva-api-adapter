@@ -27,7 +27,6 @@ class VivaApplication(Viva):
     def create(self):
         return self._types[self._type]()
 
-
     def _get_application(self):
         initial_application = {
             'OTHER': '',
