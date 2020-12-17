@@ -183,9 +183,11 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(response)
 
     def _new_re_application(self):
+        personal_number = self._my_pages.get_personal_number()
+
         response = self._service.NEWREAPPLICATION(
             KEY='',
-            USER=self._my_pages.get_personal_number,
+            USER=personal_number,
             IP='0.0.0.0',
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
@@ -204,8 +206,8 @@ class VivaApplication(Viva):
             # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
                 'NOTIFYINFO': {
-                    'ID': self._personal_number,
-                    'ADDRESS': '',
+                    'ID': personal_number,
+                    'ADDRESS': self._my_pages.get_phone_number(),
                     'ADDRESSTYPE': 'sms'
                 }
             }
