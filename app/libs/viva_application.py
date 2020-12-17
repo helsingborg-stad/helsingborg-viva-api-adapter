@@ -220,6 +220,3 @@ class VivaApplication(Viva):
         )
 
         return self._helpers.serialize_object(response)
-
-    def _validate(self, data):
-        return True
