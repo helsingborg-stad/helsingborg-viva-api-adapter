@@ -1,9 +1,10 @@
-from flask import jsonify, request, current_app
+from flask import jsonify, request
 from flask_restful import Resource
 from marshmallow import ValidationError
 
+from ..libs import MyPages
 from ..libs import VivaApplication
-from ..libs import get_personal_number
+from ..libs import hash_to_personal_number
 from ..libs import authenticate
 
 from ..schemas import ApplicationSchema, ResponseSchema
@@ -22,12 +23,15 @@ class Applications(Resource):
         except ValidationError as error:
             return jsonify(error.messages)
 
+        personal_number = hash_to_personal_number(
+            hash_id=validated_payload['hashid'])
+
         viva_application_instance = VivaApplication(
             application_type=validated_payload['application_type'],
-            personal_number=get_personal_number(
-                hash_id=validated_payload['hashid']),
-            answers=validated_payload['answers']
-        )
+            my_pages=MyPages(user=personal_number),
+            answers=validated_payload['answers'])
+
+        # response = viva_application_instance.create()
 
         response = viva_application_instance.create()
 
