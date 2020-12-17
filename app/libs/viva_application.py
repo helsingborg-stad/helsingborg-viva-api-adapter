@@ -40,7 +40,7 @@ class VivaApplication(Viva):
 
         return {**initial_application, **application}
 
-    def _parse_answers(self):
+    def _answers_to_application(self):
         """
         Building Viva specific data structure from answers
 
