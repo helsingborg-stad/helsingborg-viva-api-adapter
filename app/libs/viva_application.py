@@ -9,7 +9,6 @@ class VivaApplication(Viva):
                  my_pages,
                  wsdl='VivaApplication',
                  application_type=str,
-                 personal_number=str,
                  answers=list
                  ):
         super(VivaApplication, self).__init__()
@@ -20,7 +19,6 @@ class VivaApplication(Viva):
             'recurrent': self._new_re_application
         }
 
-        self._personal_number = personal_number
         self._my_pages = my_pages
         self._answers = answers
 
@@ -188,7 +186,7 @@ class VivaApplication(Viva):
     def _new_re_application(self):
         response = self._service.NEWREAPPLICATION(
             KEY='',
-            USER=self._personal_number,
+            USER=self._my_pages.get_personal_number,
             IP='0.0.0.0',
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
