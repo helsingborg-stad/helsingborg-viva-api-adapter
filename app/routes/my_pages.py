@@ -1,9 +1,8 @@
-from flask import current_app
 from flask_restful import Resource
 from zeep.exceptions import Fault
 
 from ..libs import MyPages as VivaMyPages
-from ..libs import get_personal_number
+from ..libs import hash_to_personal_number
 
 from .. import data
 
@@ -17,7 +16,7 @@ class MyPages(Resource):
             }
 
         try:
-            personal_number = get_personal_number(hash_id=hash_id)
+            personal_number = hash_to_personal_number(hash_id=hash_id)
             my_pages = VivaMyPages(user=personal_number)
 
             response = {
