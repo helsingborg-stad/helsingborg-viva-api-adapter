@@ -1,36 +1,176 @@
-from datetime import datetime
-
 from .viva import Viva
 from .my_pages import MyPages
-from .helpers import date_from_milliseconds
+from .datetime_helper import milliseconds_to_date_string
 
 
 class VivaApplication(Viva):
 
     def __init__(self,
                  wsdl='VivaApplication',
-                 my_pages=MyPages,
+                 my_pages_class=MyPages,
                  application_type=str,
-                 data=dict
+                 personal_number=str,
+                 answers=list
                  ):
         super(VivaApplication, self).__init__()
 
-        self._service = self._get_service(wsdl)
-        self._my_pages = my_pages
-
         self._type = application_type
-        self._data = data
-
         self._types = {
             'basic': self._new_application,
             'recurrent': self._new_re_application
         }
 
-    def create(self):
-        if self._validate(self._data) == True:
-            return self._types[self._type]()
+        self._personal_number = personal_number
+        self._answers = answers
 
-        return self._helpers.serialize_object({'error': 'Create application failed!'})
+        self._service = self._get_service(wsdl)
+        self._my_pages = self._get_my_pages(my_pages_class=my_pages_class)
+
+    def create(self):
+        return self._types[self._type]()
+
+    def _get_my_pages(self, my_pages_class):
+        try:
+            return my_pages_class(user=self._personal_number)
+        except Exception as e:
+            return self._helpers.serialize_object({'error': e})
+
+    def _get_application(self):
+        initial_application = {
+            'OTHER': '',
+            'RAWDATA': '',
+            'RAWDATATYPE': 'PDF',
+            'HOUSEHOLDINFO': ''
+        }
+
+        application = self._parse_answers()
+
+        return {**initial_application, **application}
+
+    def _parse_answers(self):
+        """
+        Building Viva specific data structure from answers
+
+        From this:
+        "answers": [
+        {
+            "field": {
+                "tags": [
+                    "expenses",
+                    "boende",
+                    "date"
+                ]
+            },
+            "value": 1601994748326
+        },
+        {
+            "field": {
+                "tags": [
+                    "expenses",
+                    "boende",
+                    "amount"
+                ]
+            },
+            "value": 8760
+        },
+        ..
+        ..
+        ..
+
+        To this:
+        "EXPENSES": [
+            {
+            "EXPENSE": {
+                "TYPE": "Mobiltelefon",
+                "DESCRIPTION": "avtal",
+                "APPLIESTO": "coapplicant",
+                "FREQUENCY": 12,
+                "PERIOD": "2020-05-01 - 2020-05-31",
+                "AMOUNT": 199,
+                "DATE": "2020-05-08"
+            }
+            },
+            {
+            "EXPENSE": {
+                "TYPE": "Mobiltelefon",
+                "DESCRIPTION": "avtal",
+                "APPLIESTO": "applicant",
+                "FREQUENCY": 12,
+                "PERIOD": "2020-05-01 - 2020-05-31",
+                "AMOUNT": 169,
+                "DATE": "2020-05-08"
+            }
+            }
+        ],
+        ..
+        ..
+        ..
+
+        """
+        if not self._answers:
+            return False
+
+        # rules for generating the viva application structure based on answer tags
+        categories = set(['expenses', 'incomes', 'assets'])
+        category_types = {
+            'boende': 'Hyra',
+            'el': 'El',
+            'reskostnad': 'Reskostnad',
+            'lon': 'Lön',
+            'car': 'Bil',
+            'mobile': 'Mobiltelefon'
+        }
+        user_inputs = set(['amount', 'date'])
+
+        application = dict()
+
+        for answer in self._answers:
+            tags = answer['field']['tags']
+
+            category_list_name = [
+                n for n in tags if n in categories].pop().upper()
+            category_name = category_list_name[:-1]
+
+            category_type = [t for t in tags if t in set(category_types)].pop()
+            category_type_description = category_types[category_type]
+
+            user_input = [v for v in tags if v in user_inputs].pop()
+            if 'date' in user_input:
+                answer['value'] = milliseconds_to_date_string(
+                    int(answer['value']))
+
+            applies_to = [a for a in tags if a == 'coapplicant']
+            if applies_to:
+                applies_to = applies_to.pop()
+                category_type_description = category_type_description + ' partner'
+            else:
+                applies_to = 'applicant'
+
+            if category_list_name not in application:
+                application[category_list_name] = []
+
+            items = [z for z in application[category_list_name]
+                     if category_type == z[category_name]['TYPE']
+                     and applies_to == z[category_name]['APPLIESTO']]
+
+            if items:
+                item = items.pop()
+                item[category_name][user_input.upper()] = str(answer['value'])
+            else:
+                category = {
+                    category_name: {
+                        'TYPE': str(category_type),
+                        'FREQUENCY': '',
+                        'APPLIESTO': str(applies_to),
+                        'DESCRIPTION': str(category_type_description),
+                        'PERIOD': '',
+                        user_input.upper(): str(answer['value']),
+                    }
+                }
+
+                application[category_list_name].append(category)
+
+        return application
 
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
@@ -51,47 +191,30 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(response)
 
     def _new_re_application(self):
-        my_pages = self._my_pages(user=self._data['personal_number'])
-
-        try:
-            ssi = my_pages.person_cases['vivadata']['vivacases']['vivacase']['casessi']
-        except Exception:
-            return self._helpers.serialize_object({'error': 'SSI not found'})
-
-        start_date = date_from_milliseconds(self._data['period']['start_date'])
-        end_date = date_from_milliseconds(self._data['period']['end_date'])
-
         response = self._service.NEWREAPPLICATION(
             KEY='',
-            USER=self._data['personal_number'],
-            IP=self._data['client_ip'],
+            USER=self._personal_number,
+            IP='0.0.0.0',
 
             # Identifierar ärendet i Viva med servernamn, databassökväg och unikt id
             # See MyPages.PersonCases
-            SSI={
-                'SERVER': ssi['server'],
-                'PATH': ssi['path'],
-                'ID': ssi['id']
-            },
+            SSI=self._my_pages.get_casessi(),
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID=self._data['workflow_id'],
+            WORKFLOWID='',
 
             # Period som ansökan avser
-            PERIOD={
-                'START': start_date,
-                'END': end_date
-            },
+            PERIOD=self._my_pages.get_period(),
 
-            REAPPLICATION=self._data['application'],
+            REAPPLICATION=self._get_application(),
 
             # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
                 'NOTIFYINFO': {
-                    'ID': self._data['personal_number'],
+                    'ID': self._personal_number,
                     'ADDRESS': '',
-                    'ADDRESSTYPE': ''
+                    'ADDRESSTYPE': 'sms'
                 }
             }
         )

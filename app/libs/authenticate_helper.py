@@ -2,6 +2,7 @@ import jwt
 from flask import request
 from flask_restful import abort, wraps
 
+
 def validate_token():
     if 'X-API-Key' not in request.headers:
         return False

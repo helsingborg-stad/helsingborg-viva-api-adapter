@@ -36,11 +36,6 @@ def create_app():
         )
 
         api.add_resource(
-            routes.Foo,
-            '/foo'
-        )
-
-        api.add_resource(
             routes.Index,
             '/'
         )
