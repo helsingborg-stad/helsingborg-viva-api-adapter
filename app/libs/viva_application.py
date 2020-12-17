@@ -36,7 +36,7 @@ class VivaApplication(Viva):
             'HOUSEHOLDINFO': ''
         }
 
-        application = self._parse_answers()
+        application = self._answers_to_application()
 
         return {**initial_application, **application}
 
