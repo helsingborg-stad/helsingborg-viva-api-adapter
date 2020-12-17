@@ -20,7 +20,7 @@ class Session(object):
 
         session = self._requests.Session()
         session.cookies = cookie_jar
-        transport = Transport(session=session)
+        transport = self._transport(session=session)
 
         return transport
 

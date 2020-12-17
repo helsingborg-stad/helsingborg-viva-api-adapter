@@ -2,9 +2,10 @@ from flask import current_app
 from flask_restful import Resource
 from zeep.exceptions import Fault
 
-from .. import data
-from ..libs import personal_number_from_hash, make_test_personal_number
 from ..libs import MyPages as VivaMyPages
+from ..libs import get_personal_number
+
+from .. import data
 
 
 class MyPages(Resource):
@@ -16,11 +17,7 @@ class MyPages(Resource):
             }
 
         try:
-            personal_number = personal_number_from_hash(hash_id=hash_id)
-
-            if current_app.config['ENV'] == 'development' or current_app.config['ENV'] == 'test':
-                personal_number = make_test_personal_number(personal_number)
-
+            personal_number = get_personal_number(hash_id=hash_id)
             my_pages = VivaMyPages(user=personal_number)
 
             response = {
