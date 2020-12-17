@@ -6,8 +6,8 @@ from .datetime_helper import milliseconds_to_date_string
 class VivaApplication(Viva):
 
     def __init__(self,
+                 my_pages,
                  wsdl='VivaApplication',
-                 my_pages_class=MyPages,
                  application_type=str,
                  personal_number=str,
                  answers=list
@@ -21,19 +21,14 @@ class VivaApplication(Viva):
         }
 
         self._personal_number = personal_number
+        self._my_pages = my_pages
         self._answers = answers
 
         self._service = self._get_service(wsdl)
-        self._my_pages = self._get_my_pages(my_pages_class=my_pages_class)
 
     def create(self):
         return self._types[self._type]()
 
-    def _get_my_pages(self, my_pages_class):
-        try:
-            return my_pages_class(user=self._personal_number)
-        except Exception as e:
-            return self._helpers.serialize_object({'error': e})
 
     def _get_application(self):
         initial_application = {
