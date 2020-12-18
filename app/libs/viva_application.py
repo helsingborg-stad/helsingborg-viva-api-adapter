@@ -24,7 +24,7 @@ class VivaApplication(Viva):
 
         self._service = self._get_service(wsdl)
 
-    def create(self):
+    def submit(self):
         return self._types[self._type]()
 
     def _get_application(self):
