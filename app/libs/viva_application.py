@@ -1,5 +1,4 @@
 from .viva import Viva
-from .my_pages import MyPages
 from .datetime_helper import milliseconds_to_date_string
 
 
