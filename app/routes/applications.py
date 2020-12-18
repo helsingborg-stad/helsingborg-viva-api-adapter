@@ -26,14 +26,12 @@ class Applications(Resource):
         personal_number = hash_to_personal_number(
             hash_id=validated_payload['hashid'])
 
-        viva_application_instance = VivaApplication(
+        viva_application = VivaApplication(
             application_type=validated_payload['application_type'],
             my_pages=MyPages(user=personal_number),
             answers=validated_payload['answers'])
 
-        # response = viva_application_instance.create()
-
-        response = viva_application_instance.create()
+        response = viva_application.create()
 
         response_schema = ResponseSchema()
         try:
