@@ -118,8 +118,11 @@ class VivaApplication(Viva):
         for answer in self._answers:
             tags = answer['field']['tags']
 
+            # EXPENSES | INCOMES
             category_list_name = [
                 n for n in tags if n in categories].pop().upper()
+
+            # EXPENSE | INCOME
             category_name = category_list_name[:-1]
 
             category_type = [t for t in tags if t in set(category_types)].pop()
@@ -130,6 +133,7 @@ class VivaApplication(Viva):
                 answer['value'] = milliseconds_to_date_string(
                     int(answer['value']))
 
+            # Partner
             applies_to = [a for a in tags if a == 'coapplicant']
             if applies_to:
                 applies_to = applies_to.pop()
