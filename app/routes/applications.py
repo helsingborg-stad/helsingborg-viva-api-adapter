@@ -31,7 +31,7 @@ class Applications(Resource):
             my_pages=MyPages(user=personal_number),
             answers=validated_payload['answers'])
 
-        response = viva_application.create()
+        response = viva_application.submit()
 
         response_schema = ResponseSchema()
         try:
