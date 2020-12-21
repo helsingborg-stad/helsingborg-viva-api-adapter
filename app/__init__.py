@@ -28,7 +28,7 @@ def create_app():
         api.add_resource(
             routes.Applications,
             '/applications',
-            '/applications/<string:hash_id>'
+            '/applications/status/<string:hash_id>',
         )
 
         api.add_resource(
