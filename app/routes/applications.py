@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from flask_restful import Resource
+from zeep.exceptions import Fault
 from marshmallow import ValidationError
 
 from ..libs import MyPages
@@ -12,6 +13,23 @@ from ..schemas import ApplicationSchema, ResponseSchema
 
 class Applications(Resource):
     method_decorators = [authenticate]
+
+    def get(self, hash_id=None):
+        try:
+            personal_number = hash_to_personal_number(hash_id=hash_id)
+
+            viva_application = VivaApplication(
+                my_pages=MyPages(user=personal_number))
+
+            response = viva_application.get_application_status()
+
+            return response, 200
+
+        except Fault as fault:
+            return {
+                'message': fault.message,
+                'code': fault.code
+            }, fault.code
 
     def post(self):
         json_payload = request.json
