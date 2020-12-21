@@ -26,6 +26,18 @@ class VivaApplication(Viva):
     def submit(self):
         return self._types[self._type]()
 
+    def get_application_status(self):
+        personal_number = self._my_pages.get_personal_number()
+
+        response = self._service.APPLICATIONSTATUS(
+            SUSER=personal_number,
+            SPNR=personal_number,
+            SCASETYPE='',
+            SSYSTEM=1
+        )
+
+        return self._helpers.serialize_object(response)
+
     def _get_application(self):
         initial_application = {
             'OTHER': '',

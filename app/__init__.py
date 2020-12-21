@@ -27,7 +27,8 @@ def create_app():
 
         api.add_resource(
             routes.Applications,
-            '/applications'
+            '/applications',
+            '/applications/<string:hash_id>'
         )
 
         api.add_resource(
@@ -40,4 +41,4 @@ def create_app():
             '/'
         )
 
-        return app
+    return app
