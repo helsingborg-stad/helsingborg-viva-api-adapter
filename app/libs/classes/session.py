@@ -1,5 +1,7 @@
 import requests
+from requests import ConnectionError
 from flask import current_app
+from zeep.exceptions import Fault
 from zeep.transports import Transport
 from zeep.cache import SqliteCache
 
@@ -27,17 +29,21 @@ class Session(object):
         return transport
 
     def _get_cookie(self):
-        login_conf = self._config['VIVA']['login']
+        try:
+            login_conf = self._config['VIVA']['login']
 
-        response = self._requests.post(
-            login_conf['url'],
-            data={
-                'username': login_conf['username'],
-                'password': login_conf['password'],
-            },
-            allow_redirects=False,
-        )
+            response = self._requests.post(
+                login_conf['url'],
+                data={
+                    'username': login_conf['username'],
+                    'password': login_conf['password'],
+                },
+                allow_redirects=False,
+            )
 
-        Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
+            Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
 
-        return Session._cookie
+            return Session._cookie
+        except ConnectionError as e:
+            error_message = e.args[0].args[0]
+            raise Fault(error_message, code=500)
