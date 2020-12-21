@@ -32,7 +32,7 @@ class VivaApplication(Viva):
         response = self._service.APPLICATIONSTATUS(
             SUSER=personal_number,
             SPNR=personal_number,
-            SCASETYPE='',
+            SCASETYPE='01',  # 01 = EKB
             SSYSTEM=1
         )
 
