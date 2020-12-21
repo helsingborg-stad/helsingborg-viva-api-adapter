@@ -7,12 +7,17 @@ hashids_instace = Hashids(salt=current_app.config['SALT'], min_length=32)
 
 
 def hash_to_personal_number(hash_id=str):
-    personal_number = str(hashids_instace.decode(hash_id)[0])
+    raise_error = Fault(message='Invalid request', code=400)
+
+    if not hash_id:
+        raise raise_error
 
     if current_app.config['ENV'] in ['development', 'test']:
         personal_number = to_test_personal_number(personal_number)
 
-    return personal_number
+        return personal_number
+    except Exception:
+        raise raise_error
 
 
 def to_test_personal_number(personal_number=str):
