@@ -4,8 +4,6 @@ from zeep.exceptions import Fault
 from ..libs import MyPages as VivaMyPages
 from ..libs import hash_to_personal_number
 
-from .. import data
-
 
 class MyPagesCalculations(Resource):
     def get(self, hash_id, workflow_id):
