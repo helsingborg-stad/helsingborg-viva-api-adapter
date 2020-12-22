@@ -22,7 +22,12 @@ def create_app():
         api.add_resource(
             routes.MyPages,
             '/mypages/',
-            '/mypages/<string:hash_id>'
+            '/mypages/<string:hash_id>',
+        )
+
+        api.add_resource(
+            routes.MyPagesCalculations,
+            '/mypages/<string:hash_id>/calculations/<string:workflow_id>',
         )
 
         api.add_resource(
@@ -33,12 +38,12 @@ def create_app():
 
         api.add_resource(
             routes.TestCookie,
-            '/testcookie/'
+            '/testcookie/',
         )
 
         api.add_resource(
             routes.Index,
-            '/'
+            '/',
         )
 
     return app
