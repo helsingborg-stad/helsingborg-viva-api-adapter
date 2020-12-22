@@ -1,4 +1,5 @@
 import xmltodict
+from zeep.exceptions import Fault
 
 from .viva import Viva
 
@@ -18,6 +19,30 @@ class MyPages(Viva):
         self.person_booked_payments = self._get_person_booked_payments()
         self.person_caseworkflow = self._get_person_caseworkflow()
         self.person_application = self._get_person_application()
+
+    def get_workflow_calculations(self, workflow_id=str):
+        if not workflow_id:
+            raise Fault(message='workflow_id missing', code=400)
+
+        if not self.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
+            raise Fault(message='calculations not found', code=404)
+
+        workflows = self.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+
+        workflow = next(
+            (item for item in workflows if item['workflowid'] == workflow_id), None)
+
+        if not workflow:
+            raise Fault(
+                message=f'workflow with id: {workflow_id} not found', code=404)
+
+        if 'calculations' not in workflow:
+            raise Fault(
+                message=f'calculations not found for workflow id {workflow_id}', code=404)
+
+        calculations = list(workflow['calculations'].values())
+
+        return calculations
 
     def get_phone_number(self):
         if not self.person_cases['vivadata']['vivacases']:
