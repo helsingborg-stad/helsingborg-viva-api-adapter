@@ -9,12 +9,15 @@ from .. import data
 
 class MyPages(Resource):
     def get(self, hash_id=None):
-
         if not hash_id:
+            # get test users
             return {
                 'users': data.USERS
-            }
+            }, 200
 
+        return self._get_mypages_all_details(hash_id=hash_id)
+
+    def _get_mypages_all_details(self, hash_id):
         try:
             personal_number = hash_to_personal_number(hash_id=hash_id)
             my_pages = VivaMyPages(user=personal_number)
@@ -39,4 +42,4 @@ class MyPages(Resource):
             return {
                 'message': fault.message,
                 'code': fault.code
-            }, 500
+            }, fault.code
