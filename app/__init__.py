@@ -26,8 +26,8 @@ def create_app():
         )
 
         api.add_resource(
-            routes.MyPagesCalculations,
-            '/mypages/<string:hash_id>/calculations/<string:workflow_id>',
+            routes.MyPagesStatus,
+            '/mypages/<string:hash_id>/status/<string:workflow_id>',
         )
 
         api.add_resource(
