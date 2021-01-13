@@ -36,6 +36,32 @@ class VivaApplication(Viva):
             SSYSTEM=1
         )
 
+        """
+        ApplicationStatus förklaring:
+
+        -1 - fel (t.ex. person finns inte i personregistret)
+
+        eller summan av:
+        1 - ansökan tillåten
+        2 - autosave finns (man har påbörjat en ansökan)
+        4 - väntar signering (avser medsökande: sökande har signerat en ansökan som inkluderar medsökande)
+        8 - väntar att medsökande ska signera (avser sökande medan hen väntar på att medsökande ska signera)
+        16 - ansökan inskickad
+        32 - ansökan mottagen(/registrerad i Viva)
+        64 - komplettering begärd
+        128 - ärende finns (försörjningsstödsärende)
+        256 - ett ärende är aktiverat på web (egenskap på ärendet som gör att det visas på Mina sidor)
+        512 - ärendet tillåter e-ansökan  (egenskap på ärendet som gör att det går att skapa fortsatt ansökan)
+
+        2, 4 och 8 blir bara aktuella när man parkerar eller autosparar ansökan i Viva.
+
+        Det är bara när ApplicationStatus innehåller 1 (summan är udda) som ansökan kan lämnas in.
+
+        128 + 256 + 512 kommer i princip alltid att vara med eftersom ett ärende som tillåter e-ansökan är en förutsättning för fortsatt ansökan.
+
+        När ApplicationStatus bara är 1 finns inget ärende och man kan lämna in en grundansökan.
+        """
+
         return self._helpers.serialize_object(status_number)
 
     def _get_application(self):
