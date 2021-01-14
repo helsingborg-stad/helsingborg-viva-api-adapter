@@ -34,7 +34,7 @@ def authenticate(f):
             return f(*args, **kwargs)
 
         if not validate_token():
-            abort(http_status_code=401)
+            abort(http_status_code=401, message='Unauthorized')
 
         return f(*args, **kwargs)
 
