@@ -26,14 +26,15 @@ def create_app():
         )
 
         api.add_resource(
-            routes.MyPagesStatus,
-            '/mypages/<string:hash_id>/status/<string:workflow_id>',
+            routes.MyPagesWorkflows,
+            '/mypages/<string:hash_id>/workflows/',
+            '/mypages/<string:hash_id>/workflows/<string:workflow_id>',
         )
 
         api.add_resource(
             routes.Applications,
             '/applications',
-            '/applications/status/<string:hash_id>',
+            '/applications/<string:hash_id>/status',
         )
 
         api.add_resource(

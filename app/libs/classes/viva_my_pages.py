@@ -4,10 +4,10 @@ from zeep.exceptions import Fault
 from .viva import Viva
 
 
-class MyPages(Viva):
+class VivaMyPages(Viva):
 
     def __init__(self, wsdl='MyPages', user=str):
-        super(MyPages, self).__init__()
+        super(VivaMyPages, self).__init__()
 
         self._service = self._get_service(wsdl)
 
@@ -20,7 +20,7 @@ class MyPages(Viva):
         self.person_caseworkflow = self._get_person_caseworkflow()
         self.person_application = self._get_person_application()
 
-    def get_workflow_status(self, workflow_id=str):
+    def get_workflow(self, workflow_id=str):
         if not workflow_id:
             raise Fault(message='workflow_id missing', code=400)
 
