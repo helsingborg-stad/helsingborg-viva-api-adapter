@@ -108,8 +108,8 @@ class VivaApplication(Viva):
             })
         else:
             statuses.append({
-                'code': '-1',
-                'description': 'Not allowed'
+                'code': status_number,
+                'description': 'N/A'
             })
 
         return self._helpers.serialize_object(statuses)
