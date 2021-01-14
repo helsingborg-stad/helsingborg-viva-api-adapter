@@ -27,15 +27,6 @@ class VivaApplication(Viva):
         return self._types[self._type]()
 
     def get_application_status(self):
-        personal_number = self._my_pages.get_personal_number()
-
-        status_number = self._service.APPLICATIONSTATUS(
-            SUSER=personal_number,
-            SPNR=personal_number,
-            SCASETYPE='01',  # 01 = EKB
-            SSYSTEM=1
-        )
-
         """
         ApplicationStatus förklaring:
 
@@ -62,7 +53,66 @@ class VivaApplication(Viva):
         När ApplicationStatus bara är 1 finns inget ärende och man kan lämna in en grundansökan.
         """
 
-        return self._helpers.serialize_object(status_number)
+        personal_number = self._my_pages.get_personal_number()
+
+        status_number = self._service.APPLICATIONSTATUS(
+            SUSER=personal_number,
+            SPNR=personal_number,
+            SCASETYPE='01',  # 01 = EKB
+            SSYSTEM=1
+        )
+
+        status_description = {
+            1: 'Ansökan tillåten',
+            2: 'Autosave',
+            4: 'Väntar signering',
+            8: 'Väntar att medsökande ska signera',
+            16: 'Ansökan inskickad',
+            32: 'Ansökan mottagen/registrerad',
+            64: 'Komplettering begärd',
+            128: 'Arende finns (försörjningsstödsärende)',
+            256: 'Ett ärende är aktiverat på webben',
+            512: 'Ärendet tillåter e-ansökan',
+        }
+
+        statuses = list()
+
+        if status_number > 128:
+            key = 128
+            statuses.append({
+                'code': key,
+                'description': status_description[key]
+            })
+            status_number -= key
+
+        if status_number > 256:
+            key = 256
+            statuses.append({
+                'code': key,
+                'description': status_description[key]
+            })
+            status_number -= key
+
+        if status_number > 512:
+            key = 512
+            statuses.append({
+                'code': key,
+                'description': status_description[key]
+            })
+            status_number -= key
+
+        if status_number in status_description:
+            statuses.append({
+                'code': status_number,
+                'description': status_description[status_number]
+            })
+        else:
+            statuses.append({
+                'code': '-1',
+                'description': 'Not allowed'
+            })
+
+        return self._helpers.serialize_object(statuses)
 
     def _get_application(self):
         initial_application = {
