@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from ..libs.session import Session
+from ..libs import Session
 
 
 class TestCookie(Resource):
