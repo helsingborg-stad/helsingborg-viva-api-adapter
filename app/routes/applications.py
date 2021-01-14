@@ -3,7 +3,7 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 from marshmallow import ValidationError
 
-from ..libs import MyPages
+from ..libs import VivaMyPages
 from ..libs import VivaApplication
 from ..libs import hash_to_personal_number
 from ..libs import authenticate
@@ -19,7 +19,7 @@ class Applications(Resource):
             personal_number = hash_to_personal_number(hash_id=hash_id)
 
             viva_application = VivaApplication(
-                my_pages=MyPages(user=personal_number))
+                my_pages=VivaMyPages(user=personal_number))
 
             response = viva_application.get_application_status()
 
@@ -46,7 +46,7 @@ class Applications(Resource):
 
         viva_application = VivaApplication(
             application_type=validated_payload['application_type'],
-            my_pages=MyPages(user=personal_number),
+            my_pages=VivaMyPages(user=personal_number),
             answers=validated_payload['answers'])
 
         response = viva_application.submit()

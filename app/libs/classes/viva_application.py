@@ -1,5 +1,5 @@
-from .viva import Viva
-from .datetime_helper import milliseconds_to_date_string
+from . import Viva
+from ..datetime_helper import milliseconds_to_date_string
 
 
 class VivaApplication(Viva):
