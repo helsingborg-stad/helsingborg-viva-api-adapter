@@ -1,67 +1,76 @@
 from flask import current_app
 from ..libs import hashids_instace
 
+
+def insert_pnr_and_endpoints(personal_number):
+    return {
+        'pnr': personal_number,
+        'mypages_url': '/mypages/' + hashids_instace.encode(personal_number),
+        'mypages_workflows_url': '/mypages/' + hashids_instace.encode(personal_number) + '/workflows',
+        'applications_status_url': '/applications/' + hashids_instace.encode(personal_number) + '/status',
+    }
+
+
 # mock data
 USERS = [
     {
+        'name': 'Evil Dude',
+        'info': 'Testing when peronal number does not exists in VIVA',
+        **insert_pnr_and_endpoints(199901019999),
+    },
+    {
         'name': 'Ylva Jansson',
-        'pnr': 195809262743,
-        'mypages_url': '/mypages/' + hashids_instace.encode(195809262743),
-    },
-    {
-        'name': 'Kalle Testarsson',
-        'pnr': 199412015852,
-        'mypages_url': '/mypages/' + hashids_instace.encode(199412015852),
-    },
-    {
-        'name': 'Therese Blom',
-        'pnr': 199612240201,
-        'mypages_url': '/mypages/' + hashids_instace.encode(199612240201),
-    },
-    {
-        'name': 'Ahmad Saloui',
-        'pnr': 197010108095,
-        'mypages_url': '/mypages/' + hashids_instace.encode(197010108095),
-    },
-    {
-        'name': 'Filippa Unge',
-        'pnr': 197105016161,
-        'mypages_url': '/mypages/' + hashids_instace.encode(197105016161),
-    },
-    {
-        'name': 'Petra Hansson',
-        'pnr': 199604014440,
-        'mypages_url': '/mypages/' + hashids_instace.encode(199604014440),
-        'info': 'Ongoing application, in relation to with Joel Holmgren',
-    },
-    {
-        'name': 'Joel Holmgren',
-        'pnr': 199612011214,
-        'mypages_url': '/mypages/' + hashids_instace.encode(199612011214),
-        'info': 'Ongoing application, in relation to with Petra Hansson',
+        'info': 'Test complete case flow',
+        **insert_pnr_and_endpoints(195809262743),
     },
     {
         'name': 'Felix Persson',
-        'pnr': 196912191118,
-        'mypages_url': '/mypages/' + hashids_instace.encode(196912191118),
+        'info': 'Test Flight',
+        **insert_pnr_and_endpoints(196912191118),
+    },
+    {
+        'name': 'Harald Unge',
         'info': 'Ongoing application',
+        **insert_pnr_and_endpoints(197005012336),
     },
     {
         'name': 'Victor Blixt',
-        'pnr': 197503014552,
-        'mypages_url': '/mypages/' + hashids_instace.encode(197503014552),
         'info': 'Ongoing application, calculations',
+        **insert_pnr_and_endpoints(197503014552),
+    },
+    {
+        'name': 'Petra Hansson',
+        'info': 'Ongoing application, in relation to with Joel Holmgren',
+        **insert_pnr_and_endpoints(199604014440),
+    },
+    {
+        'name': 'Joel Holmgren',
+        'info': 'Ongoing application, in relation to with Petra Hansson',
+        **insert_pnr_and_endpoints(199612011214),
+    },
+    {
+        'name': 'Kalle Testarsson',
+        **insert_pnr_and_endpoints(199412015852),
+    },
+    {
+        'name': 'Therese Blom',
+        **insert_pnr_and_endpoints(199612240201),
+    },
+    {
+        'name': 'Ahmad Saloui',
+        **insert_pnr_and_endpoints(197010108095),
+    },
+    {
+        'name': 'Filippa Unge',
+        **insert_pnr_and_endpoints(197105016161),
     },
     {
         'name': 'Anna Berg',
-        'pnr': 199809081400,
-        'mypages_url': '/mypages/' + hashids_instace.encode(199809081400),
         'info': 'Ongoing application',
+        **insert_pnr_and_endpoints(199809081400),
     },
     {
         'name': 'Love Johansson',
-        'pnr': 196510102426,
-        'mypages_url': '/mypages/' + hashids_instace.encode(196510102426),
-        'info': 'New case created as of 2020-09-15. First application period created as of 2020-09-15',
+        **insert_pnr_and_endpoints(196510102426),
     },
 ]
