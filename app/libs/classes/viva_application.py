@@ -191,16 +191,21 @@ class VivaApplication(Viva):
             return False
 
         # rules for generating the viva application structure based on answer tags
-        categories = set(['expenses', 'incomes', 'assets'])
+        categories = set(
+            ['expenses', 'incomes', 'assets', 'otherapplications', 'occupations', 'attachments'])
         category_types = {
             'boende': 'Hyra',
             'el': 'El',
             'reskostnad': 'Reskostnad',
+            'hemforsakring': 'Hemförsäkring',
+            'bredband': 'Bredband',
             'lon': 'Lön',
             'car': 'Bil',
-            'mobile': 'Mobiltelefon'
+            'mobile': 'Mobiltelefon',
+            'annat': 'Övrigt',
+            'other_attachments': 'Övriga underlag',
         }
-        user_inputs = set(['amount', 'date'])
+        user_inputs = set(['amount', 'date', 'name'])
 
         application = dict()
 
