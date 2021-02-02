@@ -4,22 +4,20 @@ from ..datetime_helper import milliseconds_to_date_string
 
 class VivaApplication(Viva):
 
-    def __init__(self,
-                 my_pages,
-                 wsdl='VivaApplication',
-                 application_type=str,
-                 answers=list
-                 ):
+    def __init__(self, my_pages, wsdl='VivaApplication', application=dict):
         super(VivaApplication, self).__init__()
 
-        self._type = application_type
+        self._type = application['application_type']
         self._types = {
             'basic': self._new_application,
             'recurrent': self._new_re_application
         }
 
         self._my_pages = my_pages
-        self._answers = answers
+        self._workflow_id = application['workflow_id']
+        self._answers = application['answers']
+        self._raw_data = application['raw_data']
+        self._raw_data_type = application['raw_data_type'].upper()
 
         self._service = self._get_service(wsdl)
 
@@ -287,7 +285,7 @@ class VivaApplication(Viva):
 
             # Identifierar Ansökanperioden (Fortsatt ansökan)
             # See MyPages.PersonCases
-            WORKFLOWID='',
+            WORKFLOWID=self._workflow_id,
 
             # Period som ansökan avser
             PERIOD=self._my_pages.get_period(),

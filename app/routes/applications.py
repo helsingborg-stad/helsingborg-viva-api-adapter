@@ -37,17 +37,15 @@ class Applications(Resource):
         application_schema = ApplicationSchema()
 
         try:
-            validated_payload = application_schema.load(json_payload)
+            validated_application = application_schema.load(json_payload)
         except ValidationError as error:
             return jsonify(error.messages)
 
         personal_number = hash_to_personal_number(
-            hash_id=validated_payload['hashid'])
+            hash_id=validated_application['hashid'])
 
         viva_application = VivaApplication(
-            application_type=validated_payload['application_type'],
-            my_pages=VivaMyPages(user=personal_number),
-            answers=validated_payload['answers'])
+            application=validated_application, my_pages=VivaMyPages(user=personal_number))
 
         response = viva_application.submit()
 
