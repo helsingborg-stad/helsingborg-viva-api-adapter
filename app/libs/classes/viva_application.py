@@ -8,19 +8,20 @@ class VivaApplication(Viva):
     def __init__(self, my_pages, wsdl='VivaApplication', application=dict):
         super(VivaApplication, self).__init__()
 
-        self._type = application['application_type']
-        self._types = {
-            'basic': self._new_application,
-            'recurrent': self._new_re_application
-        }
-
         self._my_pages = my_pages
-        self._workflow_id = application['workflow_id']
-        self._answers = application['answers']
-        self._raw_data = application['raw_data']
-        self._raw_data_type = application['raw_data_type'].upper()
-
         self._service = self._get_service(wsdl)
+
+        if isinstance(application, dict):
+            self._type = application['application_type']
+            self._types = {
+                'basic': self._new_application,
+                'recurrent': self._new_re_application
+            }
+
+            self._workflow_id = application['workflow_id']
+            self._answers = application['answers']
+            self._raw_data = application['raw_data']
+            self._raw_data_type = application['raw_data_type'].upper()
 
     def submit(self):
         return self._types[self._type]()
