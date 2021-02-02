@@ -1,3 +1,4 @@
+import base64
 from . import Viva
 from ..datetime_helper import milliseconds_to_date_string
 
@@ -113,10 +114,12 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(statuses)
 
     def _get_application(self):
+        base64_encoded_pdf = base64.b64encode(bytes(self._raw_data))
+
         initial_application = {
             'OTHER': '',
-            'RAWDATA': '',
-            'RAWDATATYPE': 'PDF',
+            'RAWDATA': base64_encoded_pdf,
+            'RAWDATATYPE': self._raw_data_type,
             'HOUSEHOLDINFO': ''
         }
 
