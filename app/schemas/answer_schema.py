@@ -2,6 +2,7 @@ from marshmallow import validate, Schema, fields
 
 
 class FieldSchema(Schema):
+    id = fields.String(allow_none=True)
     tags = fields.List(fields.Str(required=True), required=True)
 
 
