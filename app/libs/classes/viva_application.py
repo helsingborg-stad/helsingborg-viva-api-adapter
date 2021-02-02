@@ -115,11 +115,9 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(statuses)
 
     def _get_application(self):
-        base64_encoded_pdf = base64.b64encode(bytes(self._raw_data))
-
         initial_application = {
             'OTHER': '',
-            'RAWDATA': base64_encoded_pdf,
+            'RAWDATA': self._raw_data,
             'RAWDATATYPE': self._raw_data_type,
             'HOUSEHOLDINFO': ''
         }
