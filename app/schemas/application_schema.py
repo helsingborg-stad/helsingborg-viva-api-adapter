@@ -1,12 +1,5 @@
-from marshmallow import validate, Schema, fields, ValidationError
+from marshmallow import validate, Schema, fields
 from .answer_schema import AnswerSchema
-
-
-# class BytesField(fields.Field):
-#     def _validate(self, value):
-#         bytes_from_list = bytes(value)
-#         if not isinstance(bytes_from_list, bytes):
-#             raise ValidationError('Invalid input type')
 
 
 class ApplicationSchema(Schema):
