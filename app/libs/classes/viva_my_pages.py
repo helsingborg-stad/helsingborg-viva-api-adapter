@@ -22,12 +22,15 @@ class VivaMyPages(Viva):
 
     def get_workflow(self, workflow_id=str):
         if not workflow_id:
-            raise Fault(message='workflow_id missing', code=400)
+            raise Fault(message='workflow_id is missing', code=400)
 
         if not self.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
-            raise Fault(message='no workflows found', code=404)
+            raise Fault(message='No workflows found', code=404)
 
         workflows = self.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+
+        if not type(workflows) is list:
+            workflows = [workflows]
 
         workflow = next(
             (item for item in workflows if item['workflowid'] == workflow_id), None)
@@ -36,21 +39,7 @@ class VivaMyPages(Viva):
             raise Fault(
                 message=f'workflow with id: {workflow_id} not found', code=404)
 
-        status = dict()
-
-        if 'calculations' in workflow:
-            status['calculations'] = list(workflow['calculations'].values())
-
-        if 'decision' in workflow:
-            status['decision'] = [workflow['decision']]
-
-        if 'payments' in workflow:
-            status['payments'] = list(workflow['payments'].values())
-
-        if 'journals' in workflow:
-            status['journals'] = list(workflow['journals'].values())
-
-        return status
+        return workflow
 
     def get_phone_number(self):
         if not self.person_cases['vivadata']['vivacases']:
