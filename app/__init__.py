@@ -38,6 +38,11 @@ def create_app():
         )
 
         api.add_resource(
+            routes.Attachments,
+            '/attachments'
+        )
+
+        api.add_resource(
             routes.TestCookie,
             '/testcookie/',
         )
