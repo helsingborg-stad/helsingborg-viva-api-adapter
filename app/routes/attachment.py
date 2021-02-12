@@ -9,29 +9,20 @@ from ..libs import VivaAttachments
 from ..libs import hash_to_personal_number
 from ..libs import authenticate
 
-from ..schemas import AttachmentsSchema
 
-
-class Attachments(Resource):
+class Attachment(Resource):
     method_decorators = [authenticate]
 
-    def post(self):
+    def get(self, hash_id=str, attachment_id=str):
         try:
-            json_payload = request.json
-
-            attachments_schema = AttachmentsSchema()
-            validated_attachment = attachments_schema.load(json_payload)
-
-            personal_number = hash_to_personal_number(
-                hash_id=validated_attachment['hashid'])
+            personal_number = hash_to_personal_number(hash_id=hash_id)
 
             viva_attachments = VivaAttachments(
                 my_pages=VivaMyPages(user=personal_number))
 
-            save_result = viva_attachments.save(
-                attachment=validated_attachment)
+            attachement = viva_attachments.get(attachment_id=attachment_id)
 
-            return save_result
+            return attachement
 
         except Exception as error:
             return {
