@@ -17,7 +17,7 @@ class VivaAttachments(Viva):
         viva_save_soap_response = self._service.SAVEDATA(
             SUSER=self._my_pages.get_personal_number(),
             SIP='0.0.0.0',
-            STEMP='1',
+            STEMP='5',
             SKEY=attachment['attachment_id'],
             SPARENTID='',
             SFILENAME=attachment['file_name'],
