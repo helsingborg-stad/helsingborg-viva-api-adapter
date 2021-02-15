@@ -8,7 +8,13 @@ class VivaApplication(Viva):
     def __init__(self, my_pages, wsdl='VivaApplication', application=dict):
         super(VivaApplication, self).__init__()
 
+        self._type = application_type
+        self._types = {
+            'basic': self._new_application,
+            'recurrent': self._new_re_application
+        }
         self._my_pages = my_pages
+        self._answers = answers
         self._service = self._get_service(wsdl)
 
         if isinstance(application, dict):
@@ -122,11 +128,11 @@ class VivaApplication(Viva):
             'HOUSEHOLDINFO': ''
         }
 
-        application = self._answers_to_application()
+        application = self._answers_to_zeep_dict()
 
         return {**initial_application, **application}
 
-    def _answers_to_application(self):
+    def _answers_to_zeep_dict(self):
         """
         Building Viva specific data structure from answers
 
@@ -186,13 +192,9 @@ class VivaApplication(Viva):
         ..
 
         """
-        if not self._answers:
-            return False
-
-        # rules for generating the viva application structure based on answer tags
-        categories = set(
-            ['expenses', 'incomes', 'assets', 'otherapplications', 'occupations', 'attachments'])
-        category_types = {
+    
+        group_names = set(['expenses', 'incomes', 'assets', 'otherapplications', 'occupations', 'attachments'])
+        group_item_types = {
             'boende': 'Hyra',
             'el': 'El',
             'reskostnad': 'Reskostnad',
@@ -204,61 +206,76 @@ class VivaApplication(Viva):
             'annat': 'Övrigt',
             'other_attachments': 'Övriga underlag',
         }
-        user_inputs = set(['amount', 'date', 'name'])
 
-        application = dict()
+        zeep_dict = {}
 
-        for answer in self._answers:
+        if not self._answers:
+            return zeep_dict
+
+        # valid_tag_values=['date', 'amount']
+
+        for group_name in group_names:  
+            # filter by tag value
+            group_answers = self._filter_answer_by_tag_name(self._answers, group_name)
+            if group_answers:
+                group_key = group_name.upper()
+                group_items = self._format_answers_to_group_items(group_answers, group_item_types)
+                group_item_key = group_key[:-1]
+                keyed_group_items = self._keyed_dicts_in_list(group_item_key, item_list)
+                zeep_dict[group_key] = group_items
+
+        return zeep_dict
+
+    def _format_answers_to_group_items(self, answer_list, types):
+        item_list = []
+        for answer in answer_list:
             tags = answer['field']['tags']
 
-            # EXPENSES | INCOMES
-            category_list_name = [
-                n for n in tags if n in categories].pop().upper()
+            item_type = self._find_group_item_type_from_tags(tags, types)
+            item_index = self._find_group_item_index(item_list, item_type)
+        
+            item = { 
+                'TYPE': item_type,
+                'FREQUENCY': '',
+                'DATE': '',
+                'PERIOD': '',
+                'APPLIESTO': 'applicant'
+            }
 
-            # EXPENSE | INCOME
-            category_name = category_list_name[:-1]
+            if item_index is not None:
+                item = item_list[item_index]
 
-            category_type = [t for t in tags if t in set(category_types)].pop()
-            category_type_description = category_types[category_type]
+            if 'coapplicant' in tags:
+                item['APPLIESTO'] = 'coapplicant'
+            
+            if 'date' in tags:
+                item['DATE'] = milliseconds_to_date_string(answer['value'])
+            
+            if 'amount' in tags:
+                item['AMOUNT'] = str(answer['value'])
 
-            user_input = [v for v in tags if v in user_inputs].pop()
-            if 'date' in user_input:
-                answer['value'] = milliseconds_to_date_string(
-                    int(answer['value']))
+            if item_index is None:
+                item_list.append(item)
+            else: 
+                item_list[item_index] = item
+    
+        return item_list
+    
+    def _keyed_dicts_in_list(key_name, dict_list):
+        keyed_dict_list = [{key_name: d} for d in dict_list]
+        return keyed_dict_list
+    
+    def _filter_answer_by_tag_name(answers, group_name):
+        filtered_answers = list(filter(lambda answer: group_name in answer['field']['tags'], answers))
+        return filtered_answers
 
-            # Partner
-            applies_to = [a for a in tags if a == 'coapplicant']
-            if applies_to:
-                applies_to = applies_to.pop()
-                category_type_description = category_type_description + ' partner'
-            else:
-                applies_to = 'applicant'
+    def _find_group_item_type_from_tags(values, types):
+        group_item_type = next((t for t in types if t in set(values)), None)
+        return group_item_type
 
-            if category_list_name not in application:
-                application[category_list_name] = []
-
-            items = [z for z in application[category_list_name]
-                     if category_type == z[category_name]['TYPE']
-                     and applies_to == z[category_name]['APPLIESTO']]
-
-            if items:
-                item = items.pop()
-                item[category_name][user_input.upper()] = str(answer['value'])
-            else:
-                category = {
-                    category_name: {
-                        'TYPE': str(category_type),
-                        'FREQUENCY': '',
-                        'APPLIESTO': str(applies_to),
-                        'DESCRIPTION': str(category_type_description),
-                        'PERIOD': '',
-                        user_input.upper(): str(answer['value']),
-                    }
-                }
-
-                application[category_list_name].append(category)
-
-        return application
+    def _find_group_item_index(group_dict, group_item_type):
+        index = next((index for (index, d) in enumerate(group_dict) if d["TYPE"] == group_item_type), None)
+        return index
 
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
