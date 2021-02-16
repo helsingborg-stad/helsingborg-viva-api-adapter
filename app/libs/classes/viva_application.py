@@ -212,10 +212,8 @@ class VivaApplication(Viva):
         if not self._answers:
             return zeep_dict
 
-        # valid_tag_values=['date', 'amount']
 
         for group_name in group_names:  
-            # filter by tag value
             group_answers = self._filter_answer_by_tag_name(self._answers, group_name)
             if group_answers:
                 group_key = group_name.upper()
@@ -254,11 +252,7 @@ class VivaApplication(Viva):
             if 'amount' in tags:
                 item['AMOUNT'] = str(answer['value'])
 
-            if item_index is None:
-                item_list.append(item)
-            else: 
-                item_list[item_index] = item
-    
+            item_list = _update_or_append_group_item(item_list, item)
         return item_list
     
     def _keyed_dicts_in_list(key_name, dict_list):
@@ -276,6 +270,16 @@ class VivaApplication(Viva):
     def _find_group_item_index(group_dict, group_item_type):
         index = next((index for (index, d) in enumerate(group_dict) if d["TYPE"] == group_item_type), None)
         return index
+    
+    def _update_or_append_group_item(group_list, group_item):
+        group_item_index = _find_group_item_index(group_list, group_item['TYPE'])
+        
+        if group_item_index is None: 
+            group_list.append(group_item)
+            return group_list
+
+        group_list[group_item_index] = group_item
+        return group_list
 
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
