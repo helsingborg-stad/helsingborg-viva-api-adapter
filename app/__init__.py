@@ -44,10 +44,7 @@ def create_app():
 
         api.add_resource(
             routes.Attachment,
-            '/attachments',
-            '/attachments/<string:hash_id>',
-            '/attachments/<string:hash_id>/attachment',
-            '/attachments/<string:hash_id>/attachment/<string:attachment_id>',
+            '<string:hash_id>/attachments/<string:attachment_id>',
         )
 
         api.add_resource(
