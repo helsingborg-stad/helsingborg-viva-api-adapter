@@ -1,4 +1,6 @@
 import base64
+from zeep.exceptions import Fault
+
 from . import Viva
 from ..datetime_helper import milliseconds_to_date_string
 
@@ -8,13 +10,7 @@ class VivaApplication(Viva):
     def __init__(self, my_pages, wsdl='VivaApplication', application=dict):
         super(VivaApplication, self).__init__()
 
-        self._type = application_type
-        self._types = {
-            'basic': self._new_application,
-            'recurrent': self._new_re_application
-        }
         self._my_pages = my_pages
-        self._answers = answers
         self._service = self._get_service(wsdl)
 
         if isinstance(application, dict):
@@ -192,47 +188,67 @@ class VivaApplication(Viva):
         ..
 
         """
-    
-        group_names = set(['expenses', 'incomes', 'assets', 'otherapplications', 'occupations', 'attachments'])
-        group_item_types = {
-            'boende': 'Hyra',
-            'el': 'El',
-            'reskostnad': 'Reskostnad',
-            'hemforsakring': 'Hemförsäkring',
-            'bredband': 'Bredband',
-            'lon': 'Lön',
-            'car': 'Bil',
-            'mobile': 'Mobiltelefon',
-            'annat': 'Övrigt',
-            'other_attachments': 'Övriga underlag',
-        }
-
         zeep_dict = {}
 
         if not self._answers:
             return zeep_dict
 
+        application_element_list = set(['expenses', 'incomes', 'assets',
+                                        'otherapplications', 'occupations', 'attachments'])
+        application_element_type_list = {
+            'boende': 'Hyra',
+            'el': 'El',
+            'reskostnad': 'Reskostnad',
+            'hemforsakring': 'Hemförsäkring',
+            'bredband': 'Bredband',
+            'akassa': 'A-kassa/Fackförening',
+            'lakarvard': 'Läkarvård',
+            'medicin': 'Medicinkostnader',
+            'barnomsorg': 'Barnomsorg',
+            'barnomsorgsskuld': 'Barnomsorg',
+            'bostadslan': 'Bostadslån',
+            'hyresskuld': 'Skuld hyra',
+            'fackskuld': 'Skuld a-kassa/fackavgift',
+            'elskuld': 'Skuld el',
+            'lon': 'Lön',
+            'swish': 'Swish',
+            'bil': 'Bil',
+            'mobile': 'Mobiltelefon',
+            'annat': 'Övrigt',
+            'other_attachments': 'Övriga underlag',
+        }
 
-        for group_name in group_names:  
-            group_answers = self._filter_answer_by_tag_name(self._answers, group_name)
-            if group_answers:
-                group_key = group_name.upper()
-                group_items = self._format_answers_to_group_items(group_answers, group_item_types)
-                group_item_key = group_key[:-1]
-                keyed_group_items = self._keyed_dicts_in_list(group_item_key, item_list)
-                zeep_dict[group_key] = group_items
+        for element in application_element_list:
+
+            answer_list = self._filter_answer_by_tag_name(tag_name=element)
+
+            if answer_list:
+                element_name = element.upper()
+                element_item_name = element_name[:-1]
+
+                element_item_list = self._format_answer_list_to_element_item_list(
+                    answer_list=answer_list, element_type_list=application_element_type_list)
+
+                keyed_element_item_list = self._keyed_dicts_in_list(
+                    key_name=element_item_name, dict_list=element_item_list)
+
+                zeep_dict[element_name] = keyed_element_item_list
 
         return zeep_dict
 
-    def _format_answers_to_group_items(self, answer_list, types):
-        item_list = []
+    def _format_answer_list_to_element_item_list(self, answer_list=list, element_type_list=list):
+        element_item_list = list()
+
         for answer in answer_list:
             tags = answer['field']['tags']
 
-            item_type = self._find_group_item_type_from_tags(tags, types)
-            item_index = self._find_group_item_index(item_list, item_type)
-        
-            item = { 
+            item_type = self._find_element_item_type_from_tags(
+                tags, element_type_list)
+
+            item_index = self._find_element_item_index(
+                element_item_list, item_type)
+
+            item = {
                 'TYPE': item_type,
                 'FREQUENCY': '',
                 'DATE': '',
@@ -245,41 +261,46 @@ class VivaApplication(Viva):
 
             if 'coapplicant' in tags:
                 item['APPLIESTO'] = 'coapplicant'
-            
+
             if 'date' in tags:
                 item['DATE'] = milliseconds_to_date_string(answer['value'])
-            
+
             if 'amount' in tags:
                 item['AMOUNT'] = str(answer['value'])
 
-            item_list = _update_or_append_group_item(item_list, item)
-        return item_list
-    
-    def _keyed_dicts_in_list(key_name, dict_list):
+            element_item_list = self._update_or_append_element_item(
+                element_item_list, item)
+
+        return element_item_list
+
+    def _keyed_dicts_in_list(self, key_name=str, dict_list=list):
         keyed_dict_list = [{key_name: d} for d in dict_list]
         return keyed_dict_list
-    
-    def _filter_answer_by_tag_name(answers, group_name):
-        filtered_answers = list(filter(lambda answer: group_name in answer['field']['tags'], answers))
+
+    def _filter_answer_by_tag_name(self, tag_name=str):
+        filtered_answers = list(
+            filter(lambda answer: tag_name in answer['field']['tags'], self._answers))
         return filtered_answers
 
-    def _find_group_item_type_from_tags(values, types):
-        group_item_type = next((t for t in types if t in set(values)), None)
-        return group_item_type
+    def _find_element_item_type_from_tags(self, values, types=list):
+        element_item_type = next((t for t in types if t in set(values)), None)
+        return element_item_type
 
-    def _find_group_item_index(group_dict, group_item_type):
-        index = next((index for (index, d) in enumerate(group_dict) if d["TYPE"] == group_item_type), None)
+    def _find_element_item_index(self, element_dict, element_item_type):
+        index = next((index for (index, d) in enumerate(
+            element_dict) if d["TYPE"] == element_item_type), None)
         return index
-    
-    def _update_or_append_group_item(group_list, group_item):
-        group_item_index = _find_group_item_index(group_list, group_item['TYPE'])
-        
-        if group_item_index is None: 
-            group_list.append(group_item)
-            return group_list
 
-        group_list[group_item_index] = group_item
-        return group_list
+    def _update_or_append_element_item(self, element_list, element_item):
+        element_item_index = self._find_element_item_index(
+            element_list, element_item['TYPE'])
+
+        if element_item_index is None:
+            element_list.append(element_item)
+            return element_list
+
+        element_list[element_item_index] = element_item
+        return element_list
 
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
