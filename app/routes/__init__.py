@@ -5,3 +5,4 @@ from .attachments import Attachments
 from .attachment import Attachment
 from .test_cookie import TestCookie
 from .index import Index
+from .completions import Completions
