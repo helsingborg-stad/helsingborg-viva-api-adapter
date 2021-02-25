@@ -22,8 +22,8 @@ class VivaApplication(Viva):
 
             self._workflow_id = application['workflow_id']
             self._answers = application['answers']
-            self._raw_data = application['raw_data']
-            self._raw_data_type = application['raw_data_type'].upper()
+            # self._raw_data = application['raw_data']
+            # self._raw_data_type = application['raw_data_type'].upper()
 
     def submit(self):
         return self._types[self._type]()
@@ -119,8 +119,8 @@ class VivaApplication(Viva):
     def _get_application(self):
         initial_application = {
             'OTHER': '',
-            'RAWDATA': self._raw_data,
-            'RAWDATATYPE': self._raw_data_type,
+            'RAWDATA': "",
+            'RAWDATATYPE': "PDF",
             'HOUSEHOLDINFO': ''
         }
 
@@ -254,10 +254,11 @@ class VivaApplication(Viva):
                 'DATE': '',
                 'PERIOD': '',
                 'APPLIESTO': 'applicant'
+                'DESCRIPTION': ''
             }
 
             if item_index is not None:
-                item = item_list[item_index]
+                item = element_item_list[item_index]
 
             if 'coapplicant' in tags:
                 item['APPLIESTO'] = 'coapplicant'
