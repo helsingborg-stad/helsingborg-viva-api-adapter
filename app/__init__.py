@@ -38,6 +38,11 @@ def create_app():
         )
 
         api.add_resource(
+            routes.Completions,
+            '/applications/<string:hash_id>/completions',
+        )
+
+        api.add_resource(
             routes.Attachments,
             '/attachments',
         )
