@@ -39,6 +39,11 @@ USERS = [
         **insert_pnr_and_endpoints(197503014552),
     },
     {
+        'name': 'Vera Toth',
+        'info': 'Completion testing',
+        **insert_pnr_and_endpoints(196001198685),
+    },
+    {
         'name': 'Petra Hansson',
         'info': 'Ongoing application, in relation to with Joel Holmgren',
         **insert_pnr_and_endpoints(199604014440),
