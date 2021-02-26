@@ -150,6 +150,47 @@ class VivaApplication(Viva):
 
         return {**initial_application, **application}
 
+    def _save_completion_attachments(self):
+        try:
+            for attachment in self._attachments:
+                self._viva_attachments.save(attachment=attachment)
+            return True
+        except Exception as error:
+            raise error
+
+    def _get_completion_attachments(self):
+        completion_category = {
+            'incomes': {
+                'type': 'Inkomster',
+                'name': 'Underlag på alla inkomster/tillgångar',
+            },
+            'expenses': {
+                'type': 'Utgifter',
+                'name': 'Underlag på alla sökta utgifter',
+            },
+            'completion': {
+                'type': 'Komplettering',
+                'name': 'Alla kontoutdrag för hela förra månaden och fram till idag',
+            },
+        }
+
+        zeep_attachments = {
+            'ATTACHMENTS': []
+        }
+
+        for attachment in self._attachments:
+            zeep_attachments['ATTACHMENTS'].append({
+                'ATTACHMENT': {
+                    'ID': attachment['id'],
+                    'NAME': completion_category[attachment['category']]['name'],
+                    'FILENAME': attachment['name'],
+                    'TYPE': completion_category[attachment['category']]['type'],
+                    'DESCRIPTION': '',
+                }
+            })
+
+        return zeep_attachments
+
     def _answers_to_zeep_dict(self):
         """
         Building Viva specific data structure from answers
