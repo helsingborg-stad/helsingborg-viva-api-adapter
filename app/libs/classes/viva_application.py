@@ -416,3 +416,22 @@ class VivaApplication(Viva):
         )
 
         return self._helpers.serialize_object(response)
+
+    def _new_completion(self):
+        save_completion_attachments_done = self._save_completion_attachments()
+
+        if save_completion_attachments_done:
+            personal_number = self._my_pages.get_personal_number()
+            case_ssi = self._my_pages.get_casessi()
+            completion = self._get_completion_attachments()
+
+            completion_response = self._service.NEWCOMPLETION(
+                KEY='',
+                USER=personal_number,
+                IP='0.0.0.0',
+                SSI=case_ssi,
+                WORKFLOWID=self._workflow_id,
+                COMPLETION=completion
+            )
+
+            return self._helpers.serialize_object(completion_response)
