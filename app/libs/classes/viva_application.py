@@ -2,28 +2,50 @@ import base64
 from zeep.exceptions import Fault
 
 from . import Viva
+from . import VivaMyPages
+from . import VivaAttachments
+
 from ..datetime_helper import milliseconds_to_date_string
 
 
 class VivaApplication(Viva):
 
-    def __init__(self, my_pages, wsdl='VivaApplication', application=dict):
+    def __init__(self,
+                 my_pages: VivaMyPages,
+                 viva_attachments: VivaAttachments,
+                 wsdl='VivaApplication',
+                 application=dict):
         super(VivaApplication, self).__init__()
 
         self._my_pages = my_pages
+        self._viva_attachments = viva_attachments
         self._service = self._get_service(wsdl)
 
-        if isinstance(application, dict):
-            self._type = application['application_type']
-            self._types = {
-                'basic': self._new_application,
-                'recurrent': self._new_re_application
-            }
+        self._types = {
+            'basic': self._new_application,
+            'recurrent': self._new_re_application,
+            'completion': self._new_completion,
+        }
 
-            self._workflow_id = application['workflow_id']
+        self._type = application['application_type']
+        self._workflow_id = application['workflow_id']
+
+        self._attachments = []
+        self._answers = []
+        self._raw_data = ''
+        self._raw_data_type = 'PDF'
+
+        if 'attachments' in application:
+            self._attachments = application['attachments']
+
+        if 'answers' in application:
             self._answers = application['answers']
-            # self._raw_data = application['raw_data']
-            # self._raw_data_type = application['raw_data_type'].upper()
+
+        if 'raw_data' in application:
+            self._raw_data = application['raw_data']
+
+        if 'raw_data_type' in application:
+            self._raw_data_type = application['raw_data_type'].upper()
 
     def submit(self):
         return self._types[self._type]()
