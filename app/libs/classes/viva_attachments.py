@@ -13,7 +13,7 @@ class VivaAttachments(Viva):
 
     def save(self, attachment=dict):
         if not isinstance(attachment, dict):
-            raise Fault(message='Invalid attachment dict')
+            raise Fault(message='attachment should be of instance dict')
 
         viva_save_soap_response = self._service.SAVEDATA(
             SUSER=self._user,
