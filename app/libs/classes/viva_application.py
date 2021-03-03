@@ -174,18 +174,21 @@ class VivaApplication(Viva):
             },
         }
 
-        zeep_attachments = {
-            'ATTACHMENTS': []
-        }
+        zeep_attachments = {'ATTACHMENTS': []}
 
         for attachment in self._attachments:
+            name = attachment['name']
+            category = attachment['category']
+            completion_name = completion_category[category]['name']
+            completion_type = completion_category[category]['type']
+
             zeep_attachments['ATTACHMENTS'].append({
                 'ATTACHMENT': {
                     'ID': attachment['id'],
-                    'NAME': completion_category[attachment['category']]['name'],
-                    'FILENAME': attachment['name'],
-                    'TYPE': completion_category[attachment['category']]['type'],
-                    'DESCRIPTION': '',
+                    'NAME': f'{name} - {completion_name}',
+                    'FILENAME': name,
+                    'TYPE': completion_type,
+                    'DESCRIPTION': name,
                 }
             })
 
