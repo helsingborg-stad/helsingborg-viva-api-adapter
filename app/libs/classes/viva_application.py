@@ -1,4 +1,3 @@
-import base64
 from zeep.exceptions import Fault
 
 from . import DataClassApplication
