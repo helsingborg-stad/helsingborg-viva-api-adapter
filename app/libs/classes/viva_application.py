@@ -317,8 +317,8 @@ class VivaApplication(Viva):
                 'FREQUENCY': '',
                 'DATE': '',
                 'PERIOD': '',
-                'APPLIESTO': 'applicant'
-                'DESCRIPTION': ''
+                'APPLIESTO': 'applicant',
+                'DESCRIPTION': '',
             }
 
             if item_index is not None:
