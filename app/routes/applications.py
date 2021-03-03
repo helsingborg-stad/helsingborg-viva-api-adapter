@@ -3,12 +3,15 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 from marshmallow import ValidationError
 
+from ..libs import DataClassApplication
 from ..libs import VivaMyPages
+from ..libs import VivaAttachments
 from ..libs import VivaApplication
 from ..libs import hash_to_personal_number
 from ..libs import authenticate
 
-from ..schemas import ApplicationSchema, ResponseSchema
+from ..schemas import ApplicationSchema
+from ..schemas import ResponseSchema
 
 
 class Applications(Resource):
@@ -19,9 +22,10 @@ class Applications(Resource):
             personal_number = hash_to_personal_number(hash_id=hash_id)
 
             viva_application = VivaApplication(
+                application=DataClassApplication(operation_type='status'),
                 my_pages=VivaMyPages(user=personal_number))
 
-            response = viva_application.get_application_status()
+            response = viva_application.submit()
 
             return response, 200
 
