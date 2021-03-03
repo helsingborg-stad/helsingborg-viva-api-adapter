@@ -42,10 +42,15 @@ class VivaMyPages(Viva):
         return workflow
 
     def get_phone_number(self):
-        if not self.person_cases['vivadata']['vivacases']:
-            return False
+        viva_case = self.person_cases['vivadata']['vivacases']['vivacase']
 
-        return self.person_cases['vivadata']['vivacases']['vivacase']['phonenumbers']['phonenumber']['number']
+        if not viva_case:
+            raise Fault(message='Viva case not found', code=404)
+
+        if not type(viva_case['phonenumbers']) is dict:
+            return ''
+
+        return viva_case['phonenumbers']['phonenumber']['number']
 
     def get_personal_number(self):
         if not self.person_info['vivadata']['vivaperson']['pnumber']:
