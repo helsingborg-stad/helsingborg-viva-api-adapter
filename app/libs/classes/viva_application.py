@@ -1,6 +1,7 @@
 import base64
 from zeep.exceptions import Fault
 
+from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
 from . import VivaAttachments
@@ -11,46 +12,46 @@ from ..datetime_helper import milliseconds_to_date_string
 class VivaApplication(Viva):
 
     def __init__(self,
+                 application: DataClassApplication,
                  my_pages: VivaMyPages,
-                 viva_attachments: VivaAttachments,
-                 wsdl='VivaApplication',
-                 application=dict):
+                 viva_attachments: VivaAttachments = None,
+                 wsdl='VivaApplication'):
         super(VivaApplication, self).__init__()
+
+        if not isinstance(application, DataClassApplication):
+            raise Fault(
+                message='application should be an instance of DataClassApplication', code=500)
+
+        if not isinstance(my_pages, VivaMyPages):
+            raise Fault(
+                message='my_pages should be an instance of VivaMyPages', code=500)
+
+        if viva_attachments and not isinstance(viva_attachments, VivaAttachments):
+            raise Fault(
+                message='viva_attachments should be an instance of VivaAttachments', code=500)
 
         self._my_pages = my_pages
         self._viva_attachments = viva_attachments
         self._service = self._get_service(wsdl)
 
-        self._types = {
+        self._viva_soap_operation_types = {
             'basic': self._new_application,
             'recurrent': self._new_re_application,
             'completion': self._new_completion,
+            'status': self._get_application_status,
         }
 
-        self._type = application['application_type']
-        self._workflow_id = application['workflow_id']
-
-        self._attachments = []
-        self._answers = []
-        self._raw_data = ''
-        self._raw_data_type = 'PDF'
-
-        if 'attachments' in application:
-            self._attachments = application['attachments']
-
-        if 'answers' in application:
-            self._answers = application['answers']
-
-        if 'raw_data' in application:
-            self._raw_data = application['raw_data']
-
-        if 'raw_data_type' in application:
-            self._raw_data_type = application['raw_data_type'].upper()
+        self._operation_type = application.operation_type
+        self._workflow_id = application.workflow_id
+        self._attachments = application.attachments
+        self._answers = application.answers
+        self._raw_data = application.raw_data
+        self._raw_data_type = application.raw_data_type
 
     def submit(self):
-        return self._types[self._type]()
+        return self._viva_soap_operation_types[self._operation_type]()
 
-    def get_application_status(self):
+    def _get_application_status(self):
         """
         ApplicationStatus förklaring:
 
