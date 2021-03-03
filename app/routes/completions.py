@@ -11,7 +11,6 @@ from ..libs import authenticate
 
 from ..schemas import CompletionSchema
 from ..schemas import ResponseSchema
-from ..schemas import AttachmentsSchema
 
 
 class Completions(Resource):
