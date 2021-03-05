@@ -42,4 +42,7 @@ class Completions(Resource):
             return validated_response
 
         except (ValidationError, Fault) as error:
-            return jsonify(error.messages)
+            return {
+                'message': f'{error}',
+                'code': 500
+            }, 500

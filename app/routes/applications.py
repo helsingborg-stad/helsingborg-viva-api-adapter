@@ -62,5 +62,6 @@ class Applications(Resource):
 
         except Exception as error:
             return {
-                'message': error.message,
-            }, 500
+                'message': f'{error}',
+                'code': 400
+            }, 400
