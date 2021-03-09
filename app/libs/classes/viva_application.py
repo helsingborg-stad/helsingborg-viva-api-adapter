@@ -174,7 +174,7 @@ class VivaApplication(Viva):
             },
         }
 
-        zeep_attachments = {'ATTACHMENTS': []}
+        zeep_attachments = {'ATTACHMENTS': {'ATTACHMENT': []}}
 
         for attachment in self._attachments:
             name = attachment['name']
@@ -182,14 +182,12 @@ class VivaApplication(Viva):
             completion_name = completion_category[category]['name']
             completion_type = completion_category[category]['type']
 
-            zeep_attachments['ATTACHMENTS'].append({
-                'ATTACHMENT': {
-                    'ID': attachment['id'],
-                    'NAME': f'{name} - {completion_name}',
-                    'FILENAME': name,
-                    'TYPE': completion_type,
-                    'DESCRIPTION': name,
-                }
+            zeep_attachments['ATTACHMENTS']['ATTACHMENT'].append({
+                'ID': attachment['id'],
+                'NAME': f'{name} - {completion_name}',
+                'FILENAME': name,
+                'TYPE': completion_type,
+                'DESCRIPTION': name,
             })
 
         return zeep_attachments
