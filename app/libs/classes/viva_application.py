@@ -141,8 +141,8 @@ class VivaApplication(Viva):
     def _get_application(self):
         initial_application = {
             'OTHER': '',
-            'RAWDATA': "",
-            'RAWDATATYPE': "PDF",
+            'RAWDATA': self._raw_data,
+            'RAWDATATYPE': self._raw_data_type,
             'HOUSEHOLDINFO': ''
         }
 
