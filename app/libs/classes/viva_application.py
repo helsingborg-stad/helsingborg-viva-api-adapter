@@ -254,8 +254,8 @@ class VivaApplication(Viva):
         if not self._answers:
             return zeep_dict
 
-        application_element_list = set(['expenses', 'incomes', 'assets',
-                                        'otherapplications', 'occupations', 'attachments'])
+        application_element_list = set(
+            ['expenses', 'incomes', 'otherapplications', 'occupations', 'attachments'])
         application_element_type_list = {
             'boende': 'Hyra',
             'el': 'El',
