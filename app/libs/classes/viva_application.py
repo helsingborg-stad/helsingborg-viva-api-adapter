@@ -194,9 +194,9 @@ class VivaApplication(Viva):
 
     def _answers_to_zeep_dict(self):
         """
-        Building Viva specific data structure from answers
+        Building Viva zeep data structure from case answers
 
-        From this:
+        From:
         "answers": [
         {
             "field": {
@@ -222,35 +222,32 @@ class VivaApplication(Viva):
         ..
         ..
 
-        To this:
-        "EXPENSES": [
-            {
-            "EXPENSE": {
-                "TYPE": "Mobiltelefon",
-                "DESCRIPTION": "avtal",
-                "APPLIESTO": "coapplicant",
-                "FREQUENCY": 12,
-                "PERIOD": "2020-05-01 - 2020-05-31",
-                "AMOUNT": 199,
-                "DATE": "2020-05-08"
-            }
-            },
-            {
-            "EXPENSE": {
-                "TYPE": "Mobiltelefon",
-                "DESCRIPTION": "avtal",
-                "APPLIESTO": "applicant",
-                "FREQUENCY": 12,
-                "PERIOD": "2020-05-01 - 2020-05-31",
-                "AMOUNT": 169,
-                "DATE": "2020-05-08"
-            }
-            }
-        ],
+        To:
+        "EXPENSES": {
+            "EXPENSE": [
+                {
+                    "TYPE": "bostad",
+                    "DESCRIPTION": "Hyra",
+                    "APPLIESTO": "coapplicant",
+                    "FREQUENCY": 12,
+                    "PERIOD": "2020-05-01 - 2020-05-31",
+                    "AMOUNT": 199,
+                    "DATE": "2020-05-08"
+                },
+                {
+                    "TYPE": "Mobiltelefon",
+                    "DESCRIPTION": "avtal",
+                    "APPLIESTO": "applicant",
+                    "FREQUENCY": 12,
+                    "PERIOD": "2020-05-01 - 2020-05-31",
+                    "AMOUNT": 169,
+                    "DATE": "2020-05-08"
+                }
+            ]
+        }
         ..
         ..
         ..
-
         """
         zeep_dict = {}
 
