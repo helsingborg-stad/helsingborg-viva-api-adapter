@@ -193,62 +193,6 @@ class VivaApplication(Viva):
         return zeep_attachments
 
     def _answers_to_zeep_dict(self):
-        """
-        Building Viva zeep data structure from case answers
-
-        From:
-        "answers": [
-        {
-            "field": {
-                "tags": [
-                    "expenses",
-                    "boende",
-                    "date"
-                ]
-            },
-            "value": 1601994748326
-        },
-        {
-            "field": {
-                "tags": [
-                    "expenses",
-                    "boende",
-                    "amount"
-                ]
-            },
-            "value": 8760
-        },
-        ..
-        ..
-        ..
-
-        To:
-        "EXPENSES": {
-            "EXPENSE": [
-                {
-                    "TYPE": "bostad",
-                    "DESCRIPTION": "Hyra",
-                    "APPLIESTO": "coapplicant",
-                    "FREQUENCY": 12,
-                    "PERIOD": "2020-05-01 - 2020-05-31",
-                    "AMOUNT": 199,
-                    "DATE": "2020-05-08"
-                },
-                {
-                    "TYPE": "Mobiltelefon",
-                    "DESCRIPTION": "avtal",
-                    "APPLIESTO": "applicant",
-                    "FREQUENCY": 12,
-                    "PERIOD": "2020-05-01 - 2020-05-31",
-                    "AMOUNT": 169,
-                    "DATE": "2020-05-08"
-                }
-            ]
-        }
-        ..
-        ..
-        ..
-        """
         zeep_dict = {}
 
         if not self._answers:
