@@ -256,7 +256,66 @@ class VivaApplication(Viva):
 
         application_element_list = set(
             ['expenses', 'incomes', 'otherapplications', 'occupations', 'attachments'])
-        application_element_type_list = {
+
+        for element in application_element_list:
+
+            filtered_answer_list = self._filter_answer_by_tag_name(
+                tag_name=element)
+
+            if filtered_answer_list:
+                element_name = element.upper()
+                element_item_name = element_name[:-1]
+
+                element_item_list = self._format_answer_list_to_element_item_list(
+                    answer_list=filtered_answer_list)
+
+                zeep_dict[element_name] = {
+                    element_item_name: element_item_list}
+
+        return zeep_dict
+
+    def _format_answer_list_to_element_item_list(self, answer_list=list):
+        element_item_dict = dict()
+
+        for answer in answer_list:
+            tag_list = answer['field']['tags']
+
+            element_type_tag = self._find_tag_by_element_type(
+                tag_list=tag_list)
+
+            # lon:0, get lon
+            item_type = element_type_tag.split(':')[0]
+
+            item = element_item_dict.get(element_type_tag, {
+                'TYPE': item_type,
+                'FREQUENCY': 12,
+                'DATE': '',
+                'PERIOD': '',
+                'APPLIESTO': 'applicant',
+                'DESCRIPTION': ''
+            })
+
+            if 'coapplicant' in tag_list:
+                item['APPLIESTO'] = 'coapplicant'
+
+            if 'date' in tag_list:
+                item['DATE'] = milliseconds_to_date_string(answer['value'])
+
+            if 'amount' in tag_list:
+                item['AMOUNT'] = str(answer['value'])
+
+            element_item_dict[element_type_tag] = item
+
+        element_item_list = self._convert_dict_to_list(dict=element_item_dict)
+        return element_item_list
+
+    def _filter_answer_by_tag_name(self, tag_name=str):
+        filtered_answer_list = list(
+            filter(lambda answer: tag_name in answer['field']['tags'], self._answers))
+        return filtered_answer_list
+
+    def _find_tag_by_element_type(self, tag_list):
+        element_type_list = {
             'boende': 'Hyra',
             'el': 'El',
             'reskostnad': 'Reskostnad',
@@ -279,90 +338,13 @@ class VivaApplication(Viva):
             'other_attachments': 'Övriga underlag',
         }
 
-        for element in application_element_list:
+        tag = next(
+            (tag for tag in tag_list if tag.split(':')[0] in element_type_list.keys()), None)
 
-            answer_list = self._filter_answer_by_tag_name(tag_name=element)
+        return tag
 
-            if answer_list:
-                element_name = element.upper()
-                element_item_name = element_name[:-1]
-
-                element_item_list = self._format_answer_list_to_element_item_list(
-                    answer_list=answer_list, element_type_list=application_element_type_list)
-
-                keyed_element_item_list = self._keyed_dicts_in_list(
-                    key_name=element_item_name, dict_list=element_item_list)
-
-                zeep_dict[element_name] = keyed_element_item_list
-
-        return zeep_dict
-
-    def _format_answer_list_to_element_item_list(self, answer_list=list, element_type_list=list):
-        element_item_list = list()
-
-        for answer in answer_list:
-            tags = answer['field']['tags']
-
-            item_type = self._find_element_item_type_from_tags(
-                tags, element_type_list)
-
-            item_index = self._find_element_item_index(
-                element_item_list, item_type)
-
-            item = {
-                'TYPE': item_type,
-                'FREQUENCY': '',
-                'DATE': '',
-                'PERIOD': '',
-                'APPLIESTO': 'applicant',
-                'DESCRIPTION': '',
-            }
-
-            if item_index is not None:
-                item = element_item_list[item_index]
-
-            if 'coapplicant' in tags:
-                item['APPLIESTO'] = 'coapplicant'
-
-            if 'date' in tags:
-                item['DATE'] = milliseconds_to_date_string(answer['value'])
-
-            if 'amount' in tags:
-                item['AMOUNT'] = str(answer['value'])
-
-            element_item_list = self._update_or_append_element_item(
-                element_item_list, item)
-
-        return element_item_list
-
-    def _keyed_dicts_in_list(self, key_name=str, dict_list=list):
-        keyed_dict_list = [{key_name: d} for d in dict_list]
-        return keyed_dict_list
-
-    def _filter_answer_by_tag_name(self, tag_name=str):
-        filtered_answers = list(
-            filter(lambda answer: tag_name in answer['field']['tags'], self._answers))
-        return filtered_answers
-
-    def _find_element_item_type_from_tags(self, values, types=list):
-        element_item_type = next((t for t in types if t in set(values)), None)
-        return element_item_type
-
-    def _find_element_item_index(self, element_dict, element_item_type):
-        index = next((index for (index, d) in enumerate(
-            element_dict) if d["TYPE"] == element_item_type), None)
-        return index
-
-    def _update_or_append_element_item(self, element_list, element_item):
-        element_item_index = self._find_element_item_index(
-            element_list, element_item['TYPE'])
-
-        if element_item_index is None:
-            element_list.append(element_item)
-            return element_list
-
-        element_list[element_item_index] = element_item
-        return element_list
+    def _convert_dict_to_list(self, dict):
+        return [value for key, value in dict.items()]
 
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
