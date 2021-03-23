@@ -364,5 +364,3 @@ class VivaApplication(Viva):
                 return self._helpers.serialize_object(completion_response)
         except Exception as error:
             raise error
-
-class Answers(object):
