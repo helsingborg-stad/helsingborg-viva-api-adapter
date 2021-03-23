@@ -227,8 +227,12 @@ class VivaApplication(Viva):
             element_type_tag = self._find_tag_by_element_type(
                 tag_list=tag_list)
 
+            if element_type_tag is None:
+                continue
+
             # lon:0, get lon
             item_type = element_type_tag.split(':')[0]
+            
 
             item = element_item_dict.get(element_type_tag, {
                 'TYPE': item_type,
@@ -360,3 +364,5 @@ class VivaApplication(Viva):
                 return self._helpers.serialize_object(completion_response)
         except Exception as error:
             raise error
+
+class Answers(object):
