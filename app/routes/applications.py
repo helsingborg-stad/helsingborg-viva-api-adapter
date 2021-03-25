@@ -17,24 +17,6 @@ from ..schemas import ResponseSchema
 class Applications(Resource):
     method_decorators = [authenticate]
 
-    def get(self, hash_id=None):
-        try:
-            personal_number = hash_to_personal_number(hash_id=hash_id)
-
-            viva_application = VivaApplication(
-                my_pages=VivaMyPages(user=personal_number),
-                application=DataClassApplication(operation_type='status'))
-
-            response = viva_application.submit()
-
-            return response, 200
-
-        except Fault as fault:
-            return {
-                'message': fault.message,
-                'code': fault.code
-            }, fault.code
-
     def post(self):
         try:
             json_payload = request.json

@@ -12,7 +12,7 @@ class VivaApplication(Viva):
 
     def __init__(self,
                  application: DataClassApplication,
-                 my_pages: VivaMyPages,
+                 my_pages: VivaMyPages = None,
                  viva_attachments: VivaAttachments = None,
                  wsdl='VivaApplication'):
         super(VivaApplication, self).__init__()
@@ -21,7 +21,7 @@ class VivaApplication(Viva):
             raise Fault(
                 message='application should be an instance of DataClassApplication', code=500)
 
-        if not isinstance(my_pages, VivaMyPages):
+        if my_pages and not isinstance(my_pages, VivaMyPages):
             raise Fault(
                 message='my_pages should be an instance of VivaMyPages', code=500)
 
@@ -37,7 +37,6 @@ class VivaApplication(Viva):
             'basic': self._new_application,
             'recurrent': self._new_re_application,
             'completion': self._new_completion,
-            'status': self._get_application_status,
         }
 
         self._operation_type = application.operation_type
@@ -49,94 +48,6 @@ class VivaApplication(Viva):
 
     def submit(self):
         return self._viva_soap_operation_types[self._operation_type]()
-
-    def _get_application_status(self):
-        """
-        ApplicationStatus förklaring:
-
-        -1 - fel (t.ex. person finns inte i personregistret)
-
-        eller summan av:
-        1 - ansökan tillåten
-        2 - autosave finns (man har påbörjat en ansökan)
-        4 - väntar signering (avser medsökande: sökande har signerat en ansökan som inkluderar medsökande)
-        8 - väntar att medsökande ska signera (avser sökande medan hen väntar på att medsökande ska signera)
-        16 - ansökan inskickad
-        32 - ansökan mottagen(/registrerad i Viva)
-        64 - komplettering begärd
-        128 - ärende finns (försörjningsstödsärende)
-        256 - ett ärende är aktiverat på web (egenskap på ärendet som gör att det visas på Mina sidor)
-        512 - ärendet tillåter e-ansökan  (egenskap på ärendet som gör att det går att skapa fortsatt ansökan)
-
-        2, 4 och 8 blir bara aktuella när man parkerar eller autosparar ansökan i Viva.
-
-        Det är bara när ApplicationStatus innehåller 1 (summan är udda) som ansökan kan lämnas in.
-
-        128 + 256 + 512 kommer i princip alltid att vara med eftersom ett ärende som tillåter e-ansökan är en förutsättning för fortsatt ansökan.
-
-        När ApplicationStatus bara är 1 finns inget ärende och man kan lämna in en grundansökan.
-        """
-
-        personal_number = self._my_pages.get_personal_number()
-
-        status_number = self._service.APPLICATIONSTATUS(
-            SUSER=personal_number,
-            SPNR=personal_number,
-            SCASETYPE='01',  # 01 = EKB
-            SSYSTEM=1
-        )
-
-        status_description = {
-            1: 'Ansökan tillåten',
-            2: 'Autosave',
-            4: 'Väntar signering',
-            8: 'Väntar att medsökande ska signera',
-            16: 'Ansökan inskickad',
-            32: 'Ansökan mottagen/registrerad',
-            64: 'Komplettering begärd',
-            128: 'Arende finns (försörjningsstödsärende)',
-            256: 'Ett ärende är aktiverat på webben',
-            512: 'Ärendet tillåter e-ansökan',
-        }
-
-        statuses = list()
-
-        if status_number > 128:
-            key = 128
-            statuses.append({
-                'code': key,
-                'description': status_description[key]
-            })
-            status_number -= key
-
-        if status_number > 256:
-            key = 256
-            statuses.append({
-                'code': key,
-                'description': status_description[key]
-            })
-            status_number -= key
-
-        if status_number > 512:
-            key = 512
-            statuses.append({
-                'code': key,
-                'description': status_description[key]
-            })
-            status_number -= key
-
-        if status_number in status_description:
-            statuses.append({
-                'code': status_number,
-                'description': status_description[status_number]
-            })
-        else:
-            statuses.append({
-                'code': status_number,
-                'description': 'N/A'
-            })
-
-        return self._helpers.serialize_object(statuses)
 
     def _get_application(self):
         initial_application = {
