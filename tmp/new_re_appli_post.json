@@ -50,6 +50,42 @@
         ]
       },
       "value": 1611280000000
+    },
+    {
+      "field": {
+        "id": "id5",
+        "tags": [
+          "incomes",
+          "annan",
+          "amount",
+          "group:0"
+        ]
+      },
+      "value": 6781
+    },
+    {
+      "field": {
+        "id": "id5",
+        "tags": [
+          "incomes",
+          "annan",
+          "amount",
+          "group:1"
+        ]
+      },
+      "value": 561
+    },
+    {
+      "field": {
+        "id": "id5",
+        "tags": [
+          "incomes",
+          "annan",
+          "amount",
+          "group:1"
+        ]
+      },
+      "value": 345
     }
   ],
   "rawDataType": "pdf",
