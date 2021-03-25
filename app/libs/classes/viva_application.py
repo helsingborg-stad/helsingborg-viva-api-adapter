@@ -266,7 +266,7 @@ class VivaApplication(Viva):
         return filtered_answer_list
 
     def _find_group_tag(self, tag_list):
-        group_tag = next((tag for tag in tag_list if tag.startswith('group')), None)
+        group_tag = next((tag for tag in tag_list if tag.startswith('group:')), None)
         return group_tag
 
     def _find_tag_by_element_type(self, tag_list):
