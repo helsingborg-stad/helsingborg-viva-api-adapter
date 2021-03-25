@@ -1,90 +1,57 @@
 {
-  "application_type": "renew",
-  "user_hash": "INSERT_HASHED_PERSON_NUMBER_HERE ie: <197105016161>",
-  "data": {
-    "REAPPLICATION": {
-      "RAWDATA": "TESTING CREATE RE-APPLICATION USING VADA API ADAPTER",
-      "RAWDATATYPE": "PDF",
-      "HOUSEHOLDINFO": "STUFF",
-      "EXPENSES": [
-        {
-          "EXPENSE": {
-            "TYPE": "Mobiltelefon",
-            "DESCRIPTION": "avtal",
-            "APPLIESTO": "coapplicant",
-            "FREQUENCY": 12,
-            "PERIOD": "2020-05-01 - 2020-05-31",
-            "AMOUNT": 199,
-            "DATE": "2020-05-08"
-          }
-        },
-        {
-          "EXPENSE": {
-            "TYPE": "Mobiltelefon",
-            "DESCRIPTION": "avtal",
-            "APPLIESTO": "applicant",
-            "FREQUENCY": 12,
-            "PERIOD": "2020-05-01 - 2020-05-31",
-            "AMOUNT": 169,
-            "DATE": "2020-05-08"
-          }
-        }
-      ],
-      "INCOMES": [
-        {
-          "INCOME": {
-            "TYPE": "Hyra",
-            "DESCRIPTION": "Uthyrning av garage",
-            "APPLIESTO": "applicant",
-            "FREQUENCY": 12,
-            "PERIOD": "2020-05-01 - 2020-05-31",
-            "AMOUNT": 250,
-            "DATE": "2020-05-08"
-          }
-        }
-      ],
-      "ASSETS": [
-        {
-          "ASSET": {
-            "TYPE": "MC",
-            "DESCRIPTION": "Motocross",
-            "APPLIESTO": "applicant",
-            "AMOUNT": 16000
-          }
-        },
-        {
-          "ASSET": {
-            "TYPE": "Bil",
-            "DESCRIPTION": "Opel Ascona med körförbud",
-            "APPLIESTO": "applicant",
-            "AMOUNT": 4000
-          }
-        }
-      ],
-      "OTHER": "Lite text från Övriga upplysningar. Till exempel om du sökt utbildning eller planering med Arbetsförmedlingen.",
-      "SIGNATURES": [
-        {
-          "SIGNATURE": {
-            "ID": "19710501T6161",
-            "VISIBLEDATA": "Härmed intygar jag att...",
-            "NONVISIBLEDATA": "data",
-            "SIGNATUREDATA": "data",
-            "OCSPRESPONSE": "data",
-            "TRANSACTIONID": 1232,
-            "IP": "127.0.0.1",
-            "TIMESTAMP": "2020-05-08T23:46:00+01:00"
-          }
-        }
-      ]
+  "applicationType": "recurrent",
+  "hashid": "yPVvdwDqmoN9JEd1op7401EGWQ8xjRL5",
+  "workflowId": "",
+  "answers": [
+    {
+      "field": {
+        "id": "id1",
+        "tags": [
+          "incomes",
+          "lon",
+          "amount",
+          "group:0"
+        ]
+      },
+      "value": 7000
     },
-    "NOTIFYINFOS": [
-      {
-        "NOTIFYINFO": {
-          "ID": "19710501T6161",
-          "ADDRESS": "070555555",
-          "ADDRESSTYPE": "sms"
-        }
-      }
-    ]
-  }
+    {
+      "field": {
+        "id": "id2",
+        "tags": [
+          "incomes",
+          "lon",
+          "date",
+          "group:0"
+        ]
+      },
+      "value": 1611270000000
+    },
+    {
+      "field": {
+        "id": "id3",
+        "tags": [
+          "incomes",
+          "lon",
+          "amount",
+          "group:1"
+        ]
+      },
+      "value": 2321
+    },
+    {
+      "field": {
+        "id": "id4",
+        "tags": [
+          "incomes",
+          "lon",
+          "date",
+          "group:1"
+        ]
+      },
+      "value": 1611280000000
+    }
+  ],
+  "rawDataType": "pdf",
+  "rawData": ""
 }
