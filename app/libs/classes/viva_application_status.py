@@ -10,7 +10,7 @@ class VivaApplicationStatus(Viva):
         self._service = self._get_service(wsdl)
 
         if not isinstance(personal_number, str) or len(personal_number) < 11:
-            raise Fault(message='User missing', code=400)
+            raise Fault(message='Incorrect personal number', code=400)
 
         self._personal_number = personal_number
 
@@ -61,11 +61,11 @@ class VivaApplicationStatus(Viva):
             512: 'Ärendet tillåter e-ansökan',
         }
 
-        statuses = list()
+        status_list = list()
 
         if status_number > 128:
             key = 128
-            statuses.append({
+            status_list.append({
                 'code': key,
                 'description': status_description[key]
             })
@@ -73,7 +73,7 @@ class VivaApplicationStatus(Viva):
 
         if status_number > 256:
             key = 256
-            statuses.append({
+            status_list.append({
                 'code': key,
                 'description': status_description[key]
             })
@@ -81,21 +81,21 @@ class VivaApplicationStatus(Viva):
 
         if status_number > 512:
             key = 512
-            statuses.append({
+            status_list.append({
                 'code': key,
                 'description': status_description[key]
             })
             status_number -= key
 
         if status_number in status_description:
-            statuses.append({
+            status_list.append({
                 'code': status_number,
                 'description': status_description[status_number]
             })
         else:
-            statuses.append({
+            status_list.append({
                 'code': status_number,
                 'description': 'N/A'
             })
 
-        return self._helpers.serialize_object(statuses)
+        return self._helpers.serialize_object(status_list)
