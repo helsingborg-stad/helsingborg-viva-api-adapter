@@ -234,7 +234,7 @@ class VivaApplication(Viva):
 
             group_tag = self._find_group_tag(tag_list)
             if group_tag:
-                dict_item_key = group_tag
+                dict_item_key = '{}#{}'.format(dict_item_key, group_tag)
             
 
             item = element_item_dict.get(dict_item_key, {
