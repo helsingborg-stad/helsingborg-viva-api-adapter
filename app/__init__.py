@@ -34,6 +34,10 @@ def create_app():
         api.add_resource(
             routes.Applications,
             '/applications',
+        )
+
+        api.add_resource(
+            routes.ApplicationsStatus,
             '/applications/<string:hash_id>/status',
         )
 
