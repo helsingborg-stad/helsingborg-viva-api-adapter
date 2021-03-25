@@ -230,11 +230,14 @@ class VivaApplication(Viva):
             if element_type_tag is None:
                 continue
 
-            # lon:0, get lon
-            item_type = element_type_tag.split(':')[0]
+            dict_item_key = element_type_tag
+
+            group_tag = self._find_group_tag(tag_list)
+            if group_tag:
+                dict_item_key = group_tag
             
 
-            item = element_item_dict.get(element_type_tag, {
+            item = element_item_dict.get(dict_item_key, {
                 'TYPE': item_type,
                 'FREQUENCY': 12,
                 'DATE': '',
@@ -252,7 +255,7 @@ class VivaApplication(Viva):
             if 'amount' in tag_list:
                 item['AMOUNT'] = str(answer['value'])
 
-            element_item_dict[element_type_tag] = item
+            element_item_dict[dict_item_key] = item
 
         element_item_list = self._convert_dict_to_list(dict=element_item_dict)
         return element_item_list
@@ -261,6 +264,10 @@ class VivaApplication(Viva):
         filtered_answer_list = list(
             filter(lambda answer: tag_name in answer['field']['tags'], self._answers))
         return filtered_answer_list
+
+    def _find_group_tag(self, tag_list):
+        group_tag = next((tag for tag in tag_list if tag.startswith('group')), None)
+        return group_tag
 
     def _find_tag_by_element_type(self, tag_list):
         element_type_list = {
