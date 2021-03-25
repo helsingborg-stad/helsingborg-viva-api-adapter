@@ -289,7 +289,8 @@ class VivaApplication(Viva):
             'swish': 'Swish',
             'bil': 'Bil',
             'mobile': 'Mobiltelefon',
-            'annat': 'Övrigt',
+            'annat': 'Övrig utgift',
+            'annan': 'Övrig inkomst',
             'other_attachments': 'Övriga underlag',
         }
 
