@@ -235,10 +235,9 @@ class VivaApplication(Viva):
             group_tag = self._find_group_tag(tag_list)
             if group_tag:
                 dict_item_key = f'{dict_item_key}#{group_tag}'
-            
 
             item = element_item_dict.get(dict_item_key, {
-                'TYPE': item_type,
+                'TYPE': element_type_tag,
                 'FREQUENCY': 12,
                 'DATE': '',
                 'PERIOD': '',
