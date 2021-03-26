@@ -40,7 +40,7 @@ class VivaMyPages(Viva):
         return workflow
 
     def get_workflow_list(self):
-        person_caseworkflow = self._get_person_caseworkflow(limit=0)
+        person_caseworkflow = self._get_person_caseworkflow(limit=6)
 
         if not person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
             raise Fault(message='No workflows found', code=404)
