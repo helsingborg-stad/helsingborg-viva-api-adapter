@@ -16,9 +16,9 @@ class VivaMyPages(Viva):
 
         self.person_cases = self._get_person_cases()
 
-    def get_workflow(self, workflow_id=str):
+    def get_workflow(self, workflow_id=None):
         if not workflow_id:
-            raise Fault(message='workflow_id is missing', code=400)
+            raise Fault(message='workflow_id is required', code=500)
 
         person_caseworkflow = self._get_person_caseworkflow(limit=3)
 
@@ -116,7 +116,7 @@ class VivaMyPages(Viva):
     def _get_person_caseworkflow(self, limit=None):
         if not type(limit) is int:
             raise Fault(
-                message='_get_person_caseworkflow: limit is required', code=500)
+                message='limit is required', code=500)
 
         response_caseworkflow = self._service.PERSONCASEWORKFLOW(
             USER=self._user,
