@@ -18,16 +18,16 @@ class VivaApplication(Viva):
         super(VivaApplication, self).__init__()
 
         if not isinstance(application, DataClassApplication):
-            raise Fault(
-                message='application should be an instance of DataClassApplication', code=500)
+            raise TypeError(
+                f'{application} is not an instance of class DataClassApplication')
 
         if my_pages and not isinstance(my_pages, VivaMyPages):
-            raise Fault(
-                message='my_pages should be an instance of VivaMyPages', code=500)
+            raise TypeError(
+                f'{my_pages} is not an instance of class VivaMyPages')
 
         if viva_attachments and not isinstance(viva_attachments, VivaAttachments):
-            raise Fault(
-                message='viva_attachments should be an instance of VivaAttachments', code=500)
+            raise TypeError(
+                f'{viva_attachments} is not an instance of class VivaAttachments')
 
         self._my_pages = my_pages
         self._viva_attachments = viva_attachments

@@ -40,10 +40,22 @@ class Applications(Resource):
             response_schema = ResponseSchema()
             validated_response = response_schema.load(response)
 
+            if validated_response['status'] == 'Error':
+                raise Fault(
+                    message='Something went wrong when submitting the application to Viva', code=500,
+                    subcodes=[validated_response])
+
             return validated_response
+
+        except Fault as fault:
+            return {
+                'message': fault.message,
+                'code': fault.code,
+                'subCodes': fault.subcodes,
+            }, fault.code
 
         except Exception as error:
             return {
                 'message': f'{error}',
-                'code': 400
-            }, 400
+                'code': 500
+            }, 500
