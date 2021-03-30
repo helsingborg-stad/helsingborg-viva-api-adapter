@@ -7,12 +7,11 @@ class VivaApplicationStatus(Viva):
     def __init__(self, wsdl='VivaApplication', personal_number=None):
         super(VivaApplicationStatus, self).__init__()
 
-        self._service = self._get_service(wsdl)
-
-        if not isinstance(personal_number, str) or len(personal_number) < 11:
-            raise Fault(message='Incorrect personal number', code=400)
+        if not isinstance(personal_number, str):
+            raise TypeError('personal_number should be type string')
 
         self._personal_number = personal_number
+        self._service = self._get_service(wsdl)
 
     def get(self):
         """

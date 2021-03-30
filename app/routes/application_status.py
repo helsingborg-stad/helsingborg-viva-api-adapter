@@ -7,8 +7,11 @@ from ..libs import hash_to_personal_number
 
 class ApplicationStatus(Resource):
 
-    def get(self, hash_id=None):
+    def get(self, hash_id):
         try:
+            if not hash_id:
+                raise TypeError('hash_id should be type string')
+
             personal_number = hash_to_personal_number(hash_id=hash_id)
 
             viva_application_status = VivaApplicationStatus(
@@ -19,15 +22,13 @@ class ApplicationStatus(Resource):
             return response, 200
 
         except Fault as fault:
-            error = dict({
+            return {
+                'message': fault.message,
+                'code': fault.code,
+            }, fault.code
+
+        except Exception as error:
+            return {
+                'message': f'{error}',
                 'code': 500,
-                'message': 'Internal Server Error',
-            })
-
-            if fault.code:
-                error['code'] = fault.code
-
-            if fault.message:
-                error['message'] = fault.message
-
-            return error, error.get('code')
+            }, 500
