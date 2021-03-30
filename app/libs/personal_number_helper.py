@@ -8,18 +8,18 @@ from flask import current_app
 hashids_instace = Hashids(salt=current_app.config['SALT'], min_length=32)
 
 
-def hash_to_personal_number(hash_id=str):
+def hash_to_personal_number(hash_id=None):
     if not hash_id:
-        raise Fault(message='invalide hash_id', code=400)
+        raise TypeError('hash_id should be type string')
 
-    try:
-        personal_number = str(hashids_instace.decode(hash_id)[0])
-        if current_app.config['ENV'] in ['development', 'test']:
-            personal_number = to_test_personal_number(personal_number)
+    if not len(hash_id) == 32:
+        raise Fault(message='Invalid hash_id', code=400)
 
-        return personal_number
-    except Exception as e:
-        raise Fault(e.args, code=500)
+    personal_number = str(hashids_instace.decode(hash_id)[0])
+    if current_app.config['ENV'] in ['development', 'test']:
+        personal_number = to_test_personal_number(personal_number)
+
+    return personal_number
 
 
 def to_test_personal_number(personal_number=str):
