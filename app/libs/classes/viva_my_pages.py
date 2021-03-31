@@ -20,7 +20,7 @@ class VivaMyPages(Viva):
         if not workflow_id:
             raise Fault(message='workflow_id is required', code=500)
 
-        person_caseworkflow = self._get_person_caseworkflow(limit=3)
+        person_caseworkflow = self._get_person_caseworkflow(limit=6)
 
         if not person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
             raise Fault(message='No workflows found', code=404)
