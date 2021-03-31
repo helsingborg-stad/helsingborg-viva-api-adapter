@@ -10,10 +10,12 @@ class MyPagesWorkflows(Resource):
         personal_number = hash_to_personal_number(hash_id=hash_id)
         self.my_pages = VivaMyPages(user=personal_number)
 
-        if not workflow_id:
+        self.workflow_id = workflow_id
+
+        if not self.workflow_id:
             return self._get_workflow_list()
 
-        return self._get_workflow_details(workflow_id=workflow_id)
+        return self._get_workflow_details()
 
     def _get_workflow_list(self):
         try:
@@ -34,12 +36,12 @@ class MyPagesWorkflows(Resource):
         except Fault as fault:
             return self._fault_response(fault=fault)
 
-    def _get_workflow_details(self, workflow_id=str):
+    def _get_workflow_details(self):
         try:
             response = {
                 'type': 'getWorkflowDetials',
                 'attributes': {
-                    **self.my_pages.get_workflow(workflow_id=workflow_id),
+                    **self.my_pages.get_workflow(workflow_id=self.workflow_id),
                 }
             }
 
