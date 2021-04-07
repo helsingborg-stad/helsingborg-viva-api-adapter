@@ -17,8 +17,8 @@ class VivaMyPages(Viva):
         self.person_cases = self._get_person_cases()
 
     def get_workflow(self, workflow_id=None):
-        if not workflow_id:
-            raise Fault(message='workflow_id is required', code=500)
+        assert isinstance(
+            workflow_id, str), f'workflow_id should be type str. Got {type(workflow_id)}'
 
         person_caseworkflow = self._get_person_caseworkflow(limit=6)
 
