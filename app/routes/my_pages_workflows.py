@@ -36,6 +36,13 @@ class MyPagesWorkflows(Resource):
         except Fault as fault:
             return self._fault_response(fault=fault)
 
+        except Exception as error:
+            my_error = {}
+            my_error['message'] = f'{error}'
+            my_error['code'] = 500
+
+            return my_error, my_error['code']
+
     def _get_workflow_details(self):
         try:
             response = {
@@ -49,6 +56,13 @@ class MyPagesWorkflows(Resource):
 
         except Fault as fault:
             return self._fault_response(fault=fault)
+
+        except Exception as error:
+            my_error = {}
+            my_error['message'] = f'{error}'
+            my_error['code'] = 500
+
+            return my_error, my_error['code']
 
     def _fault_response(self, fault):
         return {
