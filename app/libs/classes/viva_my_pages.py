@@ -114,8 +114,8 @@ class VivaMyPages(Viva):
         return person_cases
 
     def _get_person_caseworkflow(self, limit=None):
-        if not isinstance(limit, int):
-            raise TypeError('limit argument should be type int', 500)
+        assert isinstance(
+            limit, int), f'{limit} should be type int. Got {type(limit)}'
 
         response_caseworkflow = self._service.PERSONCASEWORKFLOW(
             USER=self._user,
