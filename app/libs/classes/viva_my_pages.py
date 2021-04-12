@@ -14,26 +14,24 @@ class VivaMyPages(Viva):
         self._user = user
         self._pnr = self._user
 
-        self.person_info = self._get_person_info()
         self.person_cases = self._get_person_cases()
-        self.person_booked_payments = self._get_person_booked_payments()
-        self.person_caseworkflow = self._get_person_caseworkflow()
-        self.person_application = self._get_person_application()
 
     def get_workflow(self, workflow_id=str):
         if not workflow_id:
             raise Fault(message='workflow_id is missing', code=400)
 
-        if not self.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
+        person_caseworkflow = self._get_person_caseworkflow(limit=3)
+
+        if not person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
             raise Fault(message='No workflows found', code=404)
 
-        workflows = self.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+        workflow_list = person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
 
-        if not type(workflows) is list:
-            workflows = [workflows]
+        if not isinstance(workflow_list, list):
+            workflow_list = [workflow_list]
 
         workflow = next(
-            (item for item in workflows if item['workflowid'] == workflow_id), None)
+            (item for item in workflow_list if item['workflowid'] == workflow_id), None)
 
         if not workflow:
             raise Fault(
@@ -41,28 +39,39 @@ class VivaMyPages(Viva):
 
         return workflow
 
+    def get_workflow_list(self):
+        person_caseworkflow = self._get_person_caseworkflow(limit=0)
+
+        if not person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
+            raise Fault(message='No workflows found', code=404)
+
+        workflow_list = person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+
+        return workflow_list
+
     def get_phone_number(self):
-        viva_case = self.person_cases['vivadata']['vivacases']['vivacase']
+        person_case = self.person_cases['vivadata']['vivacases']['vivacase']
 
-        if not viva_case:
-            raise Fault(message='Viva case not found', code=404)
+        if not person_case['phonenumbers']:
+            return []
 
-        if not type(viva_case['phonenumbers']) is dict:
-            return ''
-
-        return viva_case['phonenumbers']['phonenumber']['number']
+        return person_case['phonenumbers']
 
     def get_personal_number(self):
-        if not self.person_info['vivadata']['vivaperson']['pnumber']:
-            return False
+        person_case = self.person_cases['vivadata']['vivacases']['vivacase']
 
-        return self.person_info['vivadata']['vivaperson']['pnumber']
+        if not person_case['client']:
+            raise Fault(message='Not found', code=404)
+
+        return person_case['client']['pnumber']
 
     def get_period(self):
-        if not self.person_application['vivadata']['vivaapplication']:
+        person_applicaton = self._get_person_application()
+
+        if not person_applicaton['vivadata']['vivaapplication']:
             return False
 
-        period = self.person_application['vivadata']['vivaapplication']['period']
+        period = person_applicaton['vivadata']['vivaapplication']['period']
 
         return {
             key.upper(): value for key, value in period.items()
@@ -70,7 +79,7 @@ class VivaMyPages(Viva):
 
     def get_casessi(self):
         if not self.person_cases['vivadata']['vivacases']:
-            return False
+            raise Fault(message='Person cases not found', code=404)
 
         casessi = self.person_cases['vivadata']['vivacases']['vivacase']['casessi']
 
@@ -82,49 +91,44 @@ class VivaMyPages(Viva):
         response_info = self._service.PERSONINFO(
             USER=self._user,
             PNR=self._pnr,
-            RETURNAS='xml'
+            RETURNAS='xml',
         )
 
         return xmltodict.parse(response_info)
 
     def _get_person_cases(self):
-        response_cases = self._service.PERSONCASES(
+        service_response = self._service.PERSONCASES(
             USER=self._user,
             PNR=self._pnr,
             RETURNAS='xml',
             SYSTEM=1
         )
 
-        return xmltodict.parse(response_cases)
+        person_cases = xmltodict.parse(service_response)
 
-    def _get_person_caseworkflow(self):
-        if not self.get_casessi():
-            return False
+        person_cases_status = int(person_cases['vivadata']['status'])
+        if not person_cases_status == 1:
+            raise Fault(
+                message=f'PERSONCASES STATUS: {person_cases_status}', code=500)
+
+        return person_cases
+
+    def _get_person_caseworkflow(self, limit=None):
+        if not type(limit) is int:
+            raise Fault(
+                message='_get_person_caseworkflow: limit is required', code=500)
 
         response_caseworkflow = self._service.PERSONCASEWORKFLOW(
             USER=self._user,
             PNR=self._pnr,
             SSI=self.get_casessi(),
-            MAXWORKFLOWS=0,
+            MAXWORKFLOWS=int(limit),
             RETURNAS='xml'
         )
 
         return xmltodict.parse(response_caseworkflow)
 
-    def _get_person_booked_payments(self):
-        response_booked_payments = self._service.PERSONBOOKEDPAYMENTS(
-            PUSER=self._user,
-            PPNR=self._pnr,
-            PSYSTEM=1,
-            PRETURNAS='xml',
-        )
-
-        return xmltodict.parse(response_booked_payments)
-
     def _get_person_application(self):
-        if not self.get_casessi():
-            return False
-
         response_application = self._service.PERSONAPPLICATION(
             USER=self._user,
             PNR=self._pnr,

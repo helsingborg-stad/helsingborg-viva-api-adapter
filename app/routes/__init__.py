@@ -1,5 +1,6 @@
 from .my_pages import MyPages
 from .my_pages_workflows import MyPagesWorkflows
+from .application_status import ApplicationStatus
 from .applications import Applications
 from .application_status import ApplicationStatus
 from .attachments import Attachments

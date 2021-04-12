@@ -66,4 +66,9 @@ def create_app():
             '/',
         )
 
+        # New endpoints
+        api.add_resource(
+            routes.ApplicationStatus,
+            '/<string:hash_id>/status',
+        )
     return app
