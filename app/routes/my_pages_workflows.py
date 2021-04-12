@@ -8,27 +8,24 @@ from ..libs import hash_to_personal_number
 class MyPagesWorkflows(Resource):
     def get(self, hash_id, workflow_id=None):
         personal_number = hash_to_personal_number(hash_id=hash_id)
-        my_pages = VivaMyPages(user=personal_number)
+        self.my_pages = VivaMyPages(user=personal_number)
 
         if not workflow_id:
-            return self._get_workflows_list(my_pages=my_pages)
+            return self._get_workflow_list()
 
-        return self._get_workflows_details(my_pages=my_pages, workflow_id=workflow_id)
+        return self._get_workflow_details(workflow_id=workflow_id)
 
-    def _get_workflows_list(self, my_pages=VivaMyPages):
+    def _get_workflow_list(self):
         try:
-            if my_pages.person_caseworkflow:
-                workflows = my_pages.person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
-            else:
-                workflows = []
+            workflow_list = self.my_pages.get_workflow_list()
 
-            if not type(workflows) is list:
-                workflows = [workflows]
+            if not type(workflow_list) is list:
+                workflow_list = [workflow_list]
 
             response = {
                 'type': 'getWorkflows',
                 'attributes': {
-                    'workflows': workflows,
+                    'workflows': workflow_list,
                 }
             }
 
@@ -37,12 +34,12 @@ class MyPagesWorkflows(Resource):
         except Fault as fault:
             return self._fault_response(fault=fault)
 
-    def _get_workflows_details(self, my_pages=VivaMyPages, workflow_id=str):
+    def _get_workflow_details(self, workflow_id=str):
         try:
             response = {
                 'type': 'getWorkflowDetials',
                 'attributes': {
-                    **my_pages.get_workflow(workflow_id=workflow_id),
+                    **self.my_pages.get_workflow(workflow_id=workflow_id),
                 }
             }
 
