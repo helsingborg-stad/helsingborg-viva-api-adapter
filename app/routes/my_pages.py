@@ -28,6 +28,9 @@ class MyPages(Resource):
                 }
             }
 
+            if my_pages.person_application is not False:
+                response['person']['application'] = my_pages.person_application['vivadata']
+
             return response, 200
 
         except Fault as fault:
