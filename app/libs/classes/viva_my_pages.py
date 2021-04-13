@@ -20,12 +20,7 @@ class VivaMyPages(Viva):
         assert isinstance(
             workflow_id, str), f'workflow_id should be type str. Got {type(workflow_id)}'
 
-        person_caseworkflow = self._get_person_caseworkflow(limit=6)
-
-        if not person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
-            raise Fault(message='No workflows found', code=404)
-
-        workflow_list = person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+        workflow_list = self.get_workflow_list()
 
         if not isinstance(workflow_list, list):
             workflow_list = [workflow_list]
@@ -40,14 +35,11 @@ class VivaMyPages(Viva):
         return workflow
 
     def get_workflow_list(self):
-        person_caseworkflow = self._get_person_caseworkflow(limit=6)
-
-        if not person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']:
+        try:
+            person_caseworkflow = self._get_person_caseworkflow(limit=6)
+            return person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+        except KeyError:
             raise Fault(message='No workflows found', code=404)
-
-        workflow_list = person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
-
-        return workflow_list
 
     def get_phone_number(self):
         person_case = self.person_cases['vivadata']['vivacases']['vivacase']
