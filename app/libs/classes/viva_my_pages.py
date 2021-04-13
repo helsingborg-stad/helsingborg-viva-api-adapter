@@ -15,6 +15,7 @@ class VivaMyPages(Viva):
         self._pnr = self._user
 
         self.person_cases = self._get_person_cases()
+        self.person_application = self._get_person_application()
 
     def get_workflow(self, workflow_id=None):
         assert isinstance(
