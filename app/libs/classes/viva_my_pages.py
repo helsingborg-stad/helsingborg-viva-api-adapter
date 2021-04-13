@@ -42,14 +42,6 @@ class VivaMyPages(Viva):
         except KeyError:
             raise Fault(message='No workflows found', code=404)
 
-    def get_phone_number(self):
-        person_case = self.person_cases['vivadata']['vivacases']['vivacase']
-
-        if not person_case['phonenumbers']:
-            return []
-
-        return person_case['phonenumbers']
-
     def get_personal_number(self):
         person_case = self.person_cases['vivadata']['vivacases']['vivacase']
 

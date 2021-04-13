@@ -254,11 +254,7 @@ class VivaApplication(Viva):
 
             # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
-                'NOTIFYINFO': {
-                    'ID': personal_number,
-                    'ADDRESS': self._my_pages.get_phone_number(),
-                    'ADDRESSTYPE': 'sms'
-                }
+                'NOTIFYINFO': None
             }
         )
 
