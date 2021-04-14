@@ -1,7 +1,6 @@
 import re
 from flask import jsonify
 from hashids import Hashids
-from zeep.exceptions import Fault
 
 from flask import current_app
 
@@ -9,13 +8,12 @@ hashids_instace = Hashids(salt=current_app.config['SALT'], min_length=32)
 
 
 def hash_to_personal_number(hash_id=None):
-    if not hash_id:
-        raise TypeError('hash_id should be type string')
-
-    if not len(hash_id) == 32:
-        raise Fault(message='Invalid hash_id', code=400)
+    if not isinstance(hash_id, str):
+        raise TypeError(
+            f'expected hash_id to be of type string got {hash_id} instead')
 
     personal_number = str(hashids_instace.decode(hash_id)[0])
+
     if current_app.config['ENV'] in ['development', 'test']:
         personal_number = to_test_personal_number(personal_number)
 

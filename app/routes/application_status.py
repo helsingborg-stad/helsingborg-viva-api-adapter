@@ -3,32 +3,23 @@ from zeep.exceptions import Fault
 
 from ..libs import VivaApplicationStatus
 from ..libs import hash_to_personal_number
+from ..errors import ValidationError
 
 
 class ApplicationStatus(Resource):
 
     def get(self, hash_id):
-        try:
-            if not hash_id:
-                raise TypeError('hash_id should be type string')
+        if not len(hash_id) == 32:
+            raise ValidationError(
+                message=f'The hashid {hash_id} in the url is not a valid hashid')
 
-            personal_number = hash_to_personal_number(hash_id=hash_id)
+        personal_number = hash_to_personal_number(hash_id=hash_id)
+        print(personal_number)
 
-            viva_application_status = VivaApplicationStatus(
-                personal_number=personal_number)
+        viva_application_status = VivaApplicationStatus(
+            personal_number=personal_number)
+        print(viva_application_status)
 
-            response = viva_application_status.get()
+        response = viva_application_status.get()
 
-            return response, 200
-
-        except Fault as fault:
-            return {
-                'message': fault.message,
-                'code': fault.code,
-            }, fault.code
-
-        except Exception as error:
-            return {
-                'message': f'{error}',
-                'code': 500,
-            }, 500
+        return response, 200
