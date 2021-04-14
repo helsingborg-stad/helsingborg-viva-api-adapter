@@ -1,5 +1,30 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Api
+from werkzeug.http import HTTP_STATUS_CODES
+from werkzeug.exceptions import HTTPException
+
+
+class CustomApi(Api):
+
+    def handle_error(self, err):
+        print(err)  # log every exception raised in the application
+        if isinstance(err, HTTPException):
+            return jsonify({
+                'message': getattr(
+                    err, 'description', HTTP_STATUS_CODES.get(err.code, '')
+                )
+            }), err.code
+
+        # If msg attribute is not set,
+        # consider it as Python core exception and
+        # hide sensitive error info from end user
+        if not getattr(err, 'message', None):
+            return jsonify({
+                'message': 'Server has encountered some error'
+            }), 500
+
+        # Handle application specific custom exceptions
+        return jsonify(**err.kwargs), err.http_status_code
 
 
 def create_app():
@@ -16,7 +41,7 @@ def create_app():
 
         from . import routes
 
-        api = Api(app)
+        api = CustomApi(app)
 
         # Viva adapter api endpoints
         api.add_resource(
