@@ -1,7 +1,6 @@
 import re
 from flask import jsonify
 from hashids import Hashids
-from ..errors import HashIdError
 
 from flask import current_app
 
@@ -9,8 +8,8 @@ hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
 
 
 def decode_hash_id(hash_id: str = None):
-   try:
-       if not isinstance(hash_id, str):
+    try:
+        if not isinstance(hash_id, str):
             raise TypeError(
                 f'expected hash_id to be of type string got {hash_id} instead')
 
