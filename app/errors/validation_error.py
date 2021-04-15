@@ -1,7 +1,7 @@
 from . import BaseError
 
 
-class ValidationError(BaseError):
+class CustomValidationError(BaseError):
     """ Should be raised in case of custom validation """
 
     def __init__(self, message):
