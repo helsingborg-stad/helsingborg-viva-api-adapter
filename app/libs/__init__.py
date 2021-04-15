@@ -6,6 +6,6 @@ from .classes import VivaApplication
 from .classes import VivaApplicationStatus
 from .classes import VivaAttachments
 
-from .personal_number_helper import hashids_instace, hash_to_personal_number
+from .personal_number_helper import hashids_instace, hash_to_personal_number, decode_hash_id
 from .datetime_helper import milliseconds_to_date_string
 from .authenticate_helper import authenticate
