@@ -30,14 +30,12 @@ class ExtendedFlaskRestfulApi(Api):
             return self._error_response(error=error, status_code=status_code, details=details)
 
         # Handle application specific custom exceptions
-        return jsonify(**error.kwargs), error.http_status_code
+        return **error.kwargs, error.http_status_code
 
     def _error_response(self, error, status_code, details):
-        description = getattr(
-            error, 'description', HTTP_STATUS_CODES.get(status_code, '')
-        )
+        description = HTTP_STATUS_CODES.get(status_code, '')
 
-        _dict = {
+        response = {
             'error': {
                 'code': status_code,
                 'description': description,
@@ -45,4 +43,4 @@ class ExtendedFlaskRestfulApi(Api):
             }
         }
 
-        return _dict, status_code
+        return response, status_code
