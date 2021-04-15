@@ -10,13 +10,13 @@ from ..errors import ValidationError
 class ApplicationStatus(Resource):
 
     def get(self, hash_id):
-        hash_id_tuple = decode_hash_id(hash_id=hash_id)
+        decoded_hash_id = decode_hash_id(hash_id=hash_id)
 
-        if len(hash_id_tuple) == 0:
+        if len(decoded_hash_id) == 0:
             raise ValidationError(
                 message=f'The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).')
 
-        personal_number = hash_id_tuple[0]
+        personal_number = decoded_hash_id[0]
 
         if current_app.config['ENV'] in ['development', 'test']:
             personal_number = to_test_personal_number(personal_number)
