@@ -1,4 +1,4 @@
-from .base_error import BaseError
+from . import BaseError
 
 
 class ValidationError(BaseError):
