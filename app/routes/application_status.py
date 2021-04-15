@@ -14,7 +14,7 @@ class ApplicationStatus(Resource):
 
         if len(hash_id_tuple) == 0:
             raise ValidationError(
-                message=f'The hashid {hash_id} in the url is not a valid hashid')
+                message=f'The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).')
 
         personal_number = hash_id_tuple[0]
 
