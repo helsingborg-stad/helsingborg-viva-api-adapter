@@ -1,18 +1,32 @@
 import re
 from flask import jsonify
 from hashids import Hashids
+from ..errors import HashIdError
 
 from flask import current_app
 
-hashids_instace = Hashids(salt=current_app.config['SALT'], min_length=32)
+hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
+
+
+def decode_hash_id(hash_id: str = None):
+   try
+       if not isinstance(hash_id, str):
+            raise TypeError(
+                f'expected hash_id to be of type string got {hash_id} instead')
+
+        return hashids_instance.decode(hash_id)
+    except:
+        return ()
 
 
 def hash_to_personal_number(hash_id=None):
-    if not isinstance(hash_id, str):
-        raise TypeError(
-            f'expected hash_id to be of type string got {hash_id} instead')
 
-    personal_number = str(hashids_instace.decode(hash_id)[0])
+    decoded_hash_id_tuple = decode_hash_id(hash_id)
+
+    if len(decoded_hash_id_tuple) == 0:
+        return None
+
+    personal_number = str(int_tuple[0])
 
     if current_app.config['ENV'] in ['development', 'test']:
         personal_number = to_test_personal_number(personal_number)
