@@ -5,10 +5,9 @@ class BaseError(Exception):
         # the msg while raising the exception
         self.http_status_code = http_status_code
         self.kwargs = kwargs
-        msg = kwargs.get('msg', kwargs.get('message'))
-        if msg:
-            args = (msg,)
-            super().__init__(args)
+        message = kwargs.get('message')
+        if message:
+            super().__init__(message)
         self.args = list(args)
         for key in kwargs.keys():
             setattr(self, key, kwargs[key])
