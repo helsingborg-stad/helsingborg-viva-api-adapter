@@ -2,29 +2,35 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from werkzeug.http import HTTP_STATUS_CODES
 from werkzeug.exceptions import HTTPException
+from requests.exceptions import ConnectionError
 
 
-class CustomApi(Api):
+class ExtendedFlaskRestfulApi(Api):
 
-    def handle_error(self, err):
-        print(err)  # log every exception raised in the application
-        if isinstance(err, HTTPException):
-            return jsonify({
+    def handle_error(self, error):
+        print('Error: ', error)
+
+        if isinstance(error, HTTPException):
+            return {
                 'message': getattr(
-                    err, 'description', HTTP_STATUS_CODES.get(err.code, '')
+                    error, 'description', HTTP_STATUS_CODES.get(error.code, '')
                 )
-            }), err.code
+            }, error.code
 
-        # If msg attribute is not set,
-        # consider it as Python core exception and
-        # hide sensitive error info from end user
-        if not getattr(err, 'message', None):
-            return jsonify({
+        if isinstance(error, ConnectionError):
+            return {
+                'message': getattr(
+                    error, 'description', HTTP_STATUS_CODES.get(502, '')
+                )
+            }, 502
+
+        if not getattr(error, 'message', None):
+            return {
                 'message': 'Server has encountered some error'
-            }), 500
+            }, 500
 
         # Handle application specific custom exceptions
-        return jsonify(**err.kwargs), err.http_status_code
+        return jsonify(**error.kwargs), error.http_status_code
 
 
 def create_app():
@@ -41,7 +47,7 @@ def create_app():
 
         from . import routes
 
-        api = CustomApi(app)
+        api = ExtendedFlaskRestfulApi(app)
 
         # Viva adapter api endpoints
         api.add_resource(
