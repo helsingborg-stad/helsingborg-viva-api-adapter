@@ -4,7 +4,7 @@ from zeep.exceptions import Fault
 
 from ..libs import VivaApplicationStatus
 from ..libs import decode_hash_id
-from ..errors import ValidationError
+from ..errors import CustomValidationError
 
 
 class ApplicationStatus(Resource):
@@ -13,7 +13,7 @@ class ApplicationStatus(Resource):
         decoded_hash_id = decode_hash_id(hash_id=hash_id)
 
         if len(decoded_hash_id) == 0:
-            raise ValidationError(
+            raise CustomValidationError(
                 message=f'The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).')
 
         personal_number = decoded_hash_id[0]
