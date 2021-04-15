@@ -1,13 +1,13 @@
 from flask import current_app
-from ..libs import hashids_instace
+from ..libs import hashids_instance
 
 
 def insert_pnr_and_endpoints(personal_number):
     return {
         'pnr': personal_number,
-        'mypages_url': '/mypages/' + hashids_instace.encode(personal_number),
-        'mypages_workflows_url': '/mypages/' + hashids_instace.encode(personal_number) + '/workflows',
-        'applications_status_url': '/applications/' + hashids_instace.encode(personal_number) + '/status',
+        'mypages_url': '/mypages/' + hashids_instance.encode(personal_number),
+        'mypages_workflows_url': '/mypages/' + hashids_instance.encode(personal_number) + '/workflows',
+        'applications_status_url': '/applications/' + hashids_instance.encode(personal_number) + '/status',
     }
 
 
