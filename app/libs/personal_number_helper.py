@@ -8,14 +8,11 @@ hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
 
 
 def decode_hash_id(hash_id: str = None):
-    try:
-        if not isinstance(hash_id, str):
-            raise TypeError(
-                f'expected hash_id to be of type string got {hash_id} instead')
+    if not isinstance(hash_id, str):
+        raise TypeError(
+            f'expected hash_id to be of type string got {hash_id} instead')
 
-        return hashids_instance.decode(hash_id)
-    except:
-        return ()
+    return hashids_instance.decode(hash_id)
 
 
 def hash_to_personal_number(hash_id=None):
@@ -23,7 +20,8 @@ def hash_to_personal_number(hash_id=None):
     decoded_hash_id_tuple = decode_hash_id(hash_id)
 
     if len(decoded_hash_id_tuple) == 0:
-        return None
+        raise ValueError(
+            f'Expected decoded_hash_id_tuple to have atleast one value (a,) got {decoded_hash_id_tuple} instead')
 
     personal_number = str(int_tuple[0])
 
