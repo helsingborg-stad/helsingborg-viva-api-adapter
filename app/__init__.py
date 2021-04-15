@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from .api import ExtendedFlaskRestfulApi
+from .api import CustomFlaskRestfulApi
 
 
 def create_app():
@@ -16,7 +16,7 @@ def create_app():
 
         from . import routes
 
-        api = ExtendedFlaskRestfulApi(app)
+        api = CustomFlaskRestfulApi(app)
 
         # Viva adapter api endpoints
         api.add_resource(

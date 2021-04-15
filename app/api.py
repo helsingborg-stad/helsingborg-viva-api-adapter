@@ -5,7 +5,7 @@ from requests.exceptions import ConnectionError
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 
 
-class ExtendedFlaskRestfulApi(Api):
+class CustomFlaskRestfulApi(Api):
 
     def handle_error(self, error):
         print('Error: ', error)
