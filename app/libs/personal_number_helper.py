@@ -9,7 +9,7 @@ hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
 
 
 def decode_hash_id(hash_id: str = None):
-   try
+   try:
        if not isinstance(hash_id, str):
             raise TypeError(
                 f'expected hash_id to be of type string got {hash_id} instead')
