@@ -1,4 +1,5 @@
 from flask_restful import Resource
+from flask import current_app
 from zeep.exceptions import Fault
 
 from ..libs import VivaApplicationStatus
