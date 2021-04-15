@@ -17,13 +17,13 @@ def decode_hash_id(hash_id: str = None):
 
 def hash_to_personal_number(hash_id=None):
 
-    decoded_hash_id_tuple = decode_hash_id(hash_id)
+    decoded_hash_id = decode_hash_id(hash_id)
 
-    if len(decoded_hash_id_tuple) == 0:
+    if len(decoded_hash_id) == 0:
         raise ValueError(
             f'Expected decoded_hash_id_tuple to have atleast one value (a,) got {decoded_hash_id_tuple} instead')
 
-    personal_number = str(int_tuple[0])
+    personal_number = str(decoded_hash_id[0])
 
     if current_app.config['ENV'] in ['development', 'test']:
         personal_number = to_test_personal_number(personal_number)
