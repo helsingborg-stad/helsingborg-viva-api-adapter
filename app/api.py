@@ -30,7 +30,7 @@ class CustomFlaskRestfulApi(Api):
             return self._error_response(error=error, status_code=status_code, details=details)
 
         # Handle application specific custom exceptions
-        return **error.kwargs, error.http_status_code
+        return dict(**error.kwargs), error.http_status_code
 
     def _error_response(self, status_code, details):
         description = HTTP_STATUS_CODES.get(status_code, '')
