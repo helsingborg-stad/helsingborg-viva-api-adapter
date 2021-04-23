@@ -182,27 +182,39 @@ class VivaApplication(Viva):
 
     def _find_tag_by_element_type(self, tag_list):
         element_type_list = {
+            # Incomes
+            'lon': 'Lön',
+            'swish': 'Swish',
+            'aldreforsorjningsstod': 'Äldreförsörjningsstöd',
+            'annan': 'Övrig inkomst',
+
+            # Expenses
             'boende': 'Hyra',
-            'el': 'El',
-            'reskostnad': 'Reskostnad',
             'hemforsakring': 'Hemförsäkring',
             'bredband': 'Bredband',
+            'el': 'El',
+            'reskostnad': 'Reskostnad',
             'akassa': 'A-kassa/Fackförening',
-            'lakarvard': 'Läkarvård',
-            'medicin': 'Medicinkostnader',
             'barnomsorg': 'Barnomsorg',
-            'barnomsorgsskuld': 'Barnomsorg',
+            'barnomsorgsskuld': 'Barnomsorg skuld',
+            'medicin': 'Medicinkostnader',
+            'lakarvard': 'Läkarvård',
+            'akuttandvard': 'Akut tandvård',
+            'tandvard': 'tandvård',
+            'annantandvard': 'Annan tandvård',
             'bostadslan': 'Bostadslån',
             'hyresskuld': 'Skuld hyra',
             'fackskuld': 'Skuld a-kassa/fackavgift',
             'elskuld': 'Skuld el',
-            'lon': 'Lön',
-            'swish': 'Swish',
+            'annat': 'Övrig utgift',
+
+            # Assets
             'bil': 'Bil',
             'mobile': 'Mobiltelefon',
-            'annat': 'Övrig utgift',
-            'annan': 'Övrig inkomst',
+
+            # Other
             'other_attachments': 'Övriga underlag',
+            'description': 'Beskrivning',
         }
 
         tag = next(
