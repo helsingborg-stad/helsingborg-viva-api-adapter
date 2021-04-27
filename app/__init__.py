@@ -23,6 +23,7 @@ def create_app():
             routes.MyPages,
             '/mypages/<string:hash_id>',
         )
+
         api.add_resource(
             routes.MyPagesList,
             '/mypages',
