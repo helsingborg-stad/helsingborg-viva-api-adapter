@@ -21,7 +21,7 @@ def hash_to_personal_number(hash_id=None):
 
     if len(decoded_hash_id) == 0:
         raise ValueError(
-            f'Expected decoded_hash_id_tuple to have atleast one value (a,) got {decoded_hash_id_tuple} instead')
+            f'Expected decoded_hash_id to have atleast one value (a,) got {decoded_hash_id} instead')
 
     personal_number = str(decoded_hash_id[0])
 
