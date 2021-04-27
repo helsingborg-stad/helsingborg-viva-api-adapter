@@ -1,11 +1,10 @@
-from zeep.exceptions import Fault
-
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
 from . import VivaAttachments
 
 from ..datetime_helper import milliseconds_to_date_string
+from ..viva_error_helper import catch_viva_error
 
 
 class VivaApplication(Viva):
@@ -46,6 +45,7 @@ class VivaApplication(Viva):
         self._raw_data = application.raw_data
         self._raw_data_type = application.raw_data_type
 
+    @catch_viva_error
     def submit(self):
         return self._viva_soap_operation_types[self._operation_type]()
 

@@ -18,44 +18,22 @@ class Applications(Resource):
     method_decorators = [authenticate]
 
     def post(self):
-        try:
-            json_payload = request.json
+        json_payload = request.json
 
-            application_schema = ApplicationSchema()
-            validated_application = application_schema.load(json_payload)
+        application_schema = ApplicationSchema()
+        validated_application = application_schema.load(json_payload)
 
-            personal_number = hash_to_personal_number(
-                hash_id=validated_application['hashid'])
+        personal_number = hash_to_personal_number(
+            hash_id=validated_application['hashid'])
 
-            viva_application = VivaApplication(
-                my_pages=VivaMyPages(user=personal_number),
-                application=DataClassApplication(
-                    operation_type=validated_application['application_type'],
-                    workflow_id=validated_application['workflow_id'],
-                    answers=validated_application['answers'],
-                    raw_data=validated_application['raw_data']))
+        viva_application = VivaApplication(
+            my_pages=VivaMyPages(user=personal_number),
+            application=DataClassApplication(
+                operation_type=validated_application['application_type'],
+                workflow_id=validated_application['workflow_id'],
+                answers=validated_application['answers'],
+                raw_data=validated_application['raw_data']))
 
-            response = viva_application.submit()
+        response = viva_application.submit()
 
-            response_schema = ResponseSchema()
-            validated_response = response_schema.load(response)
-
-            if validated_response['status'] == 'Error':
-                raise Fault(
-                    message='Something went wrong when submitting the application to Viva', code=500,
-                    subcodes=[validated_response])
-
-            return validated_response
-
-        except Fault as fault:
-            return {
-                'message': fault.message,
-                'code': fault.code,
-                'subCodes': fault.subcodes,
-            }, fault.code
-
-        except Exception as error:
-            return {
-                'message': f'{error}',
-                'code': 500
-            }, 500
+        return response
