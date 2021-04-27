@@ -21,8 +21,11 @@ def create_app():
         # Viva adapter api endpoints
         api.add_resource(
             routes.MyPages,
-            '/mypages/',
             '/mypages/<string:hash_id>',
+        )
+        api.add_resource(
+            routes.MyPagesList,
+            '/mypages',
         )
 
         api.add_resource(
