@@ -7,4 +7,4 @@ from .applications import Applications
 from .application_status import ApplicationStatus
 from .my_pages_workflows import MyPagesWorkflows
 from .my_pages import MyPages
-from.my_pages_list import MyPagesList
+from .my_pages_list import MyPagesList
