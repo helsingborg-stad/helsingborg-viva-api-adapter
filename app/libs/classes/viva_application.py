@@ -200,7 +200,7 @@ class VivaApplication(Viva):
             'medicin': 'Medicinkostnader',
             'lakarvard': 'Läkarvård',
             'akuttandvard': 'Akut tandvård',
-            'tandvard': 'tandvård',
+            'tandvard': 'Tandvård',
             'annantandvard': 'Annan tandvård',
             'bostadslan': 'Bostadslån',
             'hyresskuld': 'Skuld hyra',
