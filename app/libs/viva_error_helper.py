@@ -15,7 +15,10 @@ def catch_viva_error(function):
         validated_viva_request_response = response_schema.load(
             viva_request_response)
 
-        if not validated_viva_request_response['status'] == 'ok':
+        viva_response_status = str(
+            validated_viva_request_response['status']).lower()
+
+        if not viva_response_status == 'ok':
             raise VivaRequestError(
                 message={**validated_viva_request_response})
 
