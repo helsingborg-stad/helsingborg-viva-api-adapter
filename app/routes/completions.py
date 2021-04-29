@@ -36,10 +36,7 @@ class Completions(Resource):
 
             submit_response = viva_application.submit()
 
-            response_schema = ResponseSchema()
-            validated_response = response_schema.load(submit_response)
-
-            return validated_response
+            return submit_response
 
         except (ValidationError, Fault) as error:
             return {
