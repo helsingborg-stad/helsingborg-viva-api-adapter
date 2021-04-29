@@ -11,9 +11,9 @@ class VivaAttachments(Viva):
         self._service = self._get_service(wsdl)
         self._user = user
 
-    def save(self, attachment=dict):
-        if not isinstance(attachment, dict):
-            raise Fault(message='attachment should be of instance dict')
+    def save(self, attachment):
+        assert isinstance(
+            attachment, dict), f'attachment should be type dict. Got {type(attachment)}'
 
         viva_save_soap_response = self._service.SAVEDATA(
             SUSER=self._user,
