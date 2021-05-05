@@ -3,6 +3,10 @@ from . import Viva
 from . import VivaMyPages
 from . import VivaAttachments
 
+
+from .application_answer import ApplicationAnswer, ApplicationAnswerCollection, ZeepApplication
+
+
 from ..datetime_helper import milliseconds_to_date_string
 from ..viva_error_helper import catch_viva_error
 
@@ -101,126 +105,18 @@ class VivaApplication(Viva):
         return zeep_attachments
 
     def _answers_to_zeep_dict(self):
-        zeep_dict = {}
-
         if not self._answers:
-            return zeep_dict
+            return {}
 
-        application_element_list = set(
-            ['expenses', 'incomes', 'otherapplications', 'occupations', 'attachments'])
+        application_answer_collection = ApplicationAnswerCollection()
+        for answer in self._answers:
+            application_answer = ApplicationAnswer(
+                value=answer['value'], tags=answer['field']['tags'])
+            application_answer_collection.append(application_answer)
 
-        for element in application_element_list:
-
-            filtered_answer_list = self._filter_answer_by_tag_name(
-                tag_name=element)
-
-            if filtered_answer_list:
-                element_name = element.upper()
-                element_item_name = element_name[:-1]
-
-                element_item_list = self._format_answer_list_to_element_item_list(
-                    answer_list=filtered_answer_list)
-
-                zeep_dict[element_name] = {
-                    element_item_name: element_item_list}
-
+        zeep_dict = ZeepApplication(
+            application_answer_collection=application_answer_collection)
         return zeep_dict
-
-    def _format_answer_list_to_element_item_list(self, answer_list=list):
-        element_item_dict = dict()
-
-        for answer in answer_list:
-            tag_list = answer['field']['tags']
-
-            element_type_tag = self._find_tag_by_element_type(
-                tag_list=tag_list)
-
-            if element_type_tag is None:
-                continue
-
-            dict_item_key = element_type_tag
-
-            group_tag = self._find_group_tag(tag_list)
-            if group_tag:
-                dict_item_key = f'{dict_item_key}#{group_tag}'
-
-            item = element_item_dict.get(dict_item_key, {
-                'TYPE': element_type_tag,
-                'FREQUENCY': 12,
-                'DATE': '',
-                'PERIOD': '',
-                'APPLIESTO': 'applicant',
-                'DESCRIPTION': ''
-            })
-
-            if 'coapplicant' in tag_list:
-                item['APPLIESTO'] = 'coapplicant'
-
-            if 'date' in tag_list:
-                item['DATE'] = milliseconds_to_date_string(answer['value'])
-
-            if 'amount' in tag_list:
-                item['AMOUNT'] = str(answer['value'])
-
-            element_item_dict[dict_item_key] = item
-
-        element_item_list = self._convert_dict_to_list(dict=element_item_dict)
-        return element_item_list
-
-    def _filter_answer_by_tag_name(self, tag_name=str):
-        filtered_answer_list = list(
-            filter(lambda answer: tag_name in answer['field']['tags'], self._answers))
-        return filtered_answer_list
-
-    def _find_group_tag(self, tag_list):
-        group_tag = next(
-            (tag for tag in tag_list if tag.startswith('group:')), None)
-        return group_tag
-
-    def _find_tag_by_element_type(self, tag_list):
-        element_type_list = {
-            # Incomes
-            'lon': 'Lön',
-            'swish': 'Swish',
-            'aldreforsorjningsstod': 'Äldreförsörjningsstöd',
-            'annan': 'Övrig inkomst',
-
-            # Expenses
-            'boende': 'Hyra',
-            'hemforsakring': 'Hemförsäkring',
-            'bredband': 'Bredband',
-            'el': 'El',
-            'reskostnad': 'Reskostnad',
-            'akassa': 'A-kassa/Fackförening',
-            'barnomsorg': 'Barnomsorg',
-            'barnomsorgsskuld': 'Barnomsorg skuld',
-            'medicin': 'Medicinkostnader',
-            'lakarvard': 'Läkarvård',
-            'akuttandvard': 'Akut tandvård',
-            'tandvard': 'Tandvård',
-            'annantandvard': 'Annan tandvård',
-            'bostadslan': 'Bostadslån',
-            'hyresskuld': 'Skuld hyra',
-            'fackskuld': 'Skuld a-kassa/fackavgift',
-            'elskuld': 'Skuld el',
-            'annat': 'Övrig utgift',
-
-            # Assets
-            'bil': 'Bil',
-            'mobile': 'Mobiltelefon',
-
-            # Other
-            'other_attachments': 'Övriga underlag',
-            'description': 'Beskrivning',
-        }
-
-        tag = next(
-            (tag for tag in tag_list if tag in element_type_list.keys()), None)
-
-        return tag
-
-    def _convert_dict_to_list(self, dict):
-        return [value for key, value in dict.items()]
 
     def _new_application(self):
         response = self._service.NEWAPPLICATION(
