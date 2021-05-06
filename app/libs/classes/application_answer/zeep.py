@@ -22,41 +22,17 @@ class ZeepApplication(dict):
         'ATTACHMENTS'
     )
 
-    POST_TYPES = (
-        'boende',
-        'el',
-        'reskostnad',
-        'hemforsakring',
-        'bredband',
-        'akassa',
-        'lakarvard',
-        'medicin',
-        'barnomsorg',
-        'barnomsorgsskuld',
-        'bostadslan',
-        'hyresskuld',
-        'fackskuld',
-        'elskuld',
-        'lon',
-        'bil',
-        'mobile',
-        'annat',
-        'annan',
-        'other_attachments'
-    )
-
     POST_TYPE_ATTRIBUTES = (
         'AMOUNT', 'DATE', 'DESCRIPTION', 'APPLIESTO', 'FREQUENCY'
     )
 
-    DEFAULT_POST_TYPE_DESCRIPTIONS = {
-        # Incomes
+    POST_TYPES = {
         'lon': 'Lön',
-        'swish': 'Swish',
         'aldreforsorjningsstod': 'Äldreförsörjningsstöd',
+        'underhallsbidrag': 'Underhållsstöd',
         'annan': 'Övrig inkomst',
 
-        # Expenses
+        'barnpension': 'Efterlevandepension',
         'boende': 'Hyra',
         'hemforsakring': 'Hemförsäkring',
         'bredband': 'Bredband',
@@ -74,15 +50,8 @@ class ZeepApplication(dict):
         'hyresskuld': 'Skuld hyra',
         'fackskuld': 'Skuld a-kassa/fackavgift',
         'elskuld': 'Skuld el',
+        'fastighetsdrift': 'Drift kostnad',
         'annat': 'Övrig utgift',
-
-        # Assets
-        'bil': 'Bil',
-        'mobile': 'Mobiltelefon',
-
-        # Other
-        'other_attachments': 'Övriga underlag',
-        'description': 'Beskrivning',
     }
 
     def __init__(self, application_answer_collection: ApplicationAnswerCollection = None):
@@ -101,7 +70,7 @@ class ZeepApplication(dict):
     def _get_posts(self, post_group_name: str = None):
         posts = []
 
-        for post_type in ZeepApplication.POST_TYPES:
+        for post_type in ZeepApplication.POST_TYPES.keys():
             post_type_answers = self._get_post_type_answers(
                 post_type, post_group_name)
 
@@ -130,7 +99,7 @@ class ZeepApplication(dict):
         post['TYPE'] = post_type
 
         if not 'DESCRIPTION' in post_type_attributes.keys():
-            post['DESCRIPTION'] = ZeepApplication.DEFAULT_POST_TYPE_DESCRIPTIONS[post_type]
+            post['DESCRIPTION'] = ZeepApplication.POST_TYPES[post_type]
 
         for attribute, value in post_type_attributes.items():
             if value == None:
