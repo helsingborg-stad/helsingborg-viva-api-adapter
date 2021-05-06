@@ -78,7 +78,7 @@ class ZeepApplication(dict):
                 continue
 
             post_type_collection = self._get_post_type_collection(
-                post_type=post_type, post_answers=post_answers)
+                post_type=post_type, post_answers=post_type_answers)
 
             for post_type_attributes in post_type_collection.values():
                 post = self._get_post(post_type, post_type_attributes)
@@ -105,23 +105,20 @@ class ZeepApplication(dict):
             if value == None:
                 post[attribute] = ''
 
-            else:
-                if attribute == 'DESCRIPTION':
-                    amount = post_type_attributes['AMOUNT']
-                    post[attribute] = self._get_post_description(
-                        description=value, amount=amount)
+            elif attribute == 'DESCRIPTION':
+                amount = post_type_attributes['AMOUNT']
+                post[attribute] = self._get_post_description(
+                    description=value, amount=amount)
 
-                if not 'DESCRIPTION' in post_type_attributes.keys():
+            elif attribute == 'DATE':
+                post[attribute] = milliseconds_to_date_string(
+                    milliseconds=value)
 
-                if attribute == 'DATE':
-                    post[attribute] = milliseconds_to_date_string(
-                        milliseconds=value)
+            elif attribute == 'AMOUNT':
+                post[attribute] = int(value)
 
-                if attribute == 'AMOUNT':
-                    post[attribute] = int(value)
-
-                if attribute == 'COAPPLICANT':
-                    post['APPLIESTO'] = name
+            elif attribute == 'COAPPLICANT':
+                post['APPLIESTO'] = name
 
         return post
 
