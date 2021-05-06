@@ -56,28 +56,24 @@ class ZeepApplication(dict):
 
     def _create(self):
         for post_group_name in ZeepApplication.POST_GROUPS:
-            print(post_group_name)
             posts = self._get_posts(post_group_name=post_group_name)
 
             if posts:
                 posts_key = strip_last_character(post_group_name)
                 self[post_group_name] = {posts_key: posts}
 
-        print(self)
-
     def _get_posts(self, post_group_name: str = None):
         posts = []
 
         for post_type in ZeepApplication.POST_TYPES:
-            post_answers = self.get_post_answers(post_type, post_group_name)
+            post_type_answers = self._get_post_type_answers(
+                post_type, post_group_name)
 
-            if not post_answers:
+            if not post_type_answers:
                 continue
 
-            post_type_collection = self.get_post_type_collection(
+            post_type_collection = self._get_post_type_collection(
                 post_type=post_type, post_answers=post_answers)
-
-            print('post_type_collection', post_type_collection)
 
             for post_type_attributes in post_type_collection.values():
                 post = self._get_post(post_type, post_type_attributes)
@@ -120,7 +116,7 @@ class ZeepApplication(dict):
 
         return post
 
-    def get_post_type_collection(self, post_type: str, post_answers):
+    def _get_post_type_collection(self, post_type: str, post_answers):
         post_type_collection = dict()
 
         for post_answer in post_answers:
@@ -145,7 +141,7 @@ class ZeepApplication(dict):
 
         return post_type_collection
 
-    def get_post_answers(self, post_name: str, post_group_name: str):
+    def _get_post_type_answers(self, post_name: str, post_group_name: str):
         post_tags = [post_name.lower(), post_group_name.lower()]
         return self.application_answer_collection.filter_by_tags(tags=post_tags)
 
