@@ -1,7 +1,5 @@
 from . import ApplicationAnswer
 
-from ...strings import strip_last_character
-
 
 class ApplicationAnswerCollection(list):
     def __init__(self, *args):
