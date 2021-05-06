@@ -1,6 +1,6 @@
 from . import ApplicationAnswerCollection
 
-from ...strings import strip_last_character
+from ...strings import trim_last_character
 from ...datetime_helper import milliseconds_to_date_string
 
 
@@ -59,7 +59,7 @@ class ZeepApplication(dict):
             posts = self._get_posts(post_group_name=post_group_name)
 
             if posts:
-                posts_key = strip_last_character(post_group_name)
+                posts_key = trim_last_character(post_group_name)
                 self[post_group_name] = {posts_key: posts}
 
     def _get_posts(self, post_group_name: str = None):
