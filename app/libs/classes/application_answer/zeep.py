@@ -77,7 +77,6 @@ class ZeepApplication(dict):
 
             for post_type_attributes in post_type_collection.values():
                 post = self._get_post(post_type, post_type_attributes)
-                post_key = strip_last_character(post_group_name)
                 posts.append(post)
 
         return posts
