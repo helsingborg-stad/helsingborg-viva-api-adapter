@@ -49,6 +49,42 @@ class ZeepApplication(dict):
         'AMOUNT', 'DATE', 'DESCRIPTION', 'APPLIESTO', 'FREQUENCY'
     )
 
+    DEFAULT_POST_TYPE_DESCRIPTIONS = {
+        # Incomes
+        'lon': 'Lön',
+        'swish': 'Swish',
+        'aldreforsorjningsstod': 'Äldreförsörjningsstöd',
+        'annan': 'Övrig inkomst',
+
+        # Expenses
+        'boende': 'Hyra',
+        'hemforsakring': 'Hemförsäkring',
+        'bredband': 'Bredband',
+        'el': 'El',
+        'reskostnad': 'Reskostnad',
+        'akassa': 'A-kassa/Fackförening',
+        'barnomsorg': 'Barnomsorg',
+        'barnomsorgsskuld': 'Barnomsorg skuld',
+        'medicin': 'Medicinkostnader',
+        'lakarvard': 'Läkarvård',
+        'akuttandvard': 'Akut tandvård',
+        'tandvard': 'Tandvård',
+        'annantandvard': 'Annan tandvård',
+        'bostadslan': 'Bostadslån',
+        'hyresskuld': 'Skuld hyra',
+        'fackskuld': 'Skuld a-kassa/fackavgift',
+        'elskuld': 'Skuld el',
+        'annat': 'Övrig utgift',
+
+        # Assets
+        'bil': 'Bil',
+        'mobile': 'Mobiltelefon',
+
+        # Other
+        'other_attachments': 'Övriga underlag',
+        'description': 'Beskrivning',
+    }
+
     def __init__(self, application_answer_collection: ApplicationAnswerCollection = None):
         super().__init__(self)
         self.application_answer_collection = application_answer_collection
@@ -93,6 +129,9 @@ class ZeepApplication(dict):
 
         post['TYPE'] = post_type
 
+        if not 'DESCRIPTION' in post_type_attributes.keys():
+            post['DESCRIPTION'] = ZeepApplication.DEFAULT_POST_TYPE_DESCRIPTIONS[post_type]
+
         for attribute, value in post_type_attributes.items():
             if value == None:
                 post[attribute] = ''
@@ -102,6 +141,8 @@ class ZeepApplication(dict):
                     amount = post_type_attributes['AMOUNT']
                     post[attribute] = self._get_post_description(
                         description=value, amount=amount)
+
+                if not 'DESCRIPTION' in post_type_attributes.keys():
 
                 if attribute == 'DATE':
                     post[attribute] = milliseconds_to_date_string(
