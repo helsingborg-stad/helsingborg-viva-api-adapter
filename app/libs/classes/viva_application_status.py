@@ -48,6 +48,7 @@ class VivaApplicationStatus(Viva):
         )
 
         status_description = {
+            -1: 'fel (t.ex. person finns inte i personregistret)',
             1: 'Ansökan tillåten',
             2: 'Autosave',
             4: 'Väntar signering',
