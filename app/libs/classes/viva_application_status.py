@@ -48,7 +48,7 @@ class VivaApplicationStatus(Viva):
         )
 
         status_description = {
-            -1: 'fel (t.ex. person finns inte i personregistret)',
+            -1: 'Fel (t.ex. person finns inte i personregistret)',
             1: 'Ansökan tillåten',
             2: 'Autosave',
             4: 'Väntar signering',
@@ -56,7 +56,7 @@ class VivaApplicationStatus(Viva):
             16: 'Ansökan inskickad',
             32: 'Ansökan mottagen/registrerad',
             64: 'Komplettering begärd',
-            128: 'Arende finns (försörjningsstödsärende)',
+            128: 'Ärende finns (försörjningsstödsärende)',
             256: 'Ett ärende är aktiverat på webben',
             512: 'Ärendet tillåter e-ansökan',
         }
