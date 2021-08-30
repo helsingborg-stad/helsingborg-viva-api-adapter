@@ -34,9 +34,8 @@ def to_test_personal_number(personal_number=str):
     regex = re.compile('([0-9]{8})([0-9]{4})')
     parts = regex.match(personal_number).groups()
 
-    if '195809262743' in personal_number:
-        # Ylva Jansson
-        # Special person in VIVA test
+    if personal_number in ('195809262743', '199803312397', '196709132887', '198602102397', '198602272380', '198603072383', '198603072391', '199803092387'):
+        # VIVA navet test format
         # yyyymmdd-nnnn
         return '-'.join(parts)
     else:
