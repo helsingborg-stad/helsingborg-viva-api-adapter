@@ -4,18 +4,23 @@ from flask_restful import abort, wraps
 
 
 def validate_token():
-    if 'X-API-Key' not in request.headers:
-        return False
-
-    token = request.headers['X-Api-Key']
-    public_key = open('jwtRS256.key.pub').read()
-
+    """
+    JSON Web Tokens with Public Key Signatures
+    https://blog.miguelgrinberg.com/post/json-web-tokens-with-public-key-signatures
+    """
     try:
+        if 'X-API-Key' not in request.headers:
+            return False
+
+        token = request.headers['X-Api-Key']
+        public_key = open('jwtRS256.key.pub').read()
+
         jwt.decode(token, public_key, algorithms=['RS256'])
+
+        return True
+
     except Exception:
         return False
-
-    return True
 
 
 def authenticate(f):
