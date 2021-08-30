@@ -1,5 +1,4 @@
 import re
-from flask import jsonify
 from hashids import Hashids
 
 from flask import current_app
