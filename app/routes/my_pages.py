@@ -1,3 +1,4 @@
+from flask import current_app
 from flask_restful import Resource
 from zeep.exceptions import Fault
 
@@ -9,11 +10,12 @@ from .. import data
 
 class MyPages(Resource):
     def get(self, hash_id=None):
-        if not hash_id:
-            # get test users
-            return {
-                'users': data.USERS
-            }, 200
+
+        if current_app.config['ENV'] in ['development', 'test']:
+            if not hash_id:
+                return {
+                    'users': data.USERS
+                }, 200
 
         return self._get_mypages_all_details(hash_id=hash_id)
 
