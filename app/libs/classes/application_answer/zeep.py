@@ -115,7 +115,7 @@ class ZeepApplication(dict):
                     milliseconds=value)
 
             elif attribute == 'AMOUNT':
-                post[attribute] = int(value)
+                post[attribute] = float(value)
 
             elif attribute == 'COAPPLICANT':
                 post['APPLIESTO'] = name
