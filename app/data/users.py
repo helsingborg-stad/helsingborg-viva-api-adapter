@@ -14,79 +14,64 @@ def insert_pnr_and_endpoints(personal_number):
 # mock data
 USERS = [
     {
-        'name': 'Anna Berg',
-        'info': 'Single - Child: Olivia Berg',
-        **insert_pnr_and_endpoints(199809083125),
-    },
-    {
-        'name': 'Bo Kvast',
-        'info': 'Single - Navet',
+        'name': 'Bo Kvast (Dan)',
+        'info': 'Single',
         **insert_pnr_and_endpoints(199803312397),
     },
     {
-        'name': 'Felix Persson',
+        'name': 'Petronella Malteskog (Dan)',
         'info': 'Single',
-        **insert_pnr_and_endpoints(196912191811),
+        **insert_pnr_and_endpoints(198602102389),
     },
     {
-        'name': 'Harald Unge',
-        'info': 'Single',
-        **insert_pnr_and_endpoints(197005018697),
+        'name': 'Bror Christiansson (Dan)',
+        'info': 'Single - Child: Sanna Backman',
+        **insert_pnr_and_endpoints(198602132394),
     },
     {
-        'name': 'Maria Johansson',
-        'info': 'Single',
-        **insert_pnr_and_endpoints(196709132887),
-    },
-    {
-        'name': 'Sandra Kranz',
-        'info': 'Single - Child: Malin Urbansson',
-        **insert_pnr_and_endpoints(198602272380),
-    },
-    {
-        'name': 'Ylva Jansson',
-        'info': 'Single - Navet',
-        **insert_pnr_and_endpoints(195809262743),
-    },
-    {
-        'name': 'Bruno Heed',
+        'name': 'Bruno Heed (Dan)',
         'info': 'Partner with Jenny Färm',
         **insert_pnr_and_endpoints(198602102397),
     },
     {
-        'name': 'Jenny Färm',
+        'name': 'Jenny Färm (Dan)',
         'info': 'Partner with Bruno Heed',
         **insert_pnr_and_endpoints(199803092387),
     },
     {
-        'name': 'Fredrik Test',
-        'info': 'Partner with Mikaela Test. Child: Chloé Test',
-        **insert_pnr_and_endpoints(197101174659),
+        'name': 'Kurt Håkansson (Maria)',
+        'info': 'Partner with Ulla Ek',
+        **insert_pnr_and_endpoints(198602192398),
     },
     {
-        'name': 'Mikaela Test',
-        'info': 'Coapplicant to Fredrik Test. Child: Chloé Test',
-        **insert_pnr_and_endpoints(197505018387),
+        'name': 'Ulla Ek (Maria)',
+        'info': 'Partner with Kurt Håkansson',
+        **insert_pnr_and_endpoints(198602179882),
+    },
+    {
+        'name': 'Maria Johansson (Maria)',
+        'info': 'Single',
+        **insert_pnr_and_endpoints(196709132887),
+    },
+    {
+        'name': 'Ylva Jansson (Maria)',
+        'info': 'Single',
+        **insert_pnr_and_endpoints(195809262743),
+    },
+    {
+        'name': 'Sandra Kranz (Kenth)',
+        'info': 'Single - Child: Malin Urbansson',
+        **insert_pnr_and_endpoints(198602272380),
     },
     {
         'name': 'Sara Jeppsson',
-        'info': 'Coapplicant with Jesper Jeppsson',
+        'info': 'Partner with Jesper Jeppsson',
         **insert_pnr_and_endpoints(198603072383),
     },
     {
         'name': 'Jesper Jeppsson',
         'info': 'Partner with Sara Jeppsson',
         **insert_pnr_and_endpoints(198603072391),
-    },
-    {
-        'name': 'Stina Månsson',
-        'info': 'Partner with Bertil Göransson',
-        **insert_pnr_and_endpoints(198310011906),
-    },
-    {
-        'name': 'Bertil Göransson',
-        'info': 'Coapplicant to Stina Månsson',
-        **insert_pnr_and_endpoints(197910315352),
     },
     {
         'name': 'Evil Dude',
