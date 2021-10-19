@@ -6,4 +6,5 @@ from .attachments import Attachments
 from .attachment import Attachment
 from .completions import Completions
 from .test_cookie import TestCookie
+from .to_hashid import ToHashId
 from .index import Index

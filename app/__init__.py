@@ -62,6 +62,11 @@ def create_app():
         )
 
         api.add_resource(
+            routes.ToHashId,
+            '/tohashid/<int:personal_number>',
+        )
+
+        api.add_resource(
             routes.Index,
             '/',
         )
