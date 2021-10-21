@@ -1,3 +1,4 @@
+from flask import current_app
 from flask_restful import Api
 from werkzeug.http import HTTP_STATUS_CODES
 from werkzeug.exceptions import HTTPException
@@ -11,6 +12,7 @@ class CustomFlaskRestfulApi(Api):
 
     def handle_error(self, error):
         print('Error: ', error)
+        current_app.logger.error(f'Adapter error: ${error}')
 
         if isinstance(error, HTTPException):
             details = error.message
