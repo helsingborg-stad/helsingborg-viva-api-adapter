@@ -140,9 +140,6 @@ class ZeepApplication(dict):
                 if post_answer.has_tag(post_type_attribute.lower()):
 
                     post_value = post_answer.value
-                    if post_type_attribute == 'coapplicant':
-                        post_value = post_type_attribute
-
                     post_type_collection[post_type_key][post_type_attribute] = post_value
 
         return post_type_collection
