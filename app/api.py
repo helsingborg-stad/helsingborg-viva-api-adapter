@@ -33,7 +33,7 @@ class CustomFlaskRestfulApi(Api):
             return self._error_response(status_code=status_code, details=details)
 
         if not getattr(error, 'message', None):
-            details = 'Server has encountered an unexpected error'
+            details = f'Server has encountered an unexpected error: {error}'
             status_code = 500
             return self._error_response(status_code=status_code, details=details)
 
