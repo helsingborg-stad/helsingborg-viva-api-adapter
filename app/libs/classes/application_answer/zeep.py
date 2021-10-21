@@ -81,6 +81,10 @@ class ZeepApplication(dict):
                 post_type=post_type, post_answers=post_type_answers)
 
             for post_type_attributes in post_type_collection.values():
+
+                if ('AMOUNT') not in post_type_attributes:
+                    continue
+
                 post = self._get_post(post_type, post_type_attributes)
                 posts.append(post)
 
