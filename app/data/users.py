@@ -39,6 +39,11 @@ USERS = [
         **insert_pnr_and_endpoints(199803092387),
     },
     {
+        'name': 'Eva Algutsdotter (Maria)',
+        'info': 'Single',
+        **insert_pnr_and_endpoints(198602212386),
+    },
+    {
         'name': 'Kurt Håkansson (Maria)',
         'info': 'Partner with Ulla Ek',
         **insert_pnr_and_endpoints(198602192398),
