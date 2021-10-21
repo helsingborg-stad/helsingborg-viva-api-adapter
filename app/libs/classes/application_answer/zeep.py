@@ -117,8 +117,8 @@ class ZeepApplication(dict):
             elif attribute == 'AMOUNT':
                 post[attribute] = float(value)
 
-            elif attribute == 'COAPPLICANT':
-                post['APPLIESTO'] = name
+            elif attribute == 'APPLIESTO':
+                post[attribute] = 'coapplicant'
 
         return post
 
