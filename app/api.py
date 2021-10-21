@@ -12,7 +12,7 @@ class CustomFlaskRestfulApi(Api):
 
     def handle_error(self, error):
         print('Error: ', error)
-        current_app.logger.error(f'Adapter error: ${error}')
+        current_app.logger.error(error)
 
         if isinstance(error, HTTPException):
             details = error.message
