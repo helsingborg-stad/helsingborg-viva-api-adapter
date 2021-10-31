@@ -3,12 +3,16 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 
 from ..libs import VivaMyPages
+
 from ..libs import hash_to_personal_number
+from ..libs import authenticate
 
 from .. import data
 
 
 class MyPages(Resource):
+    method_decorators = [authenticate]
+
     def get(self, hash_id=None):
 
         if current_app.config['ENV'] in ['development', 'test']:
