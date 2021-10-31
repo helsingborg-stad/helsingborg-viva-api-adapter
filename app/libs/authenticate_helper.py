@@ -1,5 +1,5 @@
 import jwt
-from flask import request
+from flask import request, current_app
 from flask_restful import abort, wraps
 
 
@@ -13,7 +13,11 @@ def validate_token():
             return False
 
         token = request.headers['X-Api-Key']
-        public_key = open('jwtRS256.key.pub').read()
+
+        if current_app.config['ENV'] in ('development', 'test'):
+            public_key = open('jwtRS256_dev.key.pub').read()
+        else:
+            public_key = open('jwtRS256.key.pub').read()
 
         jwt.decode(token, public_key, algorithms=['RS256'])
 
