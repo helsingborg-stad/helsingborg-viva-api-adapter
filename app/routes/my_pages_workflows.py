@@ -2,10 +2,14 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 
 from ..libs import VivaMyPages
+
 from ..libs import hash_to_personal_number
+from ..libs import authenticate
 
 
 class MyPagesWorkflows(Resource):
+    method_decorators = [authenticate]
+
     def get(self, hash_id, workflow_id=None):
         personal_number = hash_to_personal_number(hash_id=hash_id)
         self.my_pages = VivaMyPages(user=personal_number)

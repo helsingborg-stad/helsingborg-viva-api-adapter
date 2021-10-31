@@ -1,13 +1,12 @@
 from flask_restful import Resource
-from flask import current_app
-from zeep.exceptions import Fault
 
 from ..libs import VivaApplicationStatus
 from ..libs import hash_to_personal_number
-from ..errors import CustomValidationError
+from ..libs import authenticate
 
 
 class ApplicationStatus(Resource):
+    method_decorators = [authenticate]
 
     def get(self, hash_id):
         personal_number = hash_to_personal_number(hash_id=hash_id)
