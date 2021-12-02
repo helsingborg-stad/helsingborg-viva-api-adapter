@@ -61,7 +61,7 @@ class VivaApplication(Viva):
             'HOUSEHOLDINFO': ''
         }
 
-        application = self._answers_to_zeep_dict()
+        application = self._answers_to_zeep_application_dict()
 
         return {**initial_application, **application}
 
@@ -104,7 +104,7 @@ class VivaApplication(Viva):
 
         return zeep_attachments
 
-    def _answers_to_zeep_dict(self):
+    def _answers_to_zeep_application_dict(self):
         if not self._answers:
             return {}
 
