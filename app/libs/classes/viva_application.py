@@ -48,13 +48,26 @@ class VivaApplication(Viva):
         self._operation_type = application.operation_type
         self._workflow_id = application.workflow_id
         self._attachments = application.attachments
-        self._answers = application.answers
+        self._answer_collection = self._set_answer_collection(
+            answers=application.answers)
         self._raw_data = application.raw_data
         self._raw_data_type = application.raw_data_type
 
     @catch_viva_error
     def submit(self):
         return self._viva_soap_operation_types[self._operation_type]()
+
+    def _set_answer_collection(self, answers):
+        if not answers:
+            return {}
+
+        answer_collection = ApplicationAnswerCollection()
+        for answer in answers:
+            application_answer = ApplicationAnswer(
+                value=answer['value'], tags=answer['field']['tags'])
+            answer_collection.append(application_answer)
+
+        return answer_collection
 
     def _get_application(self):
         initial_application = {
@@ -64,7 +77,7 @@ class VivaApplication(Viva):
             'HOUSEHOLDINFO': ''
         }
 
-        application = self._answers_to_zeep_application_dict()
+        application = self._get_zeep_application_dict()
 
         return {**initial_application, **application}
 
@@ -107,18 +120,14 @@ class VivaApplication(Viva):
 
         return zeep_attachments
 
-    def _answers_to_zeep_application_dict(self):
-        if not self._answers:
-            return {}
+    def _get_zeep_notfication_list(self):
+        zeep_list = ZeepNotification(
+            application_answer_collection=self._answer_collection)
+        return zeep_list
 
-        application_answer_collection = ApplicationAnswerCollection()
-        for answer in self._answers:
-            application_answer = ApplicationAnswer(
-                value=answer['value'], tags=answer['field']['tags'])
-            application_answer_collection.append(application_answer)
-
+    def _get_zeep_application_dict(self):
         zeep_dict = ZeepApplication(
-            application_answer_collection=application_answer_collection)
+            application_answer_collection=self._answer_collection)
         return zeep_dict
 
     def _new_application(self):
