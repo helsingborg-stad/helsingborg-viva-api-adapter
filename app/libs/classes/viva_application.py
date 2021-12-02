@@ -4,7 +4,10 @@ from . import VivaMyPages
 from . import VivaAttachments
 
 
-from .application_answer import ApplicationAnswer, ApplicationAnswerCollection, ZeepApplication
+from .application_answer import ApplicationAnswer
+from .application_answer import ApplicationAnswerCollection
+from .application_answer import ZeepApplication
+from .application_answer import ZeepNotification
 
 
 from ..datetime_helper import milliseconds_to_date_string
