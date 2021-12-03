@@ -11,8 +11,7 @@ from .errors import VivaRequestError
 class CustomFlaskRestfulApi(Api):
 
     def handle_error(self, error):
-        print('Error: ', error)
-        current_app.logger.error(error)
+        current_app.logger.error(msg=error.message)
 
         if isinstance(error, HTTPException):
             details = error.message

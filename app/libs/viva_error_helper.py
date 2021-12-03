@@ -1,4 +1,5 @@
 import functools
+from flask import current_app
 
 from ..schemas import ResponseSchema
 from ..errors import VivaRequestError
@@ -19,6 +20,7 @@ def catch_viva_error(function):
             validated_viva_request_response['status']).lower()
 
         if not viva_response_status == 'ok':
+            current_app.logger.error({**validated_viva_request_response})
             raise VivaRequestError(
                 message={**validated_viva_request_response})
 
