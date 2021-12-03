@@ -1,5 +1,5 @@
 from . import ApplicationAnswerCollection
-from ...classes.viva_my_pages import VivaMyPages
+from .. import VivaMyPages
 
 # Hämta svar som har tag = notifcation (notifcation,coapplicant)
 # Personnummer för samtliga sökande
