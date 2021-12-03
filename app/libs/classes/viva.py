@@ -1,11 +1,12 @@
 import zeep.helpers as zeep_helpers
 from flask import current_app
-from zeep import Client, Settings
+from zeep.client import Client
+from zeep.settings import Settings
 
 from .session import Session
 
 
-class Viva(object):
+class Viva():
 
     def __init__(self,
                  settings=Settings,
