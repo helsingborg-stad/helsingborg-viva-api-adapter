@@ -119,7 +119,7 @@ class VivaApplication(Viva):
 
     def _get_zeep_notfication_list(self):
         zeep_list = ZeepNotification(
-            application_answer_collection=self._answer_collection)
+            my_pages=self._my_pages, application_answer_collection=self._answer_collection)
         return zeep_list
 
     def _get_zeep_application_dict(self):
