@@ -14,11 +14,11 @@ class CustomFlaskRestfulApi(Api):
         current_app.logger.error(msg=error.message)
 
         if isinstance(error, HTTPException):
-            details = error.message
+            details = error.description
             return self._error_response(status_code=error.code, details=details)
 
         if isinstance(error, ConnectionError):
-            details = error.message
+            details = error.strerror
             status_code = 502
             return self._error_response(status_code=status_code, details=details)
 
