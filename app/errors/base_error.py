@@ -5,6 +5,6 @@ class BaseError(Exception):
         message = kwargs.get('message')
         if message:
             super().__init__(message)
-        self.args = list(args)
+        self.args = tuple(args)
         for key in kwargs.keys():
             setattr(self, key, kwargs[key])
