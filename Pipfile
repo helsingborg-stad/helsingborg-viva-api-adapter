@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 autopep8 = "*"
+pytest = "*"
 
 [packages]
 flask = "*"
@@ -17,7 +18,7 @@ hashids = "*"
 python-dotenv = "*"
 marshmallow = "*"
 pyjwt = "*"
-cryptography = "*"
+
 
 [requires]
 python_version = "3.7"

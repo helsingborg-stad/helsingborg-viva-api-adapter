@@ -6,58 +6,42 @@ from .. import VivaMyPages
 # Matcha mobilnummer med personnummer
 
 
-class ZeepNotification(dict):
+class ZeepNotification(list):
+    VIVA_ADRESS_TYPE_SMS = 'sms'
 
-    ADRESS_TYPE_SMS = 'sms'
-    EMPTY_NOTIFCATION = {
-        'id': '',
-        'adress': '',
-        'adresstype': ADRESS_TYPE_SMS,
-    }
-
-    def __init__(self, my_pages: VivaMyPages, application_answer_collection: ApplicationAnswerCollection = {}):
+    def __init__(self, applicants: list, application_answer_collection: ApplicationAnswerCollection = {}):
         super().__init__(self)
         self.application_answer_collection = application_answer_collection
-        self._my_pages = my_pages
-        self._create()
+        self.applicants = applicants
 
-    def _create(self):
-        # [{
-        #     field: {
-        #         tags: ['noti', 'coapplicant']
-        #     },
-        #     value: '0148184184'
-        # },
-        #     {
-        #     field: {
-        #         tags: ['noti', 'applicant']
-        #     },
-        #     value: '0148184184'
-        # }]
-        # get answers with tags ['notification', 'sms']
-        notification_answers = self._get_notification_answers()
+    def _get_first_matching_answer_by_tags(self, tags):
+        answers_by_tags = self.application_answer_collection.filter_by_tags(
+            tags)
+        return next(
+            (answer for answer in answers_by_tags if answer.value), None)
 
-        # get persons with role and personalnumber
-        notification_list = self._get_notification_list(
-            answers=notification_answers)
+    def _get_applicant(self, role):
+        return next(
+            (applicant for applicant in self.applicants if applicant["role"] == role), None)
 
-        return notification_list
+    def get_sms(self, applicant_tag):
+        notification_answer = self._get_first_matching_answer_by_tags(
+            tags=["nofification", "sms", applicant_tag])
+        if not notification_answer:
+            return None
 
-    def _get_notification_list(self, answers):
-        if (answers):
-            for answer in answers:
+        phonenumber_answer = self._get_first_matching_answer_by_tags(
+            tags=["phonenumber", applicant_tag])
 
-                for person in persons:
-                    if answer.has_tag(person.role):
-                        notification_list.append({
-                            id: person.personalNumber,
-                            addresstype: 'sms',
-                            address: answer.value
-                        })
+        if not phonenumber_answer:
+            return None
 
-    def _get_notification_answers(self):
-        tags = ['notification', 'sms']
-        return self.application_answer_collection.filter_by_tags(tags=tags)
+        applicant = self._get_applicant(role=applicant_tag)
+        if not applicant:
+            return None
 
-    def _get_persons(self):
-        persons = self._my_pages.person_cases['vivadata']['vivacases']['vivacase']
+        return {
+            "id": applicant['personalnumber'],
+            "adress": phonenumber_answer.value,
+            "adresstype": self.VIVA_ADRESS_TYPE_SMS
+        }
