@@ -1,3 +1,4 @@
+from app.libs.classes.mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
@@ -118,9 +119,17 @@ class VivaApplication(Viva):
         return zeep_attachments
 
     def _get_zeep_notfication_list(self):
-        zeep_list = ZeepNotification(
-            my_pages=self._my_pages, application_answer_collection=self._answer_collection)
-        return zeep_list
+        applicant = self._my_pages.person_cases['vivadata']['vivacases']['vivacase']['client']
+        coapplicant = self._my_pages.person_cases['vivadata']['vivacases']['vivacase']['persons']['person']
+        applicants_mapper = VivaPersonsToApplicantsMapper(
+            applicant, coapplicant)
+
+        notification = ZeepNotification(applicants=applicants_mapper.get_applicants(
+        ), application_answer_collection=self._answer_collection)
+
+        sms_notification_list = notification.get_sms_list()
+
+        return sms_notification_list
 
     def _get_zeep_application_dict(self):
         zeep_dict = ZeepApplication(
@@ -168,7 +177,7 @@ class VivaApplication(Viva):
 
             # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
-                'NOTIFYINFO': None
+                'NOTIFYINFO': self._get_zeep_notfication_list()
             }
         )
 
