@@ -3,7 +3,6 @@ from hashids import Hashids
 
 from flask import current_app
 
-#hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
 hashids_instance = None
 
 
