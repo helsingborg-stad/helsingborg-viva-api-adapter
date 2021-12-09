@@ -3,7 +3,15 @@ from hashids import Hashids
 
 from flask import current_app
 
-hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
+#hashids_instance = Hashids(salt=current_app.config['SALT'], min_length=32)
+hashids_instance = None
+
+
+def getHashIds():
+    if hashids_instance == None:
+        hashids_instance = Hashids(
+            salt=current_app.config['SALT'], min_length=32)
+    return hashids_instance
 
 
 def decode_hash_id(hash_id: str = None):
@@ -11,7 +19,7 @@ def decode_hash_id(hash_id: str = None):
         raise TypeError(
             f'expected hash_id to be of type string got {hash_id} instead')
 
-    return hashids_instance.decode(hash_id)
+    return getHashIds().decode(hash_id)
 
 
 def hash_to_personal_number(hash_id=None):
