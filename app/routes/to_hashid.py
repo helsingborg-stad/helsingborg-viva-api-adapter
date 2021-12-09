@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from ..libs import hashids_instance
+from ..libs import get_hash_ids
 from ..libs import authenticate
 
 
@@ -8,7 +8,7 @@ class ToHashId(Resource):
 
     def get(self, personal_number: int):
 
-        hashid = hashids_instance.encode(personal_number)
+        hashid = get_hash_ids().encode(personal_number)
 
         response = {
             'hashid': hashid
