@@ -8,7 +8,7 @@ hashids_instance = None
 
 def get_hash_ids():
     global hashids_instance
-    if hashids_instance == None:
+    if hashids_instance is None:
         hashids_instance = Hashids(
             salt=current_app.config['SALT'], min_length=32)
     return hashids_instance
