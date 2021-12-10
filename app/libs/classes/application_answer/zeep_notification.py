@@ -1,9 +1,4 @@
 from . import ApplicationAnswerCollection
-from .. import VivaMyPages
-
-# Hämta svar som har tag = notifcation (notifcation,coapplicant)
-# Personnummer för samtliga sökande
-# Matcha mobilnummer med personnummer
 
 
 class ZeepNotification(list):
@@ -22,7 +17,7 @@ class ZeepNotification(list):
 
     def _get_applicant(self, role):
         return next(
-            (applicant for applicant in self.applicants if applicant["role"] == role), None)
+            (applicant for applicant in self.applicants if applicant['role'] == role), None)
 
     def get_sms_list(self, applicant_tags=['applicant', 'coapplicant']):
         notification_list = [self.get_sms(tag) for tag in applicant_tags]
@@ -35,12 +30,12 @@ class ZeepNotification(list):
 
     def get_sms(self, applicant_tag):
         notification_answer = self._get_first_matching_answer_by_tags(
-            tags=["nofification", "sms", applicant_tag])
+            tags=['nofification', 'sms', applicant_tag])
         if not notification_answer:
             return None
 
         phonenumber_answer = self._get_first_matching_answer_by_tags(
-            tags=["phonenumber", applicant_tag])
+            tags=['phonenumber', applicant_tag])
 
         if not phonenumber_answer:
             return None
@@ -50,7 +45,7 @@ class ZeepNotification(list):
             return None
 
         return {
-            "id": applicant['personalnumber'],
-            "adress": phonenumber_answer.value,
-            "adresstype": self.VIVA_ADRESS_TYPE_SMS
+            'id': applicant['personalnumber'],
+            'adress': phonenumber_answer.value,
+            'adresstype': self.VIVA_ADRESS_TYPE_SMS
         }
