@@ -4,7 +4,7 @@ from . import ApplicationAnswerCollection
 class ZeepNotification(list):
     VIVA_ADRESS_TYPE_SMS = 'sms'
 
-    def __init__(self, applicants: list, application_answer_collection: ApplicationAnswerCollection = {}):
+    def __init__(self, applicants: list, application_answer_collection: ApplicationAnswerCollection):
         super().__init__(self)
         self.application_answer_collection = application_answer_collection
         self.applicants = applicants
