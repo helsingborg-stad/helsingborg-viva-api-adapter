@@ -1,4 +1,3 @@
-from app.libs.classes.mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
@@ -8,6 +7,8 @@ from .application_answer import ApplicationAnswer
 from .application_answer import ApplicationAnswerCollection
 from .application_answer import ZeepApplication
 from .application_answer import ZeepNotification
+
+from .mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
 
 from ..viva_error_helper import catch_viva_error
 
@@ -175,7 +176,6 @@ class VivaApplication(Viva):
 
             REAPPLICATION=self._get_application(),
 
-            # Noll eller metoder för att meddela klient/medsökande
             NOTIFYINFOS={
                 'NOTIFYINFO': self._get_zeep_notfication_list()
             }
