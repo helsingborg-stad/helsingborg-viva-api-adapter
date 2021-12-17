@@ -12,6 +12,8 @@ def create_app():
     else:
         app.config.from_object('config.ProdConfig')
 
+    app.config['CACHE_TYPE'] = 'SimpleCache'
+
     with app.app_context():
 
         from . import routes

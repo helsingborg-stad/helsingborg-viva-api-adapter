@@ -1,10 +1,15 @@
 import xmltodict
+from flask import current_app
+from flask_caching import Cache
 from zeep.exceptions import Fault
 
 from .viva import Viva
 
+cache = Cache(current_app)
+
 
 class VivaMyPages(Viva):
+    _user: str
 
     def __init__(self, wsdl='MyPages', user=str):
         super(VivaMyPages, self).__init__()
@@ -79,7 +84,7 @@ class VivaMyPages(Viva):
         return person_case['client']['pnumber']
 
     def get_period(self):
-        person_applicaton = self._get_person_application()
+        person_applicaton = self.person_application
 
         if not person_applicaton['vivadata']['vivaapplication']:
             return False
@@ -109,28 +114,26 @@ class VivaMyPages(Viva):
 
         return xmltodict.parse(response_info)
 
+    @cache.memoize(timeout=300)
     def _get_person_cases(self):
+        print('Request: PERSONCASES')
         service_response = self._service.PERSONCASES(
             USER=self._user,
             PNR=self._pnr,
+            SYSTEM=1,
             RETURNAS='xml',
-            SYSTEM=1
         )
 
         person_cases = xmltodict.parse(service_response)
-
-        person_cases_status = int(person_cases['vivadata']['status'])
-        if not person_cases_status == 1:
-            raise Fault(
-                message=f'PERSONCASES STATUS: {person_cases_status}', code=500)
-
         return person_cases
 
+    @cache.memoize(timeout=300)
     def _get_person_caseworkflow(self, limit=None):
+        print('Request: PERSONCASEWORKFLOW')
         assert isinstance(
             limit, int), f'{limit} should be type int. Got {type(limit)}'
 
-        response_caseworkflow = self._service.PERSONCASEWORKFLOW(
+        service_response = self._service.PERSONCASEWORKFLOW(
             USER=self._user,
             PNR=self._pnr,
             SSI=self.get_casessi(),
@@ -138,10 +141,13 @@ class VivaMyPages(Viva):
             RETURNAS='xml'
         )
 
-        return xmltodict.parse(response_caseworkflow)
+        person_case_workflow = xmltodict.parse(service_response)
+        return person_case_workflow
 
+    @cache.memoize(timeout=300)
     def _get_person_application(self):
-        response_application = self._service.PERSONAPPLICATION(
+        print('Request: PERSONAPPLICATION')
+        service_response = self._service.PERSONAPPLICATION(
             USER=self._user,
             PNR=self._pnr,
             SSI=self.get_casessi(),
@@ -149,4 +155,8 @@ class VivaMyPages(Viva):
             RETURNAS='xml',
         )
 
-        return xmltodict.parse(response_application)
+        person_application = xmltodict.parse(service_response)
+        return person_application
+
+    def __repr__(self) -> str:
+        return "%s(%s)" % (self.__class__.__name__, self._user)

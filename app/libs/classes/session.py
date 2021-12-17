@@ -1,7 +1,10 @@
 import requests
 from flask import current_app
+from flask_caching import Cache
 from zeep.transports import Transport
 from zeep.cache import SqliteCache
+
+cache = Cache(current_app)
 
 
 class Session(object):
@@ -15,10 +18,10 @@ class Session(object):
         self._sqlite_cache = SqliteCache('/tmp/viva_sqlite.db')
 
     def get_transport(self):
-        cookie = self._get_cookie()
+        self._cookie = self._get_cookie()
 
         cookie_jar = self._requests.cookies.RequestsCookieJar()
-        cookie_jar.set(self._config['COOKIE_AUTH_NAME'], cookie)
+        cookie_jar.set(self._config['COOKIE_AUTH_NAME'], self._cookie)
 
         session = self._requests.Session()
         session.cookies = cookie_jar
@@ -26,7 +29,9 @@ class Session(object):
 
         return transport
 
+    @cache.memoize(timeout=300)
     def _get_cookie(self):
+        print('Request: COOKIE')
         login_conf = self._config['VIVA']['login']
 
         response = self._requests.post(
@@ -38,6 +43,8 @@ class Session(object):
             allow_redirects=False,
         )
 
-        Session._cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
+        cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
+        return cookie
 
-        return Session._cookie
+    def __repr__(self) -> str:
+        return "%s(%s)" % (self.__class__.__name__, self._cookie)

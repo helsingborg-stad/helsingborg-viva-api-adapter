@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import request
 from flask_restful import Resource
 from zeep.exceptions import Fault
 from marshmallow import ValidationError

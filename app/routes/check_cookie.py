@@ -9,10 +9,9 @@ class TestCookie(Resource):
     method_decorators = [authenticate]
 
     def get(self):
-        sess = Session()
-        trans = sess.get_transport()
+        session = Session()
+        transport = session.get_transport()
 
         return {
-            'SessionCookie': str(Session._cookie),
-            'transportSessionCookie': str(trans.session.cookies),
+            'transportSessionCookie': str(transport.session.cookies),
         }, 200

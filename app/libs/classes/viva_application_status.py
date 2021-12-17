@@ -1,6 +1,9 @@
-from zeep.exceptions import Fault
+from flask import current_app
+from flask_caching import Cache
 
 from . import Viva
+
+cache = Cache(current_app)
 
 
 class VivaApplicationStatus(Viva):
@@ -13,7 +16,9 @@ class VivaApplicationStatus(Viva):
         self._personal_number = personal_number
         self._service = self._get_service(wsdl)
 
+    @cache.memoize(timeout=300)
     def get(self):
+        print('Request: APPLICATIONSTATUS')
         """
         ApplicationStatus förklaring:
 
@@ -46,6 +51,9 @@ class VivaApplicationStatus(Viva):
             SCASETYPE='01',  # 01 = EKB
             SSYSTEM=1
         )
+
+        # status_number = 897  # Open
+        # status_number = 899  # Open
 
         status_description = {
             -1: 'Fel (t.ex. person finns inte i personregistret)',
@@ -99,3 +107,6 @@ class VivaApplicationStatus(Viva):
             })
 
         return self._helpers.serialize_object(status_list)
+
+    def __repr__(self) -> str:
+        return "%s(%s)" % (self.__class__.__name__, self._personal_number)
