@@ -1,17 +1,13 @@
-from flask import jsonify, request
+from flask import request
 from flask_restful import Resource
-from zeep.exceptions import Fault
-from marshmallow import ValidationError
 
 from ..libs import DataClassApplication
 from ..libs import VivaMyPages
-from ..libs import VivaAttachments
 from ..libs import VivaApplication
 from ..libs import hash_to_personal_number
 from ..libs import authenticate
 
 from ..schemas import ApplicationSchema
-from ..schemas import ResponseSchema
 
 
 class Applications(Resource):
