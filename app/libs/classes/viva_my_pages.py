@@ -42,6 +42,13 @@ class VivaMyPages(Viva):
         except KeyError:
             raise Fault(message='No workflows found', code=404)
 
+    def get_workflow_latest(self):
+        try:
+            person_caseworkflow = self._get_person_caseworkflow(limit=1)
+            return person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+        except KeyError:
+            raise Fault(message='No workflow latset found', code=404)
+
     def get_personal_number(self):
         person_case = self.person_cases['vivadata']['vivacases']['vivacase']
 

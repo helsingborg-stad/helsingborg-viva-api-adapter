@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 from .api import CustomFlaskRestfulApi
 
 
@@ -29,6 +29,11 @@ def create_app():
             routes.MyPagesWorkflows,
             '/mypages/<string:hash_id>/workflows/',
             '/mypages/<string:hash_id>/workflows/<string:workflow_id>',
+        )
+
+        api.add_resource(
+            routes.MyPagesWorkflowLatest,
+            '/mypages/<string:hash_id>/workflows/latest',
         )
 
         api.add_resource(
