@@ -37,6 +37,11 @@ def create_app():
         )
 
         api.add_resource(
+            routes.MyPagesWorkflowCompletions,
+            '/mypages/<string:hash_id>/workflows/<string:workflow_id>/completions',
+        )
+
+        api.add_resource(
             routes.Applications,
             '/applications',
         )
