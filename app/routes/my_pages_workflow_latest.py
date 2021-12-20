@@ -11,17 +11,13 @@ class MyPagesWorkflowLatest(Resource):
 
     def get(self, hash_id):
         personal_number = hash_to_personal_number(hash_id=hash_id)
-        self.my_pages = VivaMyPages(user=personal_number)
-
-        return self._get_workflow_latest()
-
-    def _get_workflow_latest(self):
-        workflow_latest = self.my_pages.get_workflow_latest()
+        my_pages = VivaMyPages(user=personal_number)
+        latest_workflow = my_pages.get_latest_workflow()
 
         response = {
             'type': 'getWorkflowLatest',
             'attributes': {
-                'workflowLatest': workflow_latest,
+                **latest_workflow,
             }
         }
 
