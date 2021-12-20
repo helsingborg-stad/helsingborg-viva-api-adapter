@@ -1,5 +1,5 @@
 import pytest
-from .viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
+from ..viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
 
 
 def test_happy_path():
