@@ -5,6 +5,7 @@ from .classes import VivaMyPages
 from .classes import VivaApplication
 from .classes import VivaApplicationStatus
 from .classes import VivaAttachments
+from .classes import VivaWorkflowCompletionsMapper
 
 from .personal_number_helper import get_hash_ids
 from .personal_number_helper import hash_to_personal_number
