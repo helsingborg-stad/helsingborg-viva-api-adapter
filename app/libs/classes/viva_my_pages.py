@@ -36,10 +36,6 @@ class VivaMyPages(Viva):
         person = next(
             (person for person in person_list if person['type'] is type), None)
 
-        if not person:
-            raise Fault(
-                message=f'No person found with specified type: {type}', code=404)
-
         return person
 
     def get_workflow(self, workflow_id=None):
