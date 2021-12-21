@@ -17,6 +17,31 @@ class VivaMyPages(Viva):
         self.person_cases = self._get_person_cases()
         self.person_application = self._get_person_application()
 
+    def get_case_client(self):
+        return self.person_cases['vivadata']['vivacases']['vivacase']['client']
+
+    def get_case_persons(self):
+        viva_persons = self.person_cases['vivadata']['vivacases']['vivacase']['persons']
+
+        if not viva_persons:
+            return []
+
+        if isinstance(viva_persons['person'], dict):
+            return [viva_persons['person']]
+
+        return viva_persons['person']
+
+    def get_case_person_on_type(self, type):
+        person_list = self.get_case_persons()
+        person = next(
+            (person for person in person_list if person['type'] is type), None)
+
+        if not person:
+            raise Fault(
+                message=f'No person found with specified type: {type}', code=404)
+
+        return person
+
     def get_workflow(self, workflow_id=None):
         assert isinstance(
             workflow_id, str), f'workflow_id should be type str. Got {type(workflow_id)}'
