@@ -120,7 +120,8 @@ class VivaApplication(Viva):
         return zeep_attachments
 
     def _get_zeep_notfication_list(self):
-        coapplicant = self._my_pages.get_case_person_on_type(type='partner')
+        coapplicant = self._my_pages.get_case_person_on_type(
+            viva_person_type='partner')
         applicant = self._my_pages.get_case_client()
 
         applicants_mapper = VivaPersonsToApplicantsMapper(
