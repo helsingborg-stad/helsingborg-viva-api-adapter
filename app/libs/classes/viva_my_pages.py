@@ -31,10 +31,10 @@ class VivaMyPages(Viva):
 
         return viva_persons['person']
 
-    def get_case_person_on_type(self, type):
+    def get_case_person_on_type(self, viva_person_type):
         person_list = self.get_case_persons()
         person = next(
-            (person for person in person_list if person['type'] is type), None)
+            (person for person in person_list if person['type'] == viva_person_type), None)
 
         return person
 
