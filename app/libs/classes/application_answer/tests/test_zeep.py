@@ -53,11 +53,3 @@ def test_answer_amount_value_is_int():
             ],
         }
     }
-
-
-def test_answer_amount_value_is_empty():
-    zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
-        answer('', ['expenses', 'boende', 'amount'])
-    ))
-
-    assert bool(zeep_dict) is False
