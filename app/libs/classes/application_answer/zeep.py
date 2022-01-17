@@ -142,12 +142,8 @@ class ZeepApplication(dict):
                 post_type_collection[post_type_key] = dict()
 
             for post_type_attribute in ZeepApplication.POST_TYPE_ATTRIBUTES:
-                if post_answer.has_tag(post_type_attribute.lower()):
-
-                    print(post_type_key)
-                    print(post_answer.value)
-                    if post_answer.value:
-                        post_type_collection[post_type_key][post_type_attribute] = post_answer.value
+                if post_answer.has_tag(post_type_attribute.lower()) and post_answer.value:
+                    post_type_collection[post_type_key][post_type_attribute] = post_answer.value
 
         return post_type_collection
 
