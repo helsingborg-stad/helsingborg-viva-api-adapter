@@ -67,7 +67,7 @@ class ZeepApplication(dict):
                 posts_key = trim_last_character(post_group_name)
                 self[post_group_name] = {posts_key: posts}
 
-    def _get_posts(self, post_group_name: str = None):
+    def _get_posts(self, post_group_name: str = ''):
         posts = []
 
         for post_type in ZeepApplication.POST_TYPES.keys():
@@ -119,7 +119,8 @@ class ZeepApplication(dict):
                     milliseconds=value)
 
             elif attribute == 'AMOUNT':
-                post[attribute] = float(value)
+                if isinstance(value, (int, float)):
+                    post[attribute] = float(value)
 
             elif attribute == 'APPLIESTO' and value == 'COAPPLICANT':
                 post[attribute] = 'coapplicant'
@@ -143,8 +144,10 @@ class ZeepApplication(dict):
             for post_type_attribute in ZeepApplication.POST_TYPE_ATTRIBUTES:
                 if post_answer.has_tag(post_type_attribute.lower()):
 
-                    post_value = post_answer.value
-                    post_type_collection[post_type_key][post_type_attribute] = post_value
+                    print(post_type_key)
+                    print(post_answer.value)
+                    if post_answer.value:
+                        post_type_collection[post_type_key][post_type_attribute] = post_answer.value
 
         return post_type_collection
 
@@ -152,7 +155,7 @@ class ZeepApplication(dict):
         post_tags = [post_name.lower(), post_group_name.lower()]
         return self.application_answer_collection.filter_by_tags(tags=post_tags)
 
-    def _get_post_description(self, description, amount):
+    def _get_post_description(self, description: str, amount: int):
         if isinstance(amount, int):
             return f'{description} {amount}'
         return description

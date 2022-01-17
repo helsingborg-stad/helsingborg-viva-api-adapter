@@ -1,10 +1,10 @@
 class ApplicationAnswer:
-    def __init__(self, tags=None, value=None):
+    def __init__(self, tags: list, value):
         if not all(isinstance(tag, str) for tag in tags):
             raise TypeError(f'expected all items in {tags} to be strings')
 
-        if not isinstance(value, (str, int)):
-            raise TypeError(f'expected {value} to be string or integer')
+        if not isinstance(value, (str, int, float)):
+            raise TypeError(f'expected {value} to be string, integer or float')
 
         self.tags = tags
         self.value = value
