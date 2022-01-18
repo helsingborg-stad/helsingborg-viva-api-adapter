@@ -57,14 +57,13 @@ class VivaApplication(Viva):
         return self._viva_soap_operation_types[self._operation_type]()
 
     def _set_answer_collection(self, answers):
-        if not answers:
-            return {}
-
         answer_collection = ApplicationAnswerCollection()
-        for answer in answers:
-            application_answer = ApplicationAnswer(
-                value=answer['value'], tags=answer['field']['tags'])
-            answer_collection.append(application_answer)
+
+        if answers:
+            for answer in answers:
+                application_answer = ApplicationAnswer(
+                    value=answer['value'], tags=answer['field']['tags'])
+                answer_collection.append(application_answer)
 
         return answer_collection
 
