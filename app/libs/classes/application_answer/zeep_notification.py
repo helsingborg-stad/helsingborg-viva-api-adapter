@@ -45,7 +45,7 @@ class ZeepNotification(list):
             return None
 
         return {
-            'id': applicant['personalnumber'],
-            'adress': phonenumber_answer.value,
-            'adresstype': self.VIVA_ADRESS_TYPE_SMS
+            'ID': applicant['personalnumber'],
+            'ADDRESS': phonenumber_answer.value,
+            'ADDRESSTYPE': self.VIVA_ADRESS_TYPE_SMS
         }
