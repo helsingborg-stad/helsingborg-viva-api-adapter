@@ -5,15 +5,6 @@ from ...datetime_helper import milliseconds_to_date_string
 
 
 class ZeepApplication(dict):
-    EMPTY_POST = {
-        'TYPE': None,
-        'FREQUENCY': 12,
-        'DATE': None,
-        'PERIOD': None,
-        'APPLIESTO': 'applicant',
-        'DESCRIPTION': None
-    }
-
     POST_GROUPS = (
         'EXPENSES',
         'INCOMES',
@@ -81,8 +72,7 @@ class ZeepApplication(dict):
                 post_type=post_type, post_answers=post_type_answers)
 
             for post_type_attributes in post_type_collection.values():
-
-                if ('AMOUNT') not in post_type_attributes:
+                if post_type_attributes['AMOUNT'] == '':
                     continue
 
                 post = self._get_post(post_type, post_type_attributes)
@@ -119,7 +109,7 @@ class ZeepApplication(dict):
                     milliseconds=value)
 
             elif attribute == 'AMOUNT':
-                if isinstance(value, (int, float)):
+                if isinstance(value, (int, float, str)):
                     post[attribute] = float(value)
 
             elif attribute == 'APPLIESTO' and value == 'COAPPLICANT':
@@ -151,7 +141,9 @@ class ZeepApplication(dict):
         post_tags = [post_name.lower(), post_group_name.lower()]
         return self.application_answer_collection.filter_by_tags(tags=post_tags)
 
-    def _get_post_description(self, description: str, amount: int):
-        if isinstance(amount, int):
-            return f'{description} {amount}'
+    def _get_post_description(self, description: str, amount):
+        if isinstance(amount, (int, float, str)):
+            if description:
+                return f'{description} {float(amount)}'
+            return f'{float(amount)}'
         return description
