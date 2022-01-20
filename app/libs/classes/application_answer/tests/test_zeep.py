@@ -11,6 +11,8 @@ def answer(value, tags):
     return ApplicationAnswer(value=value, tags=tags)
 
 
+# _get_posts
+
 def test_get_posts_answer_amount_value_happy_path():
     zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
         answer(678.45, ['expenses', 'reskostnad', 'amount']),
@@ -41,23 +43,37 @@ def test_get_posts_answer_amount_value_is_empty():
     assert posts == []
 
 
-def test_get_post_answer_amount_value_happy_path():
-    zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
-        answer('5000', ['expenses', 'akuttandvard', 'amount']),
-    ))
+# _get_post
 
-    posts = zeep_dict._get_post(
-        post_type='akuttandvard', post_type_attributes={})
+def test_get_post_happy_path():
+    zeep_dict = ZeepApplication(
+        application_answer_collection=answer_collection())
 
-    assert posts == {
-        'TYPE': 'akuttandvard',
+    post_type = zeep_dict._get_post(post_type='annan', post_type_attributes={})
+
+    assert post_type == {
+        'TYPE': 'annan',
         'FREQUENCY': 12,
         'DATE': '',
         'PERIOD': '',
         'APPLIESTO': 'applicant',
-        'DESCRIPTION': 'Akut tandvård',
+        'DESCRIPTION': 'Övrig inkomst',
     }
 
+
+# _get_post_type_collection
+
+def test_get_post_type_collection_happy_path():
+    zeep_dict = ZeepApplication(
+        application_answer_collection=answer_collection())
+
+    post_type_collection = zeep_dict._get_post_type_collection(
+        post_type='bostad', post_answers=[])
+
+    assert post_type_collection == {}
+
+
+#  _get_post_type_answers
 
 def test_get_post_type_answers_happy_path():
     answer_item = answer(6745, ['expenses', 'bostad', 'amount'])
@@ -68,6 +84,57 @@ def test_get_post_type_answers_happy_path():
         post_name='bostad', post_group_name='EXPENSES')
 
     assert posts == [answer_item]
+
+
+def test_get_post_type_answers_empty_args():
+    zeep_dict = ZeepApplication(
+        application_answer_collection=answer_collection())
+
+    posts = zeep_dict._get_post_type_answers(post_name='', post_group_name='')
+
+    assert posts == []
+
+
+# ZeepApplication
+
+def test_happy_path():
+    zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
+        answer(678.45, ['expenses', 'reskostnad', 'amount']),
+        answer('100', ['expenses', 'annat', 'amount']),
+        answer('Swish', ['incomes', 'annan', 'description',
+               'swish', 'group:swishapplicant']),
+        answer('', ['incomes', 'annan', 'amount',
+               'swish', 'group:swishapplicant']),
+        answer('Swish', ['incomes', 'annan', 'description',
+               'swish', 'group:swishcoapplicant']),
+        answer('COAPPLICANT', ['incomes', 'annan', 'appliesto',
+               'swish', 'group:swishcoapplicant']),
+    ))
+
+    assert zeep_dict == {
+        'EXPENSES': {
+            'EXPENSE': [
+                {
+                    'TYPE': 'reskostnad',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Reskostnad',
+                    'AMOUNT': 678.45,
+                },
+                {
+                    'TYPE': 'annat',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Övrig utgift',
+                    'AMOUNT': 100.0,
+                }
+            ],
+        }
+    }
 
 
 def test_answer_amount_value_is_float():
