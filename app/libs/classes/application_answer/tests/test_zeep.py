@@ -102,6 +102,10 @@ def test_happy_path():
         answer(678.45, ['expenses', 'reskostnad', 'amount']),
         answer('100', ['expenses', 'annat', 'amount']),
 
+        # Should be ignored
+        answer('', ['expenses', 'reskostnad',
+               'amount', 'group:reskostnadapplicant']),
+
         answer('Swish', ['incomes', 'annan', 'description',
                'swish', 'group:swishapplicant']),
         answer('1000', ['incomes', 'annan', 'amount',
@@ -111,8 +115,8 @@ def test_happy_path():
                'swish', 'group:swishcoapplicant']),
         answer('COAPPLICANT', ['incomes', 'annan', 'appliesto',
                'swish', 'group:swishcoapplicant']),
-        answer('', ['expenses', 'reskostnad',
-               'amount', 'group:reskostnadapplicant']),
+        answer('200', ['incomes', 'annan', 'amount',
+               'swish', 'group:swishcoapplicant']),
     ))
 
     assert zeep_dict == {
@@ -146,8 +150,17 @@ def test_happy_path():
                     'DATE': '',
                     'PERIOD': '',
                     'APPLIESTO': 'applicant',
-                    'DESCRIPTION': 'Swish 1000.0',
+                    'DESCRIPTION': 'Swish',
                     'AMOUNT': 1000.0,
+                },
+                {
+                    'TYPE': 'annan',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'coapplicant',
+                    'DESCRIPTION': 'Swish',
+                    'AMOUNT': 200.0,
                 },
             ],
         },
@@ -243,7 +256,7 @@ def test_answer_description_value_happy_path():
                     'DATE': '',
                     'PERIOD': '',
                     'APPLIESTO': 'applicant',
-                    'DESCRIPTION': 'Stångkorv 900.12',
+                    'DESCRIPTION': 'Stångkorv',
                     'AMOUNT': 900.12,
                 },
             ],
@@ -292,7 +305,7 @@ def test_answer_description_value_is_empty():
                     'DATE': '',
                     'PERIOD': '',
                     'APPLIESTO': 'applicant',
-                    'DESCRIPTION': 'Sålt smöret 2900.0',
+                    'DESCRIPTION': 'Sålt smöret',
                     'AMOUNT': 2900.0,
                 },
             ],

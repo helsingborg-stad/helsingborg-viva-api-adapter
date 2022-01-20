@@ -98,9 +98,7 @@ class ZeepApplication(dict):
         for attribute, value in post_type_attributes.items():
 
             if attribute == 'DESCRIPTION':
-                amount = post_type_attributes['AMOUNT']
-                post['DESCRIPTION'] = self._get_post_description(
-                    description=value, amount=amount)
+                post['DESCRIPTION'] = value
 
                 if not post['DESCRIPTION']:
                     post['DESCRIPTION'] = ZeepApplication.POST_TYPES[post_type]
@@ -141,8 +139,3 @@ class ZeepApplication(dict):
     def _get_post_type_answers(self, post_name: str, post_group_name: str):
         post_tags = [post_name.lower(), post_group_name.lower()]
         return self.application_answer_collection.filter_by_tags(tags=post_tags)
-
-    def _get_post_description(self, description: str, amount):
-        if description and isinstance(amount, (int, float, str)):
-            return f'{description} {float(amount)}'
-        return description
