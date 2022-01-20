@@ -255,6 +255,10 @@ def test_answer_description_value_is_empty():
     zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
         answer('', ['expenses', 'annat', 'description']),
         answer(900, ['expenses', 'annat', 'amount']),
+        answer('', ['incomes', 'annan', 'description', 'group:0']),
+        answer('1900', ['incomes', 'annan', 'amount', 'group:0']),
+        answer('Sålt smöret', ['incomes', 'annan', 'description', 'group:1']),
+        answer('2900', ['incomes', 'annan', 'amount', 'group:1']),
     ))
 
     assert zeep_dict == {
@@ -266,8 +270,30 @@ def test_answer_description_value_is_empty():
                     'DATE': '',
                     'PERIOD': '',
                     'APPLIESTO': 'applicant',
-                    'DESCRIPTION': '900.0',
+                    'DESCRIPTION': 'Övrig utgift',
                     'AMOUNT': 900.0,
+                },
+            ],
+        },
+        'INCOMES': {
+            'INCOME': [
+                {
+                    'TYPE': 'annan',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Övrig inkomst',
+                    'AMOUNT': 1900.0,
+                },
+                {
+                    'TYPE': 'annan',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Sålt smöret 2900.0',
+                    'AMOUNT': 2900.0,
                 },
             ],
         },
