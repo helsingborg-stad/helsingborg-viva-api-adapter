@@ -101,14 +101,18 @@ def test_happy_path():
     zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
         answer(678.45, ['expenses', 'reskostnad', 'amount']),
         answer('100', ['expenses', 'annat', 'amount']),
+
         answer('Swish', ['incomes', 'annan', 'description',
                'swish', 'group:swishapplicant']),
-        answer('', ['incomes', 'annan', 'amount',
+        answer('1000', ['incomes', 'annan', 'amount',
                'swish', 'group:swishapplicant']),
+
         answer('Swish', ['incomes', 'annan', 'description',
                'swish', 'group:swishcoapplicant']),
         answer('COAPPLICANT', ['incomes', 'annan', 'appliesto',
                'swish', 'group:swishcoapplicant']),
+        answer('', ['expenses', 'reskostnad',
+               'amount', 'group:reskostnadapplicant']),
     ))
 
     assert zeep_dict == {
@@ -131,9 +135,22 @@ def test_happy_path():
                     'APPLIESTO': 'applicant',
                     'DESCRIPTION': 'Övrig utgift',
                     'AMOUNT': 100.0,
-                }
+                },
             ],
-        }
+        },
+        'INCOMES': {
+            'INCOME': [
+                {
+                    'TYPE': 'annan',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Swish 1000.0',
+                    'AMOUNT': 1000.0,
+                },
+            ],
+        },
     }
 
 
