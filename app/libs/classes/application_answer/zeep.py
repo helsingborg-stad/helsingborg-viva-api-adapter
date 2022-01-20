@@ -96,10 +96,14 @@ class ZeepApplication(dict):
             post['DESCRIPTION'] = ZeepApplication.POST_TYPES[post_type]
 
         for attribute, value in post_type_attributes.items():
+
             if attribute == 'DESCRIPTION':
                 amount = post_type_attributes['AMOUNT']
                 post['DESCRIPTION'] = self._get_post_description(
                     description=value, amount=amount)
+
+                if not post['DESCRIPTION']:
+                    post['DESCRIPTION'] = ZeepApplication.POST_TYPES[post_type]
 
             elif attribute == 'DATE':
                 post['DATE'] = milliseconds_to_date_string(
