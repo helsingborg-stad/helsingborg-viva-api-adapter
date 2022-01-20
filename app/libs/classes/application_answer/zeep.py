@@ -98,19 +98,19 @@ class ZeepApplication(dict):
         for attribute, value in post_type_attributes.items():
             if attribute == 'DESCRIPTION':
                 amount = post_type_attributes['AMOUNT']
-                post[attribute] = self._get_post_description(
+                post['DESCRIPTION'] = self._get_post_description(
                     description=value, amount=amount)
 
             elif attribute == 'DATE':
-                post[attribute] = milliseconds_to_date_string(
+                post['DATE'] = milliseconds_to_date_string(
                     milliseconds=value)
 
             elif attribute == 'AMOUNT':
                 if isinstance(value, (int, float, str)):
-                    post[attribute] = float(value)
+                    post['AMOUNT'] = float(value)
 
             elif attribute == 'APPLIESTO' and value == 'COAPPLICANT':
-                post[attribute] = 'coapplicant'
+                post['APPLIESTO'] = 'coapplicant'
 
         return post
 
