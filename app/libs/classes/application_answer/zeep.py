@@ -143,8 +143,6 @@ class ZeepApplication(dict):
         return self.application_answer_collection.filter_by_tags(tags=post_tags)
 
     def _get_post_description(self, description: str, amount):
-        if isinstance(amount, (int, float, str)):
-            if description:
-                return f'{description} {float(amount)}'
-            return f'{float(amount)}'
+        if description and isinstance(amount, (int, float, str)):
+            return f'{description} {float(amount)}'
         return description
