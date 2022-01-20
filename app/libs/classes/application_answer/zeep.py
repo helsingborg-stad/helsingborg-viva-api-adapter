@@ -72,7 +72,7 @@ class ZeepApplication(dict):
                 post_type=post_type, post_answers=post_type_answers)
 
             for post_type_attributes in post_type_collection.values():
-                if post_type_attributes['AMOUNT'] == '':
+                if not 'AMOUNT' in post_type_attributes or post_type_attributes['AMOUNT'] == '':
                     continue
 
                 post = self._get_post(post_type, post_type_attributes)
