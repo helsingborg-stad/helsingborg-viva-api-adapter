@@ -59,11 +59,10 @@ class VivaApplication(Viva):
     def _set_answer_collection(self, answers):
         answer_collection = ApplicationAnswerCollection()
 
-        if answers:
-            for answer in answers:
-                application_answer = ApplicationAnswer(
-                    value=answer['value'], tags=answer['field']['tags'])
-                answer_collection.append(application_answer)
+        for answer in answers or []:
+            application_answer = ApplicationAnswer(
+                value=answer['value'], tags=answer['field']['tags'])
+            answer_collection.append(application_answer)
 
         return answer_collection
 
