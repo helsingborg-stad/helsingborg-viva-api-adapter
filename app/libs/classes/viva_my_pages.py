@@ -97,6 +97,7 @@ class VivaMyPages(Viva):
 
     def get_casessi(self):
         if not self.person_cases['vivadata']['vivacases']:
+            current_app.logger.error(msg='Person cases not found')
             raise Fault(message='Person cases not found', code=404)
 
         casessi = self.person_cases['vivadata']['vivacases']['vivacase']['casessi']
@@ -116,7 +117,7 @@ class VivaMyPages(Viva):
 
     @cache.memoize(timeout=300)
     def _get_person_cases(self):
-        print('Request: PERSONCASES')
+        current_app.logger.debug(msg='PERSONCASES')
         service_response = self._service.PERSONCASES(
             USER=self._user,
             PNR=self._pnr,
@@ -129,7 +130,7 @@ class VivaMyPages(Viva):
 
     @cache.memoize(timeout=300)
     def _get_person_caseworkflow(self, limit=None):
-        print('Request: PERSONCASEWORKFLOW')
+        current_app.logger.debug(msg='PERSONCASEWORKFLOW')
         assert isinstance(
             limit, int), f'{limit} should be type int. Got {type(limit)}'
 
@@ -146,7 +147,7 @@ class VivaMyPages(Viva):
 
     @cache.memoize(timeout=300)
     def _get_person_application(self):
-        print('Request: PERSONAPPLICATION')
+        current_app.logger.debug(msg='PERSONAPPLICATION')
         service_response = self._service.PERSONAPPLICATION(
             USER=self._user,
             PNR=self._pnr,

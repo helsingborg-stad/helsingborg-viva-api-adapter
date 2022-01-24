@@ -1,4 +1,6 @@
 import locale
+from flask import current_app
+
 from . import ApplicationAnswerCollection
 
 from ...strings import trim_last_character

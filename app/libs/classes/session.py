@@ -31,7 +31,7 @@ class Session(object):
 
     @cache.memoize(timeout=300)
     def _get_cookie(self):
-        print('Request: COOKIE')
+        current_app.logger.debug(msg='COOKIE')
         login_conf = self._config['VIVA']['login']
 
         response = self._requests.post(
