@@ -27,9 +27,9 @@ def applicants():
 
 def test_sms_list_happy_path():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer(True, ['applicant', 'nofification', 'sms']),
+        answer(True, ['applicant', 'notification', 'sms']),
         answer('0708134506', ['applicant', 'phonenumber']),
-        answer(True, ['coapplicant', 'nofification', 'sms']),
+        answer(True, ['coapplicant', 'notification', 'sms']),
         answer('0708134509', ['coapplicant', 'phonenumber']),
     ))
 
@@ -49,7 +49,7 @@ def test_sms_list_happy_path():
 
 def test_applicant_happy_path():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer(True, ['applicant', 'nofification', 'sms']),
+        answer(True, ['applicant', 'notification', 'sms']),
         answer('0708134506', ['applicant', 'phonenumber']),
     ))
 
@@ -62,7 +62,7 @@ def test_applicant_happy_path():
 
 def test_coapplicant_happy_path():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer(True, ['coapplicant', 'nofification', 'sms']),
+        answer(True, ['coapplicant', 'notification', 'sms']),
         answer('0708134509', ['coapplicant', 'phonenumber']),
     ))
 
@@ -75,9 +75,9 @@ def test_coapplicant_happy_path():
 
 def test_no_applicants():
     notification = ZeepNotification([], application_answer_collection=answer_collection(
-        answer(True, ['applicant', 'nofification', 'sms']),
+        answer(True, ['applicant', 'notification', 'sms']),
         answer('0708134506', ['applicant', 'phonenumber']),
-        answer(True, ['coapplicant', 'nofification', 'sms']),
+        answer(True, ['coapplicant', 'notification', 'sms']),
         answer('0708134508', ['coapplicant', 'phonenumber']),
     ))
     assert notification.get_sms('applicant') is None
@@ -86,9 +86,9 @@ def test_no_applicants():
 
 def test_notification_not_wanted_by_user():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer('', ['applicant', 'nofification', 'sms']),
+        answer('', ['applicant', 'notification', 'sms']),
         answer('0708134506', ['applicant', 'phonenumber']),
-        answer('', ['coapplicant', 'nofification', 'sms']),
+        answer('', ['coapplicant', 'notification', 'sms']),
         answer('0708134508', ['coapplicant', 'phonenumber']),
     ))
     assert notification.get_sms('applicant') is None
@@ -97,9 +97,9 @@ def test_notification_not_wanted_by_user():
 
 def test_no_or_empty_phonenumber_submitted():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer(True, ['applicant', 'nofification', 'sms']),
+        answer(True, ['applicant', 'notification', 'sms']),
         answer('', ['applicant', 'phonenumber']),
-        answer(True, ['coapplicant', 'nofification', 'sms']),
+        answer(True, ['coapplicant', 'notification', 'sms']),
     ))
     assert notification.get_sms('applicant') is None
     assert notification.get_sms('coapplicant') is None
@@ -107,7 +107,7 @@ def test_no_or_empty_phonenumber_submitted():
 
 def test_sms_list_applicant_only():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer(True, ['applicant', 'nofification', 'sms']),
+        answer(True, ['applicant', 'notification', 'sms']),
         answer('0708134506', ['applicant', 'phonenumber']),
     ))
 
@@ -122,7 +122,7 @@ def test_sms_list_applicant_only():
 
 def test_sms_list_coapplicant_only():
     notification = ZeepNotification(applicants(), application_answer_collection=answer_collection(
-        answer(True, ['coapplicant', 'nofification', 'sms']),
+        answer(True, ['coapplicant', 'notification', 'sms']),
         answer('0708134509', ['coapplicant', 'phonenumber']),
     ))
 

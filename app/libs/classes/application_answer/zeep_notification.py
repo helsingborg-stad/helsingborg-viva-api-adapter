@@ -21,7 +21,8 @@ class ZeepNotification(list):
 
     def get_sms_list(self, applicant_tags=['applicant', 'coapplicant']):
         notification_list = [self.get_sms(tag) for tag in applicant_tags]
-        filtered_notification_list = [n for n in notification_list if n]
+        filtered_notification_list = [
+            list_item for list_item in notification_list if list_item]
 
         if len(filtered_notification_list) == 0:
             return None
@@ -30,7 +31,7 @@ class ZeepNotification(list):
 
     def get_sms(self, applicant_tag):
         notification_answer = self._get_first_matching_answer_by_tags(
-            tags=['nofification', 'sms', applicant_tag])
+            tags=['notification', 'sms', applicant_tag])
         if not notification_answer:
             return None
 

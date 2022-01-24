@@ -4,7 +4,7 @@ class VivaPersonsToApplicantsMapper():
         self._coapplicant = coapplicant
 
     def get_applicants(self):
-        return list(a for a in [self._get_applicant(), self._get_coapplicant()] if a)
+        return list(applicant for applicant in [self._get_applicant(), self._get_coapplicant()] if applicant)
 
     def _get_applicant(self):
         if self._applicant:
@@ -20,5 +20,4 @@ class VivaPersonsToApplicantsMapper():
                 'role': 'coapplicant',
                 'personalnumber': self._coapplicant['pnumber']
             }
-
         return None
