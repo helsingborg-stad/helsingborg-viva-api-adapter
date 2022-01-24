@@ -18,7 +18,7 @@ class VivaApplicationStatus(Viva):
 
     @cache.memoize(timeout=300)
     def get(self):
-        print('Request: APPLICATIONSTATUS')
+        current_app.logger.debug('APPLICATIONSTATUS')
         """
         ApplicationStatus förklaring:
 
