@@ -1,7 +1,10 @@
+import locale
 from . import ApplicationAnswerCollection
 
 from ...strings import trim_last_character
 from ...datetime_helper import milliseconds_to_date_string
+
+locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')
 
 
 class ZeepApplication(dict):
@@ -109,7 +112,7 @@ class ZeepApplication(dict):
 
             elif attribute == 'AMOUNT':
                 if isinstance(value, (int, float, str)):
-                    post['AMOUNT'] = float(value)
+                    post['AMOUNT'] = locale.atof(str(value))
 
             elif attribute == 'APPLIESTO' and value == 'COAPPLICANT':
                 post['APPLIESTO'] = 'coapplicant'

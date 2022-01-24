@@ -214,6 +214,8 @@ def test_answer_amount_value_is_int():
 def test_answer_amount_value_is_string():
     zeep_dict = ZeepApplication(application_answer_collection=answer_collection(
         answer('1234', ['expenses', 'boende', 'amount']),
+        answer('1234,20', ['expenses', 'bredband', 'amount']),
+        answer('765.34', ['incomes', 'underhallsbidrag', 'amount']),
     ))
 
     assert zeep_dict == {
@@ -227,6 +229,28 @@ def test_answer_amount_value_is_string():
                     'APPLIESTO': 'applicant',
                     'DESCRIPTION': 'Hyra',
                     'AMOUNT': 1234,
+                },
+                {
+                    'TYPE': 'bredband',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Bredband',
+                    'AMOUNT': 1234.20,
+                },
+            ],
+        },
+        'INCOMES': {
+            'INCOME': [
+                {
+                    'TYPE': 'underhallsbidrag',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Underhållsstöd',
+                    'AMOUNT': 765.34,
                 },
             ],
         },
