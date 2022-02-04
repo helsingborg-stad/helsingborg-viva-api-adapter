@@ -17,6 +17,9 @@ class VivaWorkflowCompletionsMapper():
 
         requested = self.viva_workflow['application']['completions']['completion']
 
+        if not isinstance(requested, list):
+            requested = [requested]
+
         completion_list = list(self._set_completion(text=text, received=received)
                                for text in requested)
 

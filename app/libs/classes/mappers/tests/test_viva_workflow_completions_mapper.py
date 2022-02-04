@@ -17,6 +17,16 @@ viva_workflow = {
     }
 }
 
+viva_workflow_completion_not_list = {
+    'application': {
+        'completionsreceived': None,
+        'completions': {
+            'completion': 'Kom in med...',
+        },
+        'completiondescription': None,
+    }
+}
+
 
 def test_initial_completions():
     completion_mapper = VivaWorkflowCompletionsMapper(viva_workflow)
@@ -109,3 +119,17 @@ def test_completion_list_all_received():
     completion_list = completion_mapper.get_completion_list()
 
     assert completion_list == []
+
+
+def test_empty_completion_description():
+    completion_mapper = VivaWorkflowCompletionsMapper(
+        viva_workflow_completion_not_list)
+
+    completion_list = completion_mapper.get_completion_list()
+
+    assert completion_list == [
+        {
+            'description': 'Kom in med...',
+            'received': False,
+        },
+    ]
