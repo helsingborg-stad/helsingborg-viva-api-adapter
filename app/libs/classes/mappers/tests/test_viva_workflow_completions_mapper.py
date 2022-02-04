@@ -121,7 +121,7 @@ def test_completion_list_all_received():
     assert completion_list == []
 
 
-def test_empty_completion_description():
+def test_completion_not_list():
     completion_mapper = VivaWorkflowCompletionsMapper(
         viva_workflow_completion_not_list)
 
