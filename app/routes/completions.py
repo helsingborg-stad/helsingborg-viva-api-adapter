@@ -11,7 +11,6 @@ from ..libs import hash_to_personal_number
 from ..libs import authenticate
 
 from ..schemas import CompletionSchema
-from ..schemas import ResponseSchema
 
 
 class Completions(Resource):
