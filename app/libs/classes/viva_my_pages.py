@@ -9,7 +9,6 @@ cache = Cache(current_app)
 
 
 class VivaMyPages(Viva):
-    _user: str
 
     def __init__(self, wsdl='MyPages', user=str):
         super(VivaMyPages, self).__init__()
