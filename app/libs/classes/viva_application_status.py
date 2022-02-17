@@ -1,9 +1,6 @@
 from flask import current_app
-from flask_caching import Cache
 
 from . import Viva
-
-cache = Cache(current_app)
 
 
 class VivaApplicationStatus(Viva):
@@ -16,7 +13,6 @@ class VivaApplicationStatus(Viva):
         self._personal_number = personal_number
         self._service = self._get_service(wsdl)
 
-    @cache.memoize(timeout=300)
     def get(self):
         current_app.logger.debug('APPLICATIONSTATUS')
         """
@@ -107,6 +103,3 @@ class VivaApplicationStatus(Viva):
             })
 
         return self._helpers.serialize_object(status_list)
-
-    def __repr__(self) -> str:
-        return "%s(%s)" % (self.__class__.__name__, self._personal_number)
