@@ -128,7 +128,6 @@ class VivaMyPages(Viva):
         person_cases = xmltodict.parse(service_response)
         return person_cases
 
-    @cache.memoize(timeout=300)
     def _get_person_caseworkflow(self, limit=None):
         current_app.logger.debug(msg='PERSONCASEWORKFLOW')
         assert isinstance(
