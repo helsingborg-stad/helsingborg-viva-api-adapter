@@ -1,3 +1,6 @@
+import datetime
+
+
 class VivaWorkflowCompletionsMapper():
 
     def __init__(self, viva_workflow):
@@ -6,6 +9,13 @@ class VivaWorkflowCompletionsMapper():
     def is_random_check(self):
         description = self.viva_workflow['application']['completiondescription']
         return (description and 'stickprov' in description) is True
+
+    def get_due_date(self):
+        due_date = self.viva_workflow['application']['completionduedate']
+        if not due_date:
+            return None
+
+        return int(round(datetime.datetime.strptime(due_date, "%Y-%m-%d").timestamp() * 1000))
 
     def get_completion_list(self):
         received = []
