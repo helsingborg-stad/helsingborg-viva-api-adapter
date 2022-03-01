@@ -27,6 +27,7 @@ class MyPagesWorkflowCompletions(Resource):
                 'requested': completion_list,
                 'isRandomCheck': completion_mapper.is_random_check(),
                 'completed': not completion_list,
+                'dueDate': completion_mapper.get_due_date(),
             }
         }
 
