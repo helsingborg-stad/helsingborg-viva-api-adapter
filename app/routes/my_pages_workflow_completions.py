@@ -25,9 +25,12 @@ class MyPagesWorkflowCompletions(Resource):
             'type': 'getWorkflowCompletions',
             'attributes': {
                 'requested': completion_list,
-                'isRandomCheck': completion_mapper.is_random_check(),
-                'completed': not completion_list,
+                'receivedDate': completion_mapper.get_received_date(),
                 'dueDate': completion_mapper.get_due_date(),
+                'isCompleted': not completion_list,
+                'isRandomCheck': completion_mapper.is_random_check(),
+                'isAttachmentPending': completion_mapper.is_attachment_pending(),
+                'isDueDateExpired': completion_mapper.is_due_date_expired(),
             }
         }
 
