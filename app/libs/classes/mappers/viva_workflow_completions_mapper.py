@@ -17,6 +17,31 @@ class VivaWorkflowCompletionsMapper():
 
         return int(round(datetime.datetime.strptime(due_date, "%Y-%m-%d").timestamp() * 1000))
 
+    def is_due_date_expired(self):
+        due_date = self.get_due_date()
+        if not due_date:
+            return False
+
+        today_date = datetime.datetime.now().strftime('%Y-%m-%d')
+        today_time = int(round(datetime.datetime.strptime(
+            today_date, "%Y-%m-%d").timestamp() * 1000))
+
+        return (today_time > due_date) is True
+
+    def get_received_date(self):
+        received_date = self.viva_workflow['application']['completionreceiveddate']
+        if not received_date:
+            return None
+
+        return int(round(datetime.datetime.strptime(received_date, "%Y-%m-%d").timestamp() * 1000))
+
+    def is_attachment_pending(self):
+        attachments_uploaded = self.viva_workflow['application']['completionsuploaded']
+        if not attachments_uploaded:
+            return False
+
+        return True
+
     def get_completion_list(self):
         received = []
         if self.viva_workflow['application']['completionsreceived']:
