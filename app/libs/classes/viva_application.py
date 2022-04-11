@@ -39,7 +39,7 @@ class VivaApplication(Viva):
         self._service = self._get_service(wsdl)
 
         self._viva_soap_operation_types = {
-            'basic': self._new_application,
+            'new': self._new_application,
             'recurrent': self._new_re_application,
             'completion': self._new_completion,
         }
@@ -143,14 +143,14 @@ class VivaApplication(Viva):
             KEY='',
 
             # Aktuell användares personnummer
-            USER=self._data['personal_number'],
-            IP=self._data['client_ip'],
+            USER=personal_number,
+            IP='0.0.0.0',
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             CASETYPE='',
 
             SYSTEM=1,
-            APPLICATION=self._data['application']
+            APPLICATION=self._get_application(),
         )
 
         return self._helpers.serialize_object(response)
