@@ -6,7 +6,7 @@ class ApplicationSchema(Schema):
     application_type = fields.Str(
         data_key='applicationType',
         required=True,
-        validate=validate.OneOf(['recurrent', 'basic'])
+        validate=validate.OneOf(['recurrent', 'new'])
     )
     hashid = fields.Str(required=True)
     workflow_id = fields.Str(
