@@ -46,6 +46,8 @@ class VivaApplication(Viva):
 
         self._operation_type = application.operation_type
         self._workflow_id = application.workflow_id
+        self._personal_number = application.personal_number
+
         self._attachments = application.attachments
         self._answer_collection = self._set_answer_collection(
             answers=application.answers)
@@ -138,19 +140,21 @@ class VivaApplication(Viva):
         return zeep_dict
 
     def _new_application(self):
+        new_application = self._get_new_application()
+
         response = self._service.NEWAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
             KEY='',
 
             # Aktuell användares personnummer
-            USER=personal_number,
+            USER=self._personal_number,
             IP='0.0.0.0',
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             CASETYPE='',
 
             SYSTEM=1,
-            APPLICATION=self._get_application(),
+            APPLICATION=new_application,
         )
 
         return self._helpers.serialize_object(response)
