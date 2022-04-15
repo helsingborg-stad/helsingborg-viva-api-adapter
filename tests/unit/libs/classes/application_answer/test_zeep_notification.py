@@ -1,7 +1,6 @@
-import pytest
-from .. import ApplicationAnswer
-from .. import ApplicationAnswerCollection
-from .. import ZeepNotification
+from app.libs.classes.application_answer import ApplicationAnswer
+from app.libs.classes.application_answer import ApplicationAnswerCollection
+from app.libs.classes.application_answer import ZeepNotification
 
 
 def answer_collection(*args):

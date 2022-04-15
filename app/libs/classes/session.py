@@ -1,13 +1,12 @@
 import requests
 from flask import current_app
-from flask_caching import Cache
 from zeep.transports import Transport
 from zeep.cache import SqliteCache
 
-cache = Cache(current_app)
+from app import cache
 
 
-class Session(object):
+class Session():
 
     _cookie = None
 

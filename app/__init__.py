@@ -1,24 +1,34 @@
+import os
 from flask import Flask
-from .api import CustomFlaskRestfulApi
+
+from app.cache import cache
+from app.api import CustomFlaskRestfulApi
 
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=False)
 
-    if app.config['ENV'] == 'development':
-        app.config.from_object('config.DevConfig')
-    elif app.config['ENV'] == 'test':
-        app.config.from_object('config.TestConfig')
+    if test_config is None:
+        if app.config['ENV'] == 'development':
+            app.config.from_object('config.DevConfig')
+        elif app.config['ENV'] == 'test':
+            app.config.from_object('config.TestConfig')
+        else:
+            app.config.from_object('config.ProdConfig')
     else:
-        app.config.from_object('config.ProdConfig')
+        app.config.from_mapping(test_config)
 
-    app.config['CACHE_TYPE'] = 'SimpleCache'
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
+    cache.init_app(app)
 
     with app.app_context():
+        api = CustomFlaskRestfulApi(app)
 
         from . import routes
-
-        api = CustomFlaskRestfulApi(app)
 
         # Viva adapter api endpoints
         api.add_resource(

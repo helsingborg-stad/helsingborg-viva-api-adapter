@@ -13,11 +13,11 @@ def milliseconds_to_date_string(milliseconds=int):
         raise e
 
 
-def generate_period_string(period=dict):
-    if not period['start_date'] or not period['end_date']:
+def generate_period_string(period):
+    if not period.start_date or not period.end_date:
         return ''
 
-    start_date = milliseconds_to_date_string(period['start_date'])
-    end_date = milliseconds_to_date_string(period['end_date'])
+    start_date = milliseconds_to_date_string(period.start_date)
+    end_date = milliseconds_to_date_string(period.end_date)
 
     return f"{start_date} - {end_date}"

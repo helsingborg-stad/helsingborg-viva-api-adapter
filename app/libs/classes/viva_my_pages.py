@@ -1,15 +1,13 @@
 import xmltodict
 from flask import current_app
-from flask_caching import Cache
 from zeep.exceptions import Fault
 
 from .viva import Viva
 
-cache = Cache(current_app)
+from app import cache
 
 
 class VivaMyPages(Viva):
-
     def __init__(self, wsdl='MyPages', user=str):
         super(VivaMyPages, self).__init__()
 
