@@ -1,4 +1,4 @@
-from ..viva_workflow_completions_mapper import VivaWorkflowCompletionsMapper
+from app.libs.classes.mappers.viva_workflow_completions_mapper import VivaWorkflowCompletionsMapper
 
 
 viva_workflow = {
