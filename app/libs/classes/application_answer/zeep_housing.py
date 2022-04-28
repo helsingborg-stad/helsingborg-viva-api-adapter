@@ -20,14 +20,14 @@ class ZeepHousing(dict):
         housing = {
             'CLIENT': {
                 'PNUMBER': personal_number,
-                'ADDRESSES': {'ADDRESS': [{'TYPE': 'P', 'CO': ''}]},
+                'ADDRESSES': {'ADDRESS': {'TYPE': 'FB', 'CO': ''}},
                 'FOREIGNCITIZEN': False,
                 'RESIDENCEPERMITTYPE': '',
                 'RESIDENCEPERMITDATE': '',
                 'CIVILSTATUS': 'G',
                 'ALTCIVILSTATUS': '',
                 'PHONENUMBERS': None,
-                'EMAIL': None,
+                'EMAIL': {'EMAIL': '', 'NOTIFY': ''},
             },
         }
 
@@ -44,17 +44,17 @@ class ZeepHousing(dict):
         address = self._get_first_matching_answer_by_tags(
             tags=['housing', 'address'])
         if address:
-            housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['ADDRESS'] = address.value
+            housing['CLIENT']['ADDRESSES']['ADDRESS']['ADDRESS'] = address.value
 
         postalCode = self._get_first_matching_answer_by_tags(
             tags=['housing', 'postalCode'])
         if postalCode:
-            housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['ZIP'] = postalCode.value
+            housing['CLIENT']['ADDRESSES']['ADDRESS']['ZIP'] = postalCode.value
 
         city = self._get_first_matching_answer_by_tags(
             tags=['housing', 'city'])
         if city:
-            housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['CITY'] = city.value
+            housing['CLIENT']['ADDRESSES']['ADDRESS']['CITY'] = city.value
 
         e_mail = self._get_first_matching_answer_by_tags(
             tags=['housing', 'email'])
@@ -65,7 +65,7 @@ class ZeepHousing(dict):
         phonenumber_answer = self._get_first_matching_answer_by_tags(
             tags=['housing', 'telephone'])
         if phonenumber_answer:
-            housing['CLIENT']['PHONENUMBERS'] = {'PHONENUMBER': [
-                {'NUMBER': phonenumber_answer.value, 'TYPE': 'Mobiltelefon', 'SMS': False}]}
+            housing['CLIENT']['PHONENUMBERS'] = {'PHONENUMBER': {
+                'NUMBER': phonenumber_answer.value, 'TYPE': 'Mobiltelefon', 'SMS': False}}
 
         return housing

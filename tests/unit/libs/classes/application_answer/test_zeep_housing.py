@@ -36,24 +36,20 @@ def test_housing_list_happy_path():
             'FNAME': 'Kajsa',
             'LNAME': 'Kavat',
             'ADDRESSES': {
-                'ADDRESS': [
-                    {
-                        'TYPE': 'P',
-                        'ADDRESS': 'Gamla vägen 3',
-                        'CO': '',
-                        'ZIP': '12345',
-                        'CITY': 'Helsingborg',
-                    }
-                ],
+                'ADDRESS': {
+                    'TYPE': 'FB',
+                    'ADDRESS': 'Gamla vägen 3',
+                    'CO': '',
+                    'ZIP': '12345',
+                    'CITY': 'Helsingborg',
+                },
             },
             'PHONENUMBERS': {
-                'PHONENUMBER': [
-                    {
-                        'TYPE': 'Mobiltelefon',
-                        'NUMBER': '+46700121212',
-                        'SMS': False,
-                    }
-                ],
+                'PHONENUMBER': {
+                    'TYPE': 'Mobiltelefon',
+                    'NUMBER': '+46700121212',
+                    'SMS': False,
+                },
             },
             'EMAIL': {
                 'EMAIL': 'nobody@example.com',
@@ -91,18 +87,16 @@ def test_housing_list_email_and_phone_number_excluded():
             'FNAME': 'Milton',
             'LNAME': 'Herlitz',
             'ADDRESSES': {
-                'ADDRESS': [
-                    {
-                        'TYPE': 'P',
-                        'ADDRESS': 'Min gata 1',
-                        'CO': '',
-                        'ZIP': '12345',
-                        'CITY': 'Helsingborg',
-                    }
-                ],
+                'ADDRESS': {
+                    'TYPE': 'FB',
+                    'ADDRESS': 'Min gata 1',
+                    'CO': '',
+                    'ZIP': '12345',
+                    'CITY': 'Helsingborg',
+                },
             },
             'PHONENUMBERS': None,
-            'EMAIL': None,
+            'EMAIL': {'EMAIL': '', 'NOTIFY': ''},
             'FOREIGNCITIZEN': False,
             'RESIDENCEPERMITTYPE': '',
             'RESIDENCEPERMITDATE': '',
