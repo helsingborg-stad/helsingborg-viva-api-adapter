@@ -25,10 +25,6 @@ class ZeepHousing(dict):
                 'RESIDENCEPERMITDATE': '',
                 'CIVILSTATUS': 'G',
                 'ALTCIVILSTATUS': '',
-                "EMAIL": {
-                    "EMAIL": "nobody@example.com",
-                    "NOTIFY": False
-                }
             },
         }
 
@@ -56,6 +52,12 @@ class ZeepHousing(dict):
             tags=['housing', 'city'])
         if city:
             housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['CITY'] = city.value
+
+        e_mail = self._get_first_matching_answer_by_tags(
+            tags=['housing', 'email'])
+        if e_mail:
+            housing['CLIENT']['EMAIL'] = {
+                'EMAIL': e_mail.value, 'NOTIFY':  False}
 
         phonenumber_answer = self._get_first_matching_answer_by_tags(
             tags=['housing', 'telephone'])

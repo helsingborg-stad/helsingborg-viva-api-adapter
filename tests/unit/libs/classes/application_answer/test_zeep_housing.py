@@ -19,40 +19,43 @@ def test_housing_list_happy_path():
     """
 
     housing = ZeepHousing(application_answer_collection=answer_collection(
-        answer('19900102034444', ['housing', 'personalNumber']),
         answer('Kajsa', ['housing', 'firstName']),
         answer('Kavat', ['housing', 'lastName']),
         answer('Gamla vägen 3', ['housing', 'address']),
         answer('12345', ['housing', 'postalCode']),
         answer('Helsingborg', ['housing', 'city']),
-        answer('+46700121212', ['housing', 'phonenumber']),
+        answer('+46700121212', ['housing', 'telephone']),
+        answer('nobody@example.com', ['housing', 'email']),
     ))
 
     assert housing.get_client() == {
         'CLIENT': {
-            'PNUMBER': '19900102034444',
             'FNAME': 'Kajsa',
             'LNAME': 'Kavat',
-            'ADDRESSES': [
-                {
-                    'ADDRESS': {
+            'ADDRESSES': {
+                'ADDRESS': [
+                    {
                         'TYPE': 'P',
                         'ADDRESS': 'Gamla vägen 3',
                         'CO': '',
                         'ZIP': '12345',
                         'CITY': 'Helsingborg',
-                    },
-                },
-            ],
-            'PHONENUMBERS': [
-                {
-                    'PHONENUMBER': {
+                    }
+                ],
+            },
+            'PHONENUMBERS': {
+                'PHONENUMBER': [
+                    {
                         'TYPE': 'Mobiltelefon',
                         'NUMBER': '+46700121212',
                         'SMS': False,
-                    },
-                },
-            ],
+                    }
+                ],
+            },
+            'EMAIL': {
+                'EMAIL': 'nobody@example.com',
+                'NOTIFY': False,
+            },
             'FOREIGNCITIZEN': False,
             'RESIDENCEPERMITTYPE': '',
             'RESIDENCEPERMITDATE': '',
