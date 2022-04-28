@@ -7,6 +7,7 @@ from .application_answer import ApplicationAnswer
 from .application_answer import ApplicationAnswerCollection
 from .application_answer import ZeepApplication
 from .application_answer import ZeepNotification
+from .application_answer import ZeepHousing
 
 from .mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
 
@@ -39,13 +40,15 @@ class VivaApplication(Viva):
         self._service = self._get_service(wsdl)
 
         self._viva_soap_operation_types = {
-            'basic': self._new_application,
+            'new': self._new_application,
             'recurrent': self._new_re_application,
             'completion': self._new_completion,
         }
 
         self._operation_type = application.operation_type
         self._workflow_id = application.workflow_id
+        self._personal_number = application.personal_number
+
         self._attachments = application.attachments
         self._answer_collection = self._set_answer_collection(
             answers=application.answers)
@@ -77,6 +80,24 @@ class VivaApplication(Viva):
         application = self._get_zeep_application_dict()
 
         return {**initial_application, **application}
+
+    def _create_new_application(self):
+        initial_new_application = {
+            'OTHER': '',
+            'RAWDATA': self._raw_data,
+            'RAWDATATYPE': self._raw_data_type,
+        }
+
+        housing = ZeepHousing(
+            application_answer_collection=self._answer_collection)
+        client = housing.get_client(self._personal_number)
+
+        if not client:
+            raise ValueError(f'Client can not be {client}. Verify your tags!')
+
+        new_application = self._get_zeep_application_dict()
+
+        return {**initial_new_application, **client, **new_application}
 
     def _save_completion_attachments(self):
         for attachment in self._attachments:
@@ -138,19 +159,21 @@ class VivaApplication(Viva):
         return zeep_dict
 
     def _new_application(self):
+        new_application = self._create_new_application()
+
         response = self._service.NEWAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
             KEY='',
 
             # Aktuell användares personnummer
-            USER=self._data['personal_number'],
-            IP=self._data['client_ip'],
+            USER=self._personal_number,
+            IP='0.0.0.0',
 
             # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             CASETYPE='',
 
             SYSTEM=1,
-            APPLICATION=self._data['application']
+            APPLICATION=new_application,
         )
 
         return self._helpers.serialize_object(response)

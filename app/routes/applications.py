@@ -17,19 +17,35 @@ class Applications(Resource):
         json_payload = request.json
 
         application_schema = ApplicationSchema()
-        validated_application = application_schema.load(json_payload)
+        self.validated_application = application_schema.load(json_payload)
 
-        personal_number = hash_to_personal_number(
-            hash_id=validated_application['hashid'])
+        self.personal_number = hash_to_personal_number(
+            hash_id=self.validated_application['hashid'])
 
-        viva_application = VivaApplication(
-            my_pages=VivaMyPages(user=personal_number),
+        application_type = self.validated_application['application_type']
+
+        if application_type == 'new':
+            return self._new_appliacation()
+
+        return self._recurring_application()
+
+    def _recurring_application(self):
+        viva_recurring_application = VivaApplication(
+            my_pages=VivaMyPages(user=self.personal_number),
             application=DataClassApplication(
-                operation_type=validated_application['application_type'],
-                workflow_id=validated_application['workflow_id'],
-                answers=validated_application['answers'],
-                raw_data=validated_application['raw_data']))
+                operation_type=self.validated_application['application_type'],
+                personal_number=self.personal_number,
+                workflow_id=self.validated_application['workflow_id'],
+                answers=self.validated_application['answers'],
+                raw_data=self.validated_application['raw_data']))
 
-        response = viva_application.submit()
+        return viva_recurring_application.submit()
 
-        return response
+    def _new_appliacation(self):
+        viva_new_application = VivaApplication(application=DataClassApplication(
+            operation_type=self.validated_application['application_type'],
+            personal_number=self.personal_number,
+            answers=self.validated_application['answers'],
+            raw_data=self.validated_application['raw_data']))
+
+        return viva_new_application.submit()

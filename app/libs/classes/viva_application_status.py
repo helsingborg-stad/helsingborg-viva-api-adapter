@@ -17,7 +17,6 @@ class VivaApplicationStatus(Viva):
         current_app.logger.debug('APPLICATIONSTATUS')
         """
         ApplicationStatus förklaring:
-
         -1 - fel (t.ex. person finns inte i personregistret)
 
         eller summan av:
@@ -35,71 +34,53 @@ class VivaApplicationStatus(Viva):
         2, 4 och 8 blir bara aktuella när man parkerar eller autosparar ansökan i Viva.
 
         Det är bara när ApplicationStatus innehåller 1 (summan är udda) som ansökan kan lämnas in.
-
         128 + 256 + 512 kommer i princip alltid att vara med eftersom ett ärende som tillåter e-ansökan är en förutsättning för fortsatt ansökan.
 
         När ApplicationStatus bara är 1 finns inget ärende och man kan lämna in en grundansökan.
         """
 
-        status_number = self._service.APPLICATIONSTATUS(
+        status_code = self._service.APPLICATIONSTATUS(
             SUSER=self._personal_number,
             SPNR=self._personal_number,
             SCASETYPE='01',  # 01 = EKB
             SSYSTEM=1
         )
 
-        # status_number = 897  # Open
-        # status_number = 899  # Open
-
         status_description = {
-            -1: 'Fel (t.ex. person finns inte i personregistret)',
-            1: 'Ansökan tillåten',
-            2: 'Autosave',
-            4: 'Väntar signering',
-            8: 'Väntar att medsökande ska signera',
-            16: 'Ansökan inskickad',
-            32: 'Ansökan mottagen/registrerad',
-            64: 'Komplettering begärd',
-            128: 'Ärende finns (försörjningsstödsärende)',
-            256: 'Ett ärende är aktiverat på webben',
-            512: 'Ärendet tillåter e-ansökan',
+            -1: 'Error (for example that the person is not in the personal register)',
+            1: 'Application allowed',
+            2: 'Auto save',
+            4: 'Awaiting signing',
+            8: 'Waiting for co-applicants to sign',
+            16: 'Application submitted',
+            32: 'Application received / registered',
+            64: 'Completion requested',
+            128: 'Case available (income support)',
+            256: 'Case is activated on the web',
+            512: 'The case allows e-application',
         }
 
-        status_list = list()
+        status_list = []
 
-        if status_number > 128:
-            key = 128
-            status_list.append({
-                'code': key,
-                'description': status_description[key]
-            })
-            status_number -= key
-
-        if status_number > 256:
-            key = 256
-            status_list.append({
-                'code': key,
-                'description': status_description[key]
-            })
-            status_number -= key
-
-        if status_number > 512:
-            key = 512
-            status_list.append({
-                'code': key,
-                'description': status_description[key]
-            })
-            status_number -= key
-
-        if status_number in status_description:
-            status_list.append({
-                'code': status_number,
-                'description': status_description[status_number]
-            })
+        if not self._is_negative(status_code):
+            for bit in self._bits(status_code):
+                status_list.append({
+                    'code': bit,
+                    'description': status_description[bit]
+                })
         else:
             status_list.append({
-                'code': status_number,
-                'description': 'N/A'
+                'code': status_code,
+                'description': status_description[status_code]
             })
 
         return self._helpers.serialize_object(status_list)
+
+    def _is_negative(self, number):
+        return float(number) < 0
+
+    def _bits(self, number):
+        while number:
+            bit = number & (~number+1)
+            yield bit
+            number ^= bit
