@@ -81,7 +81,7 @@ class VivaApplication(Viva):
 
         return {**initial_application, **application}
 
-    def _get_new_application(self):
+    def _create_new_application(self):
         initial_new_application = {
             'OTHER': '',
             'RAWDATA': self._raw_data,
@@ -157,7 +157,7 @@ class VivaApplication(Viva):
         return zeep_dict
 
     def _new_application(self):
-        new_application = self._get_new_application()
+        new_application = self._create_new_application()
 
         response = self._service.NEWAPPLICATION(
             # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
