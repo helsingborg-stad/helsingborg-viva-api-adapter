@@ -7,6 +7,7 @@ from .application_answer import ApplicationAnswer
 from .application_answer import ApplicationAnswerCollection
 from .application_answer import ZeepApplication
 from .application_answer import ZeepNotification
+from .application_answer import ZeepHousing
 
 from .mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
 
@@ -79,6 +80,22 @@ class VivaApplication(Viva):
         application = self._get_zeep_application_dict()
 
         return {**initial_application, **application}
+
+    def _get_new_application(self):
+        initial_new_application = {
+            'OTHER': '',
+            'RAWDATA': self._raw_data,
+            'RAWDATATYPE': self._raw_data_type,
+        }
+
+        housing = ZeepHousing(
+            application_answer_collection=self._answer_collection)
+        client = housing.get_client()
+        client['CLIENT']['PNUMBER'] = self._personal_number
+
+        new_application = self._get_zeep_application_dict()
+
+        return {**initial_new_application, **client, **new_application}
 
     def _save_completion_attachments(self):
         for attachment in self._attachments:
