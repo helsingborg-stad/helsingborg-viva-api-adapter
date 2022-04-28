@@ -93,7 +93,7 @@ class VivaApplication(Viva):
         client = housing.get_client(self._personal_number)
 
         if not client:
-            raise ValueError(f'{client} is empty!')
+            raise ValueError(f'Client can not be {client}. Verify your tags!')
 
         new_application = self._get_zeep_application_dict()
 
