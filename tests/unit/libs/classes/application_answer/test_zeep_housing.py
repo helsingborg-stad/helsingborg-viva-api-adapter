@@ -63,3 +63,44 @@ def test_housing_list_happy_path():
             'ALTCIVILSTATUS': '',
         },
     }
+
+
+def test_housing_list_email_and_phone_number_excluded():
+    """
+    GIVEN a ZeepHousing object
+    WHEN submitting a new application without email and phone number
+    THEN check that housing object is in the correct Viva format
+    """
+
+    housing = ZeepHousing(application_answer_collection=answer_collection(
+        answer('Kajsa', ['housing', 'firstName']),
+        answer('Kavat', ['housing', 'lastName']),
+        answer('Min gata 1', ['housing', 'address']),
+        answer('12345', ['housing', 'postalCode']),
+        answer('Helsingborg', ['housing', 'city']),
+    ))
+
+    assert housing.get_client() == {
+        'CLIENT': {
+            'FNAME': 'Kajsa',
+            'LNAME': 'Kavat',
+            'ADDRESSES': {
+                'ADDRESS': [
+                    {
+                        'TYPE': 'P',
+                        'ADDRESS': 'Min gata 1',
+                        'CO': '',
+                        'ZIP': '12345',
+                        'CITY': 'Helsingborg',
+                    }
+                ],
+            },
+            'PHONENUMBERS': None,
+            'EMAIL': None,
+            'FOREIGNCITIZEN': False,
+            'RESIDENCEPERMITTYPE': '',
+            'RESIDENCEPERMITDATE': '',
+            'CIVILSTATUS': 'G',
+            'ALTCIVILSTATUS': '',
+        },
+    }

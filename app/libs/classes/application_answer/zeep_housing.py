@@ -25,6 +25,8 @@ class ZeepHousing(dict):
                 'RESIDENCEPERMITDATE': '',
                 'CIVILSTATUS': 'G',
                 'ALTCIVILSTATUS': '',
+                'PHONENUMBERS': None,
+                'EMAIL': None,
             },
         }
 
