@@ -75,11 +75,11 @@ def test_housing_list_email_and_phone_number_excluded():
     THEN check that housing object is in the correct Viva format
     """
 
-    personal_number = '19860303-2395'
+    personal_number = '19860303-2391'
 
     housing = ZeepHousing(application_answer_collection=answer_collection(
-        answer('Kajsa', ['housing', 'firstName']),
-        answer('Kavat', ['housing', 'lastName']),
+        answer('Milton', ['housing', 'firstName']),
+        answer('Herlitz', ['housing', 'lastName']),
         answer('Min gata 1', ['housing', 'address']),
         answer('12345', ['housing', 'postalCode']),
         answer('Helsingborg', ['housing', 'city']),
@@ -87,9 +87,9 @@ def test_housing_list_email_and_phone_number_excluded():
 
     assert housing.get_client(personal_number) == {
         'CLIENT': {
-            'PNUMBER': '19860303-2395',
-            'FNAME': 'Kajsa',
-            'LNAME': 'Kavat',
+            'PNUMBER': '19860303-2391',
+            'FNAME': 'Milton',
+            'LNAME': 'Herlitz',
             'ADDRESSES': {
                 'ADDRESS': [
                     {
