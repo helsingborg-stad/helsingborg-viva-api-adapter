@@ -11,7 +11,7 @@ class ZeepHousing(dict):
             tags)
         return next((answer for answer in answers_by_tags if answer.value), None)
 
-    def get_client(self, personalNumber=None):
+    def get_client(self, personal_number: str):
         housing_answer = self._get_first_matching_answer_by_tags(tags=[
                                                                  'housing'])
         if not housing_answer:
@@ -19,7 +19,7 @@ class ZeepHousing(dict):
 
         housing = {
             'CLIENT': {
-                'PNUMBER': personalNumber,
+                'PNUMBER': personal_number,
                 'ADDRESSES': {'ADDRESS': [{'TYPE': 'P', 'CO': ''}]},
                 'FOREIGNCITIZEN': False,
                 'RESIDENCEPERMITTYPE': '',

@@ -90,7 +90,7 @@ class VivaApplication(Viva):
 
         housing = ZeepHousing(
             application_answer_collection=self._answer_collection)
-        client = housing.get_client(self._personalNumber)
+        client = housing.get_client(self._personal_number)
 
         if not client:
             raise ValueError(f'{client} is empty!')
