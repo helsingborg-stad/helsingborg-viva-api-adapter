@@ -18,6 +18,8 @@ def test_housing_list_happy_path():
     THEN check that housing object is in the correct Viva format
     """
 
+    personal_number = '19860303-2395'
+
     housing = ZeepHousing(application_answer_collection=answer_collection(
         answer('Kajsa', ['housing', 'firstName']),
         answer('Kavat', ['housing', 'lastName']),
@@ -28,8 +30,9 @@ def test_housing_list_happy_path():
         answer('nobody@example.com', ['housing', 'email']),
     ))
 
-    assert housing.get_client() == {
+    assert housing.get_client(personal_number) == {
         'CLIENT': {
+            'PNUMBER': '19860303-2395',
             'FNAME': 'Kajsa',
             'LNAME': 'Kavat',
             'ADDRESSES': {
@@ -72,6 +75,8 @@ def test_housing_list_email_and_phone_number_excluded():
     THEN check that housing object is in the correct Viva format
     """
 
+    personal_number = '19860303-2395'
+
     housing = ZeepHousing(application_answer_collection=answer_collection(
         answer('Kajsa', ['housing', 'firstName']),
         answer('Kavat', ['housing', 'lastName']),
@@ -80,8 +85,9 @@ def test_housing_list_email_and_phone_number_excluded():
         answer('Helsingborg', ['housing', 'city']),
     ))
 
-    assert housing.get_client() == {
+    assert housing.get_client(personal_number) == {
         'CLIENT': {
+            'PNUMBER': '19860303-2395',
             'FNAME': 'Kajsa',
             'LNAME': 'Kavat',
             'ADDRESSES': {
