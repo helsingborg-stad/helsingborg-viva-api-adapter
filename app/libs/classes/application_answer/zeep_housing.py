@@ -19,19 +19,18 @@ class ZeepHousing(dict):
 
         housing = {
             'CLIENT': {
-                'ADDRESSES': [{'ADDRESS': {'TYPE': 'P', 'CO': ''}}],
+                'ADDRESSES': {'ADDRESS': [{'TYPE': 'P', 'CO': ''}]},
                 'FOREIGNCITIZEN': False,
                 'RESIDENCEPERMITTYPE': '',
                 'RESIDENCEPERMITDATE': '',
                 'CIVILSTATUS': 'G',
                 'ALTCIVILSTATUS': '',
+                "EMAIL": {
+                    "EMAIL": "nobody@example.com",
+                    "NOTIFY": False
+                }
             },
         }
-
-        personal_number = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'personalNumber'])
-        if personal_number:
-            housing['CLIENT']['PNUMBER'] = personal_number.value
 
         first_name = self._get_first_matching_answer_by_tags(
             tags=['housing', 'firstName'])
@@ -46,22 +45,22 @@ class ZeepHousing(dict):
         address = self._get_first_matching_answer_by_tags(
             tags=['housing', 'address'])
         if address:
-            housing['CLIENT']['ADDRESSES'][0]['ADDRESS']['ADDRESS'] = address.value
+            housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['ADDRESS'] = address.value
 
         postalCode = self._get_first_matching_answer_by_tags(
             tags=['housing', 'postalCode'])
         if postalCode:
-            housing['CLIENT']['ADDRESSES'][0]['ADDRESS']['ZIP'] = postalCode.value
+            housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['ZIP'] = postalCode.value
 
         city = self._get_first_matching_answer_by_tags(
             tags=['housing', 'city'])
         if city:
-            housing['CLIENT']['ADDRESSES'][0]['ADDRESS']['CITY'] = city.value
+            housing['CLIENT']['ADDRESSES']['ADDRESS'][0]['CITY'] = city.value
 
         phonenumber_answer = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'phonenumber'])
+            tags=['housing', 'telephone'])
         if phonenumber_answer:
-            housing['CLIENT']['PHONENUMBERS'] = [
-                {'PHONENUMBER': {'NUMBER': phonenumber_answer.value, 'TYPE': 'Mobiltelefon', 'SMS': False}}]
+            housing['CLIENT']['PHONENUMBERS'] = {'PHONENUMBER': [
+                {'NUMBER': phonenumber_answer.value, 'TYPE': 'Mobiltelefon', 'SMS': False}]}
 
         return housing
