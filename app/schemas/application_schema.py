@@ -1,5 +1,6 @@
 from marshmallow import validate, Schema, fields
 from .answer_schema import AnswerSchema
+from .attachments_schema import AttachmentSchema
 
 
 class ApplicationSchema(Schema):
