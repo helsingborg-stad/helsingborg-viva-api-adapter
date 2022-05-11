@@ -1,46 +1,50 @@
+from dataclasses import dataclass
 import datetime
 
 
+@dataclass
 class VivaWorkflowCompletionsMapper():
+    viva_workflow: dict
 
-    def __init__(self, viva_workflow):
-        self.viva_workflow = viva_workflow
-
-    def is_random_check(self):
-        description = self.viva_workflow['application']['completiondescription']
-        return (description and 'stickprov' in description) is True
-
-    def get_due_date(self):
+    @property
+    def due_date(self):
         due_date = self.viva_workflow['application']['completionduedate']
         if not due_date:
             return None
 
         return int(round(datetime.datetime.strptime(due_date, "%Y-%m-%d").timestamp() * 1000))
 
+    @property
+    def is_random_check(self):
+        description = self.viva_workflow['application']['completiondescription']
+        return (description and 'stickprov' in description) is True
+
+    @property
     def is_due_date_expired(self):
-        due_date = self.get_due_date()
-        if not due_date:
+        if not self.due_date:
             return False
 
         today_date = datetime.datetime.now().strftime('%Y-%m-%d')
         today_time = int(round(datetime.datetime.strptime(
             today_date, "%Y-%m-%d").timestamp() * 1000))
 
-        return (today_time > due_date) is True
+        return (today_time > self.due_date) is True
 
-    def get_received_date(self):
-        received_date = self.viva_workflow['application']['completionreceiveddate']
-        if not received_date:
-            return None
-
-        return int(round(datetime.datetime.strptime(received_date, "%Y-%m-%d").timestamp() * 1000))
-
+    @property
     def is_attachment_pending(self):
         attachments_uploaded = self.viva_workflow['application']['completionsuploaded']
         if not attachments_uploaded:
             return False
 
         return True
+
+    @property
+    def received_date(self):
+        received_date = self.viva_workflow['application']['completionreceiveddate']
+        if not received_date:
+            return None
+
+        return int(round(datetime.datetime.strptime(received_date, "%Y-%m-%d").timestamp() * 1000))
 
     def get_completion_list(self):
         received = []
@@ -59,6 +63,17 @@ class VivaWorkflowCompletionsMapper():
                                for text in requested)
 
         return completion_list
+
+    def get_completion_uploaded(self):
+        if not self.viva_workflow['application']['completionsuploaded']:
+            return []
+
+        uploaded = self.viva_workflow['application']['completionsuploaded']['completionuploaded']
+
+        if not isinstance(uploaded, list):
+            uploaded = [uploaded]
+
+        return uploaded
 
     def _set_completion(self, text, received):
         return {
