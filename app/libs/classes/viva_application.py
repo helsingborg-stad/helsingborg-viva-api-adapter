@@ -1,4 +1,3 @@
-from app.routes import attachment
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
