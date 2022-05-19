@@ -70,7 +70,7 @@ class VivaApplication(Viva):
 
         return answer_collection
 
-    def _get_application(self):
+    def _create_recurring_application(self):
         initial_application = {
             'OTHER': '',
             'RAWDATA': self._raw_data,
@@ -184,7 +184,7 @@ class VivaApplication(Viva):
             # Period som ansökan avser
             PERIOD=self._my_pages.get_period(),
 
-            REAPPLICATION=self._get_application(),
+            REAPPLICATION=self._create_recurring_application(),
 
             NOTIFYINFOS={
                 'NOTIFYINFO': self._get_zeep_notfication_list()
