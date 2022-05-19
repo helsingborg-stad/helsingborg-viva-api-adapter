@@ -1,3 +1,4 @@
+from app.routes import attachment
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
@@ -95,9 +96,10 @@ class VivaApplication(Viva):
         if not client:
             raise ValueError(f'Client can not be {client}. Verify your tags!')
 
+        attachment_list = self._get_completion_attachments()
         new_application = self._get_zeep_application_dict()
 
-        return {**initial_new_application, **client, **new_application}
+        return {**initial_new_application, **client, **new_application, **attachment_list}
 
     def _save_completion_attachments(self):
         for attachment in self._attachments:
@@ -105,19 +107,10 @@ class VivaApplication(Viva):
         return True
 
     def _get_completion_attachments(self):
-        completion_category = {
-            'incomes': {
-                'type': 'Inkomster',
-                'name': 'Underlag på alla inkomster/tillgångar',
-            },
-            'expenses': {
-                'type': 'Utgifter',
-                'name': 'Underlag på alla sökta utgifter',
-            },
-            'completion': {
-                'type': 'Komplettering',
-                'name': 'Alla kontoutdrag för hela förra månaden och fram till idag',
-            },
+        attachment_category_type = {
+            'incomes': 'Inkomster',
+            'expenses': 'Utgifter',
+            'completion': 'Komplettering',
         }
 
         zeep_attachments = {'ATTACHMENTS': {'ATTACHMENT': []}}
@@ -125,12 +118,11 @@ class VivaApplication(Viva):
         for attachment in self._attachments:
             name = attachment['name']
             category = attachment['category']
-            completion_name = completion_category[category]['name']
-            completion_type = completion_category[category]['type']
+            completion_type = attachment_category_type[category]
 
             zeep_attachments['ATTACHMENTS']['ATTACHMENT'].append({
                 'ID': attachment['id'],
-                'NAME': f'{name} - {completion_name}',
+                'NAME': name,
                 'FILENAME': name,
                 'TYPE': completion_type,
                 'DESCRIPTION': name,
@@ -159,19 +151,14 @@ class VivaApplication(Viva):
         return zeep_dict
 
     def _new_application(self):
+        self._save_completion_attachments()
         new_application = self._create_new_application()
 
         response = self._service.NEWAPPLICATION(
-            # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
             KEY='',
-
-            # Aktuell användares personnummer
             USER=self._personal_number,
             IP='0.0.0.0',
-
-            # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             CASETYPE='',
-
             SYSTEM=1,
             APPLICATION=new_application,
         )
