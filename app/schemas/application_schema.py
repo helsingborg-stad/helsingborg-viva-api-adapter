@@ -1,6 +1,7 @@
 from marshmallow import validate, Schema, fields
+
 from .answer_schema import AnswerSchema
-from .attachments_schema import AttachmentSchema
+from .completion_schema import AttachmentSchema
 
 
 class ApplicationSchema(Schema):
@@ -17,6 +18,10 @@ class ApplicationSchema(Schema):
     answers = fields.List(
         fields.Nested(AnswerSchema(), required=True),
         required=True
+    )
+    attachments = fields.List(
+        fields.Nested(AttachmentSchema(), required=True),
+        required=False
     )
     raw_data = fields.Raw(
         data_key='rawData',
