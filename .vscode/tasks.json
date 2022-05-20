@@ -1,0 +1,29 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Establish Viva test ssh tunnel",
+      "type": "shell",
+      "command": "${workspaceFolder}/.vscode/scripts/tunnel_up.sh",
+      "group": "none",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": true,
+      }
+    },
+    {
+      "label": "Close Viva test ssh tunnel",
+      "type": "shell",
+      "command": "${workspaceFolder}/.vscode/scripts/tunnel_down.sh",
+      "group": "none",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": true
+      },
+    }
+  ]
+}
