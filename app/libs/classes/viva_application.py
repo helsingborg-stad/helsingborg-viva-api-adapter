@@ -41,7 +41,7 @@ class VivaApplication(Viva):
 
         self._viva_soap_operation_types = {
             'new': self._new_application,
-            'recurrent': self._new_re_application,
+            'recurring': self._new_re_application,
             'completion': self._new_completion,
         }
 

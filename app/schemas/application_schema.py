@@ -8,7 +8,7 @@ class ApplicationSchema(Schema):
     application_type = fields.Str(
         data_key='applicationType',
         required=True,
-        validate=validate.OneOf(['recurrent', 'new'])
+        validate=validate.OneOf(['recurring', 'new'])
     )
     hashid = fields.Str(required=True)
     workflow_id = fields.Str(
