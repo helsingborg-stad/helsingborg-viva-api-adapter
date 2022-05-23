@@ -159,7 +159,7 @@ def test_is_due_date_expired():
 
 
 def test_is_not_due_date_expired():
-    viva_workflow['application']['completionduedate'] = '2022-05-10'
+    viva_workflow['application']['completionduedate'] = '2100-05-10'
     completion_mapper = VivaWorkflowCompletionsMapper(viva_workflow)
 
     assert completion_mapper.is_due_date_expired is False
