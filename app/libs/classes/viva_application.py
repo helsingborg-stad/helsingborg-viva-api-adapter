@@ -95,17 +95,17 @@ class VivaApplication(Viva):
         if not client:
             raise ValueError(f'Client can not be {client}. Verify your tags!')
 
-        attachment_list = self._get_completion_attachments()
+        attachment_list = self._get_zeep_attachment_list()
         new_application = self._get_zeep_application_dict()
 
         return {**initial_new_application, **client, **new_application, **attachment_list}
 
-    def _save_completion_attachments(self):
+    def _save_attachments(self):
         for attachment in self._attachments:
             self._viva_attachments.save(attachment=attachment)
         return True
 
-    def _get_completion_attachments(self):
+    def _get_zeep_attachment_list(self):
         attachment_category_type = {
             'incomes': 'Inkomster',
             'expenses': 'Utgifter',
@@ -150,7 +150,7 @@ class VivaApplication(Viva):
         return zeep_dict
 
     def _new_application(self):
-        self._save_completion_attachments()
+        self._save_attachments()
         new_application = self._create_new_application()
 
         response = self._service.NEWAPPLICATION(
@@ -193,11 +193,11 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(response)
 
     def _new_completion(self):
-        self._save_completion_attachments()
+        self._save_attachments()
 
         personal_number = self._my_pages.get_personal_number()
         case_ssi = self._my_pages.get_casessi()
-        completion = self._get_completion_attachments()
+        completion = self._get_zeep_attachment_list()
 
         completion_response = self._service.NEWCOMPLETION(
             KEY='',
