@@ -1,6 +1,8 @@
 from flask import request
 from flask_restful import Resource
 
+from app.libs.enum import ApplicationType
+
 from ..libs import DataClassApplication
 from ..libs import VivaMyPages
 from ..libs import VivaAttachments
@@ -25,31 +27,27 @@ class Applications(Resource):
 
         application_type = self.validated_application['application_type']
 
-        if application_type == 'new':
-            return self._new_appliacation()
+        if application_type == ApplicationType.NEW.value:
+            return self._new_appliacation().submit()
 
-        return self._recurring_application()
+        return self._recurring_application().submit()
 
-    def _recurring_application(self):
-        viva_recurring_application = VivaApplication(
+    def _recurring_application(self) -> VivaApplication:
+        return VivaApplication(
             my_pages=VivaMyPages(user=self.personal_number),
             application=DataClassApplication(
-                operation_type=self.validated_application['application_type'],
+                operation_type=ApplicationType.RECURRING,
                 personal_number=self.personal_number,
                 workflow_id=self.validated_application['workflow_id'],
                 answers=self.validated_application['answers'],
                 raw_data=self.validated_application['raw_data']))
 
-        return viva_recurring_application.submit()
-
-    def _new_appliacation(self):
-        viva_new_application = VivaApplication(
+    def _new_appliacation(self) -> VivaApplication:
+        return VivaApplication(
             viva_attachments=VivaAttachments(user=self.personal_number),
             application=DataClassApplication(
-                operation_type='new',
-                attachments=self.validated_application['attachments'],
+                operation_type=ApplicationType.NEW,
                 personal_number=self.personal_number,
+                attachments=self.validated_application.get('attachments', []),
                 answers=self.validated_application['answers'],
                 raw_data=self.validated_application['raw_data']))
-
-        return viva_new_application.submit()

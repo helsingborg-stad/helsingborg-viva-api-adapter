@@ -1,9 +1,11 @@
 from dataclasses import dataclass, field
 
+from app.libs.enum import ApplicationType
+
 
 @dataclass
 class DataClassApplication:
-    operation_type: str
+    operation_type: ApplicationType
     personal_number: str = ''
     workflow_id: str = ''
     attachments: list = field(default_factory=list)

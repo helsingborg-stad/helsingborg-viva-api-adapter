@@ -1,3 +1,5 @@
+from app.libs.enum import ApplicationType
+
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
@@ -39,10 +41,10 @@ class VivaApplication(Viva):
         self._viva_attachments = viva_attachments
         self._service = self._get_service(wsdl)
 
-        self._viva_soap_operation_types = {
-            'new': self._new_application,
-            'recurring': self._new_re_application,
-            'completion': self._new_completion,
+        self._viva_soap_operation_types: ApplicationType = {
+            ApplicationType.NEW: self._new_application,
+            ApplicationType.RECURRING: self._new_re_application,
+            ApplicationType.COMPLETION: self._new_completion,
         }
 
         self._operation_type = application.operation_type
