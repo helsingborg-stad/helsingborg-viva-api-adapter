@@ -28,7 +28,7 @@ class Applications(Resource):
         application_type = self.validated_application['application_type']
 
         if application_type == ApplicationType.NEW.value:
-            return self._new_appliacation().submit()
+            return self._new_application().submit()
 
         return self._recurring_application().submit()
 
@@ -42,7 +42,7 @@ class Applications(Resource):
                 answers=self.validated_application['answers'],
                 raw_data=self.validated_application['raw_data']))
 
-    def _new_appliacation(self) -> VivaApplication:
+    def _new_application(self) -> VivaApplication:
         return VivaApplication(
             viva_attachments=VivaAttachments(user=self.personal_number),
             application=DataClassApplication(
