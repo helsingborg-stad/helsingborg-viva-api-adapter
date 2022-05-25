@@ -1,3 +1,5 @@
+from app.libs.enum import ApplicationType
+
 from . import DataClassApplication
 from . import Viva
 from . import VivaMyPages
@@ -39,10 +41,10 @@ class VivaApplication(Viva):
         self._viva_attachments = viva_attachments
         self._service = self._get_service(wsdl)
 
-        self._viva_soap_operation_types = {
-            'new': self._new_application,
-            'recurrent': self._new_re_application,
-            'completion': self._new_completion,
+        self._viva_soap_operation_types: ApplicationType = {
+            ApplicationType.NEW: self._new_application,
+            ApplicationType.RECURRING: self._new_re_application,
+            ApplicationType.COMPLETION: self._new_completion,
         }
 
         self._operation_type = application.operation_type
@@ -69,7 +71,7 @@ class VivaApplication(Viva):
 
         return answer_collection
 
-    def _get_application(self):
+    def _create_recurring_application(self):
         initial_application = {
             'OTHER': '',
             'RAWDATA': self._raw_data,
@@ -95,29 +97,21 @@ class VivaApplication(Viva):
         if not client:
             raise ValueError(f'Client can not be {client}. Verify your tags!')
 
+        attachment_list = self._get_zeep_attachment_list()
         new_application = self._get_zeep_application_dict()
 
-        return {**initial_new_application, **client, **new_application}
+        return {**initial_new_application, **client, **new_application, **attachment_list}
 
-    def _save_completion_attachments(self):
+    def _save_attachments(self):
         for attachment in self._attachments:
             self._viva_attachments.save(attachment=attachment)
         return True
 
-    def _get_completion_attachments(self):
-        completion_category = {
-            'incomes': {
-                'type': 'Inkomster',
-                'name': 'Underlag på alla inkomster/tillgångar',
-            },
-            'expenses': {
-                'type': 'Utgifter',
-                'name': 'Underlag på alla sökta utgifter',
-            },
-            'completion': {
-                'type': 'Komplettering',
-                'name': 'Alla kontoutdrag för hela förra månaden och fram till idag',
-            },
+    def _get_zeep_attachment_list(self):
+        attachment_category_type = {
+            'incomes': 'Inkomster',
+            'expenses': 'Utgifter',
+            'completion': 'Komplettering',
         }
 
         zeep_attachments = {'ATTACHMENTS': {'ATTACHMENT': []}}
@@ -125,12 +119,11 @@ class VivaApplication(Viva):
         for attachment in self._attachments:
             name = attachment['name']
             category = attachment['category']
-            completion_name = completion_category[category]['name']
-            completion_type = completion_category[category]['type']
+            completion_type = attachment_category_type[category]
 
             zeep_attachments['ATTACHMENTS']['ATTACHMENT'].append({
                 'ID': attachment['id'],
-                'NAME': f'{name} - {completion_name}',
+                'NAME': name,
                 'FILENAME': name,
                 'TYPE': completion_type,
                 'DESCRIPTION': name,
@@ -159,19 +152,14 @@ class VivaApplication(Viva):
         return zeep_dict
 
     def _new_application(self):
+        self._save_attachments()
         new_application = self._create_new_application()
 
         response = self._service.NEWAPPLICATION(
-            # Externt ID. Lagras som ID på ansökan. Kan lämnas tomt
             KEY='',
-
-            # Aktuell användares personnummer
             USER=self._personal_number,
             IP='0.0.0.0',
-
-            # Ärendetyp. Lämna tomt för '01' = ekonomiskt bistånd
             CASETYPE='',
-
             SYSTEM=1,
             APPLICATION=new_application,
         )
@@ -197,7 +185,7 @@ class VivaApplication(Viva):
             # Period som ansökan avser
             PERIOD=self._my_pages.get_period(),
 
-            REAPPLICATION=self._get_application(),
+            REAPPLICATION=self._create_recurring_application(),
 
             NOTIFYINFOS={
                 'NOTIFYINFO': self._get_zeep_notfication_list()
@@ -207,11 +195,11 @@ class VivaApplication(Viva):
         return self._helpers.serialize_object(response)
 
     def _new_completion(self):
-        self._save_completion_attachments()
+        self._save_attachments()
 
         personal_number = self._my_pages.get_personal_number()
         case_ssi = self._my_pages.get_casessi()
-        completion = self._get_completion_attachments()
+        completion = self._get_zeep_attachment_list()
 
         completion_response = self._service.NEWCOMPLETION(
             KEY='',

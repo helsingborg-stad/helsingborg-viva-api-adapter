@@ -3,6 +3,8 @@ from flask_restful import Resource
 from zeep.exceptions import Fault
 from marshmallow import ValidationError
 
+from app.libs.enum import ApplicationType
+
 from ..libs import DataClassApplication
 from ..libs import VivaMyPages
 from ..libs import VivaAttachments
@@ -29,7 +31,7 @@ class Completions(Resource):
                 my_pages=VivaMyPages(user=personal_number),
                 viva_attachments=VivaAttachments(user=personal_number),
                 application=DataClassApplication(
-                    operation_type='completion',
+                    operation_type=ApplicationType.COMPLETION,
                     attachments=validated_completion_payload['attachments'],
                     workflow_id=validated_completion_payload['workflow_id']))
 
