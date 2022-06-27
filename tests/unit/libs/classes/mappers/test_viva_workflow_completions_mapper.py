@@ -203,3 +203,10 @@ def test_completions_none_uploaded():
     completion_uploaded = completion_mapper.get_completion_uploaded()
 
     assert completion_uploaded == []
+
+
+def test_completions_description():
+    viva_workflow['application']['completiondescription'] = 'Du behöver komplettera ansökan.'
+    completion_mapper = VivaWorkflowCompletionsMapper(viva_workflow=viva_workflow)
+
+    assert completion_mapper.description == 'Du behöver komplettera ansökan.'
