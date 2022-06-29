@@ -25,6 +25,7 @@ class MyPagesWorkflowCompletions(Resource):
             'type': 'getWorkflowCompletions',
             'attributes': {
                 'requested': completion_list,
+                'description': completion_mapper.description,
                 'receivedDate': completion_mapper.received_date,
                 'dueDate': completion_mapper.due_date,
                 'attachmentUploaded': completion_mapper.get_completion_uploaded(),

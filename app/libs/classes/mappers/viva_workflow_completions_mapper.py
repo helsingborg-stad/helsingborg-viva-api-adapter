@@ -46,6 +46,14 @@ class VivaWorkflowCompletionsMapper():
 
         return int(round(datetime.datetime.strptime(received_date, "%Y-%m-%d").timestamp() * 1000))
 
+    @property
+    def description(self):
+        description = self.viva_workflow['application']['completiondescription']
+        if not description:
+            return 'N/A'
+
+        return description
+
     def get_completion_list(self):
         received = []
         if self.viva_workflow['application']['completionsreceived']:
