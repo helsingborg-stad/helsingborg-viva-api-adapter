@@ -207,6 +207,23 @@ def test_completions_none_uploaded():
 
 def test_completions_description():
     viva_workflow['application']['completiondescription'] = 'Du behöver komplettera ansökan.'
-    completion_mapper = VivaWorkflowCompletionsMapper(viva_workflow=viva_workflow)
+    completion_mapper = VivaWorkflowCompletionsMapper(
+        viva_workflow=viva_workflow)
 
     assert completion_mapper.description == 'Du behöver komplettera ansökan.'
+
+
+def test_completions_description_is_none():
+    viva_workflow['application']['completiondescription'] = None
+    completion_mapper = VivaWorkflowCompletionsMapper(
+        viva_workflow=viva_workflow)
+
+    assert completion_mapper.description == None
+
+
+def test_completions_description_given_random_check():
+    viva_workflow['application']['completiondescription'] = 'Lorem ipsum stickprovskontroll some more text'
+    completion_mapper = VivaWorkflowCompletionsMapper(
+        viva_workflow=viva_workflow)
+
+    assert completion_mapper.description == None

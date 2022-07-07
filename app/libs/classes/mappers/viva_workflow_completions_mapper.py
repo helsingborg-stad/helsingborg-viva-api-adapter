@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 import datetime
 
+SKIP_COMPLETIONS_TYPE: str = 'stickprovskontroll'
+
 
 @dataclass
 class VivaWorkflowCompletionsMapper():
@@ -48,9 +50,9 @@ class VivaWorkflowCompletionsMapper():
 
     @property
     def description(self):
-        description = self.viva_workflow['application']['completiondescription']
-        if not description:
-            return 'N/A'
+        description = self.viva_workflow['application']['completiondescription'] or ''
+        if not description or SKIP_COMPLETIONS_TYPE in description:
+            return None
 
         return description
 
