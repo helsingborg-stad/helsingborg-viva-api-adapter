@@ -227,3 +227,12 @@ def test_completions_description_given_random_check():
         viva_workflow=viva_workflow)
 
     assert completion_mapper.description == None
+
+
+def test_completions_description_given_duedate_passed():
+    viva_workflow['application']['completionduedate'] = '2022-02-22'
+    viva_workflow['application']['completiondescription'] = 'Du behöver komplettera ansökan. Detta är en tydlig beskrivning.'
+    completion_mapper = VivaWorkflowCompletionsMapper(
+        viva_workflow=viva_workflow)
+
+    assert completion_mapper.description == None

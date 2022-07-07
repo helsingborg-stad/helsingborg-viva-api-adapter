@@ -51,7 +51,7 @@ class VivaWorkflowCompletionsMapper():
     @property
     def description(self):
         description = self.viva_workflow['application']['completiondescription'] or ''
-        if not description or SKIP_COMPLETIONS_TYPE in description:
+        if not description or self.is_due_date_expired or SKIP_COMPLETIONS_TYPE in description:
             return None
 
         return description
