@@ -5,7 +5,7 @@ class AttachmentSchema(Schema):
     id = fields.String(required=True)
     name = fields.String(required=True)
     category = fields.String(
-        required=True,
+        required=False,
         validate=validate.OneOf(['incomes', 'expenses', 'completion'])
     )
     file_base64 = fields.String(
