@@ -1,4 +1,4 @@
-from . import Viva
+from app.libs.classes.viva import Viva
 
 
 class VivaAttachments(Viva):

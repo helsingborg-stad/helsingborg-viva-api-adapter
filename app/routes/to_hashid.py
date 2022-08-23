@@ -1,6 +1,7 @@
 from flask_restful import Resource
-from ..libs import get_hash_ids
-from ..libs import authenticate
+
+from app.libs.personal_number_helper import get_hash_ids
+from app.libs.authenticate_helper import authenticate
 
 
 class ToHashId(Resource):

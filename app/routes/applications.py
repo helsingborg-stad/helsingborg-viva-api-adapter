@@ -2,15 +2,13 @@ from flask import request
 from flask_restful import Resource
 
 from app.libs.enum import ApplicationType
-
-from ..libs import DataClassApplication
-from ..libs import VivaMyPages
-from ..libs import VivaAttachments
-from ..libs import VivaApplication
-from ..libs import hash_to_personal_number
-from ..libs import authenticate
-
-from ..schemas import ApplicationSchema
+from app.libs.classes.viva_application_data import DataClassApplication
+from app.libs.classes.viva_my_pages import VivaMyPages
+from app.libs.classes.viva_attachments import VivaAttachments
+from app.libs.classes.viva_application import VivaApplication
+from app.libs.personal_number_helper import hash_to_personal_number
+from app.libs.authenticate_helper import authenticate
+from app.schemas.application_schema import ApplicationSchema
 
 
 class Applications(Resource):

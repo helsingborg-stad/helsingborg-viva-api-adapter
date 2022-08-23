@@ -2,12 +2,11 @@ from flask import current_app
 from flask_restful import Resource
 from zeep.exceptions import Fault
 
-from ..libs import VivaMyPages
+from app.libs.classes.viva_my_pages import VivaMyPages
+from app.libs.personal_number_helper import hash_to_personal_number
+from app.libs.authenticate_helper import authenticate
 
-from ..libs import hash_to_personal_number
-from ..libs import authenticate
-
-from .. import data
+from app.data.users import USERS
 
 
 class MyPages(Resource):
@@ -18,7 +17,7 @@ class MyPages(Resource):
         if current_app.config['ENV'] in ['development', 'test']:
             if not hash_id:
                 return {
-                    'users': data.USERS
+                    'users': USERS
                 }, 200
 
         return self._get_mypages_all_details(hash_id=hash_id)

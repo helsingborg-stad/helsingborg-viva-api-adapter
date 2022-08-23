@@ -1,6 +1,6 @@
 from flask import current_app
 
-from . import Viva
+from app.libs.classes.viva import Viva
 
 
 class VivaApplicationStatus(Viva):

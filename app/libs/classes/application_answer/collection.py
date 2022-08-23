@@ -1,4 +1,4 @@
-from . import ApplicationAnswer
+from app.libs.classes.application_answer.answer import ApplicationAnswer
 
 
 class ApplicationAnswerCollection(list):

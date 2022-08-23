@@ -1,9 +1,8 @@
 import locale
 
-from . import ApplicationAnswerCollection
-
-from ...strings import trim_last_character
-from ...datetime_helper import milliseconds_to_date_string
+from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
+from app.libs.strings import trim_last_character
+from app.libs.datetime_helper import milliseconds_to_date_string
 
 locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')
 

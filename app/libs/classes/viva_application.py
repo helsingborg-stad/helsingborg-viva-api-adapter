@@ -1,19 +1,17 @@
+from typing import List
+
 from app.libs.enum import ApplicationType
-
-from . import DataClassApplication
-from . import Viva
-from . import VivaMyPages
-from . import VivaAttachments
-
-from .application_answer import ApplicationAnswer
-from .application_answer import ApplicationAnswerCollection
-from .application_answer import ZeepApplication
-from .application_answer import ZeepNotification
-from .application_answer import ZeepHousing
-
-from .mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
-
-from ..viva_error_helper import catch_viva_error
+from app.libs.classes.viva_application_data import DataClassApplication, Answer
+from app.libs.classes.viva import Viva
+from app.libs.classes.viva_my_pages import VivaMyPages
+from app.libs.classes.viva_attachments import VivaAttachments
+from app.libs.classes.application_answer.answer import ApplicationAnswer
+from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
+from app.libs.classes.application_answer.zeep import ZeepApplication
+from app.libs.classes.application_answer.zeep_housing import ZeepHousing
+from app.libs.classes.application_answer.zeep_notification import ZeepNotification
+from app.libs.classes.mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
+from app.libs.viva_error_helper import catch_viva_error
 
 
 class VivaApplication(Viva):
@@ -61,7 +59,7 @@ class VivaApplication(Viva):
     def submit(self):
         return self._viva_soap_operation_types[self._operation_type]()
 
-    def _set_answer_collection(self, answers):
+    def _set_answer_collection(self, answers: List[Answer]):
         answer_collection = ApplicationAnswerCollection()
 
         for answer in answers or []:

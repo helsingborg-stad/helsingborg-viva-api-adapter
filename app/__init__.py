@@ -28,68 +28,73 @@ def create_app(test_config=None):
     with app.app_context():
         api = CustomFlaskRestfulApi(app)
 
-        from . import routes
+        from app.routes.my_pages import MyPages
+        from app.routes.my_pages_workflows import MyPagesWorkflows
+        from app.routes.my_pages_workflow_latest import MyPagesWorkflowLatest
+        from app.routes.my_pages_workflow_completions import MyPagesWorkflowCompletions
+        from app.routes.applications import Applications
+        from app.routes.application_status import ApplicationStatus
+        from app.routes.completions import Completions
+        from app.routes.attachments import Attachments
+        from app.routes.check_cookie import CheckCookie
+        from app.routes.to_hashid import ToHashId
+        from app.routes.index import Index
 
         # Viva adapter api endpoints
         api.add_resource(
-            routes.MyPages,
+            MyPages,
             '/mypages/',
             '/mypages/<string:hash_id>',
         )
 
         api.add_resource(
-            routes.MyPagesWorkflows,
+            MyPagesWorkflows,
             '/mypages/<string:hash_id>/workflows/',
             '/mypages/<string:hash_id>/workflows/<string:workflow_id>',
         )
 
         api.add_resource(
-            routes.MyPagesWorkflowLatest,
+            MyPagesWorkflowLatest,
             '/mypages/<string:hash_id>/workflows/latest',
         )
 
         api.add_resource(
-            routes.MyPagesWorkflowCompletions,
+            MyPagesWorkflowCompletions,
             '/mypages/<string:hash_id>/workflows/<string:workflow_id>/completions',
         )
 
         api.add_resource(
-            routes.Applications,
+            Applications,
             '/applications',
         )
 
         api.add_resource(
-            routes.ApplicationStatus,
+            ApplicationStatus,
             '/applications/<string:hash_id>/status',
         )
 
         api.add_resource(
-            routes.Completions,
+            Completions,
             '/applications/<string:hash_id>/completions',
         )
 
         api.add_resource(
-            routes.Attachments,
+            Attachments,
             '/attachments',
         )
 
         api.add_resource(
-            routes.Attachment,
-            '/attachments/<string:hash_id>/attachment/<string:attachment_id>',
-        )
-
-        api.add_resource(
-            routes.TestCookie,
+            CheckCookie,
             '/testcookie/',
         )
 
         api.add_resource(
-            routes.ToHashId,
+            ToHashId,
             '/tohashid/<int:personal_number>',
         )
 
         api.add_resource(
-            routes.Index,
+            Index,
             '/',
         )
 

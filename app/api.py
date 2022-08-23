@@ -5,7 +5,7 @@ from werkzeug.exceptions import HTTPException
 from requests.exceptions import ConnectionError
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 
-from .errors import VivaRequestError
+from app.errors.viva_request_error import VivaRequestError
 
 
 class CustomFlaskRestfulApi(Api):

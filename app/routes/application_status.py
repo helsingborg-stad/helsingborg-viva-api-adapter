@@ -1,8 +1,8 @@
 from flask_restful import Resource
 
-from ..libs import VivaApplicationStatus
-from ..libs import hash_to_personal_number
-from ..libs import authenticate
+from app.libs.classes.viva_application_status import VivaApplicationStatus
+from app.libs.personal_number_helper import hash_to_personal_number
+from app.libs.authenticate_helper import authenticate
 
 
 class ApplicationStatus(Resource):

@@ -2,8 +2,8 @@ from marshmallow import validate, Schema, fields
 
 from app.libs.enum import ApplicationType
 
-from .answer_schema import AnswerSchema
-from .completion_schema import AttachmentSchema
+from app.schemas.answer_schema import AnswerSchema
+from app.schemas.completion_schema import AttachmentSchema
 
 
 class ApplicationSchema(Schema):

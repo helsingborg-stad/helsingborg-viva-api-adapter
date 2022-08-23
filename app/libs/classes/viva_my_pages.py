@@ -2,9 +2,8 @@ import xmltodict
 from flask import current_app
 from zeep.exceptions import Fault
 
-from .viva import Viva
-
-from app import cache
+from app.libs.classes.viva import Viva
+from app.cache import cache
 
 
 class VivaMyPages(Viva):

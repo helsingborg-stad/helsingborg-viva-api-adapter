@@ -1,8 +1,8 @@
 import functools
 from flask import current_app
 
-from ..schemas import ResponseSchema
-from ..errors import VivaRequestError
+from app.schemas.response_schema import ResponseSchema
+from app.errors.viva_request_error import VivaRequestError
 
 
 def catch_viva_error(function):

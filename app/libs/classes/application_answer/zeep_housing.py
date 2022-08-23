@@ -1,4 +1,4 @@
-from . import ApplicationAnswerCollection
+from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 
 
 class ZeepHousing(dict):

@@ -1,8 +1,7 @@
 from flask_restful import Resource
 
-from ..libs import Session
-
-from ..libs import authenticate
+from app.libs.classes.session import Session
+from app.libs.authenticate_helper import authenticate
 
 
 class TestCookie(Resource):

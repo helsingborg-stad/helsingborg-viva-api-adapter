@@ -1,4 +1,4 @@
-from . import BaseError
+from app.errors.base_error import BaseError
 
 
 class CustomValidationError(BaseError):

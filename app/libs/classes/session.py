@@ -3,7 +3,7 @@ from flask import current_app
 from zeep.transports import Transport
 from zeep.cache import SqliteCache
 
-from app import cache
+from app.cache import cache
 
 
 class Session():

@@ -3,7 +3,7 @@ from flask import current_app
 from zeep.client import Client
 from zeep.settings import Settings
 
-from .session import Session
+from app.libs.classes.session import Session
 
 
 class Viva():

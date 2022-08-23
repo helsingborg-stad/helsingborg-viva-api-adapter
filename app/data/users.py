@@ -1,5 +1,4 @@
-from flask import current_app
-from ..libs import get_hash_ids
+from app.libs.personal_number_helper import get_hash_ids
 
 
 def insert_pnr_and_endpoints(personal_number):
