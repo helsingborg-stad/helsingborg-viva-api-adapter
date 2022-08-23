@@ -112,13 +112,14 @@ class VivaApplication(Viva):
             'incomes': 'Inkomster',
             'expenses': 'Utgifter',
             'completion': 'Komplettering',
+            'undefined': '',
         }
 
         zeep_attachments = {'ATTACHMENTS': {'ATTACHMENT': []}}
 
         for attachment in self._attachments:
             name = attachment['name']
-            category = attachment['category']
+            category = attachment['category'] or 'undefined'
             completion_type = attachment_category_type[category]
 
             zeep_attachments['ATTACHMENTS']['ATTACHMENT'].append({
