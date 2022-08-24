@@ -1,8 +1,6 @@
 from flask_restful import Resource
-from zeep.exceptions import Fault
 
 from app.libs.classes.viva_my_pages import VivaMyPages
-
 from app.libs.personal_number_helper import hash_to_personal_number
 from app.libs.authenticate_helper import authenticate
 
@@ -22,54 +20,26 @@ class MyPagesWorkflows(Resource):
         return self._get_workflow_details()
 
     def _get_workflow_list(self):
-        try:
-            workflow_list = self.my_pages.get_workflow_list()
+        workflow_list = self.my_pages.get_workflow_list()
 
-            if not type(workflow_list) is list:
-                workflow_list = [workflow_list]
+        if not type(workflow_list) is list:
+            workflow_list = [workflow_list]
 
-            response = {
-                'type': 'getWorkflows',
-                'attributes': {
-                    'workflows': workflow_list,
-                }
+        response = {
+            'type': 'getWorkflows',
+            'attributes': {
+                'workflows': workflow_list,
             }
+        }
 
-            return response, 200
-
-        except Fault as fault:
-            return self._fault_response(fault=fault)
-
-        except Exception as error:
-            my_error = {}
-            my_error['message'] = f'{error}'
-            my_error['code'] = 500
-
-            return my_error, my_error['code']
+        return response, 200
 
     def _get_workflow_details(self):
-        try:
-            response = {
-                'type': 'getWorkflowDetials',
-                'attributes': {
-                    **self.my_pages.get_workflow(workflow_id=self.workflow_id),
-                }
+        response = {
+            'type': 'getWorkflowDetials',
+            'attributes': {
+                **self.my_pages.get_workflow(workflow_id=self.workflow_id),
             }
+        }
 
-            return response, 200
-
-        except Fault as fault:
-            return self._fault_response(fault=fault)
-
-        except Exception as error:
-            my_error = {}
-            my_error['message'] = f'{error}'
-            my_error['code'] = 500
-
-            return my_error, my_error['code']
-
-    def _fault_response(self, fault):
-        return {
-            'message': fault.message,
-            'code': fault.code
-        }, fault.code
+        return response, 200

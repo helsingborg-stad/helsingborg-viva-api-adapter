@@ -4,7 +4,7 @@ from app.libs.classes.session import Session
 from app.libs.authenticate_helper import authenticate
 
 
-class TestCookie(Resource):
+class CheckCookie(Resource):
     method_decorators = [authenticate]
 
     def get(self):

@@ -7,6 +7,7 @@ from app.libs.enum import ApplicationType
 @dataclass
 class Answer:
     value: Union[str, int, float]
+    tags: List[str]
 
 
 @dataclass

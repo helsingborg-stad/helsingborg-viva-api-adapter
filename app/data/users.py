@@ -28,6 +28,11 @@ USERS = [
         **insert_pnr_and_endpoints(198602132394),
     },
     {
+        'name': 'Petronella Malteskog (Dan)',
+        'info': 'Single',
+        **insert_pnr_and_endpoints(198602102389),
+    },
+    {
         'name': 'Bruno Heed (Dan)',
         'info': 'Partner with Jenny Färm',
         **insert_pnr_and_endpoints(198602102397),
@@ -36,6 +41,11 @@ USERS = [
         'name': 'Jenny Färm (Dan)',
         'info': 'Partner with Bruno Heed',
         **insert_pnr_and_endpoints(199803092387),
+    },
+    {
+        'name': 'Milton Herlitz',
+        'info': 'New Application (Grundansökan)',
+        **insert_pnr_and_endpoints(198603232391),
     },
     {
         'name': 'Eva Algutsdotter (Maria)',
@@ -58,24 +68,9 @@ USERS = [
         **insert_pnr_and_endpoints(196709132887),
     },
     {
-        'name': 'Ylva Jansson (Maria)',
-        'info': 'Single',
-        **insert_pnr_and_endpoints(195809262743),
-    },
-    {
         'name': 'Sandra Kranz (Kenth)',
         'info': 'Single - Child: Malin Urbansson',
         **insert_pnr_and_endpoints(198602272380),
-    },
-    {
-        'name': 'Sara Jeppsson',
-        'info': 'Partner with Jesper Jeppsson',
-        **insert_pnr_and_endpoints(198603072383),
-    },
-    {
-        'name': 'Jesper Jeppsson',
-        'info': 'Partner with Sara Jeppsson',
-        **insert_pnr_and_endpoints(198603072391),
     },
     {
         'name': 'Evil Dude',

@@ -1,4 +1,3 @@
-from flask import current_app
 from flask_restful import Api
 from werkzeug.http import HTTP_STATUS_CODES
 from werkzeug.exceptions import HTTPException
@@ -11,30 +10,21 @@ from app.errors.viva_request_error import VivaRequestError
 class CustomFlaskRestfulApi(Api):
 
     def handle_error(self, error):
-        current_app.logger.error(msg=error.message)
 
         if isinstance(error, HTTPException):
-            details = error.description
-            return self._error_response(status_code=error.code, details=details)
+            return self._error_response(status_code=error.code, details=error.description)
 
         if isinstance(error, ConnectionError):
-            details = error.strerror
-            status_code = 502
-            return self._error_response(status_code=status_code, details=details)
+            return self._error_response(status_code=502, details=error.strerror)
 
         if isinstance(error, VivaRequestError):
-            details = error.message
-            return self._error_response(status_code=error.http_status_code, details=details)
+            return self._error_response(status_code=error.http_status_code, details=error.message)
 
         if isinstance(error, MarshmallowValidationError):
-            details = error.messages
-            status_code = 400
-            return self._error_response(status_code=status_code, details=details)
+            return self._error_response(status_code=400, details=error.messages)
 
         if not getattr(error, 'message', None):
-            details = f'Server has encountered an unexpected error: {error}'
-            status_code = 500
-            return self._error_response(status_code=status_code, details=details)
+            return self._error_response(status_code=500, details=f'Server has encountered an unexpected error: {error}')
 
         # Handle application specific custom exceptions
         return dict(**error.kwargs), error.http_status_code

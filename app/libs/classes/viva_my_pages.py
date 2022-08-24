@@ -1,6 +1,6 @@
 import xmltodict
 from flask import current_app
-from zeep.exceptions import Fault
+from werkzeug.exceptions import NotFound
 
 from app.libs.classes.viva import Viva
 from app.cache import cache
@@ -52,8 +52,8 @@ class VivaMyPages(Viva):
             (item for item in workflow_list if item['workflowid'] == workflow_id), None)
 
         if not workflow:
-            raise Fault(
-                message=f'workflow with id: {workflow_id} not found', code=404)
+            raise NotFound(
+                description=f'workflow with id: {workflow_id} not found')
 
         return workflow
 
@@ -62,20 +62,22 @@ class VivaMyPages(Viva):
             person_caseworkflow = self._get_person_caseworkflow(limit=6)
             return person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
         except KeyError:
-            raise Fault(message='No workflows found', code=404)
+            raise NotFound(description='No workflows found')
 
     def get_latest_workflow(self):
         try:
             person_caseworkflow = self._get_person_caseworkflow(limit=1)
             return person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
         except KeyError:
-            raise Fault(message='Workflow not found', code=404)
+            raise NotFound(description='Workflow not found')
 
     def get_personal_number(self):
         person_case = self.person_cases['vivadata']['vivacases']['vivacase']
 
         if not person_case['client']:
-            raise Fault(message='Not found', code=404)
+            message = 'Personal number not found'
+            current_app.logger.warn(msg=message)
+            raise NotFound(description=message)
 
         return person_case['client']['pnumber']
 
@@ -93,8 +95,9 @@ class VivaMyPages(Viva):
 
     def get_casessi(self):
         if not self.person_cases['vivadata']['vivacases']:
-            current_app.logger.error(msg='Person cases not found')
-            raise Fault(message='Person cases not found', code=404)
+            message = 'Person cases not found'
+            current_app.logger.warn(msg=message)
+            raise NotFound(description=message)
 
         casessi = self.person_cases['vivadata']['vivacases']['vivacase']['casessi']
 
@@ -103,6 +106,7 @@ class VivaMyPages(Viva):
         }
 
     def _get_person_info(self):
+        current_app.logger.debug(msg='PERSONCASES')
         response_info = self._service.PERSONINFO(
             USER=self._user,
             PNR=self._pnr,
@@ -121,8 +125,7 @@ class VivaMyPages(Viva):
             RETURNAS='xml',
         )
 
-        person_cases = xmltodict.parse(service_response)
-        return person_cases
+        return xmltodict.parse(service_response)
 
     def _get_person_caseworkflow(self, limit=None):
         current_app.logger.debug(msg='PERSONCASEWORKFLOW')
@@ -137,8 +140,7 @@ class VivaMyPages(Viva):
             RETURNAS='xml'
         )
 
-        person_case_workflow = xmltodict.parse(service_response)
-        return person_case_workflow
+        return xmltodict.parse(service_response)
 
     @cache.memoize(timeout=300)
     def _get_person_application(self):
@@ -151,8 +153,7 @@ class VivaMyPages(Viva):
             RETURNAS='xml',
         )
 
-        person_application = xmltodict.parse(service_response)
-        return person_application
+        return xmltodict.parse(service_response)
 
     def __repr__(self) -> str:
         return "%s(%s)" % (self.__class__.__name__, self._user)

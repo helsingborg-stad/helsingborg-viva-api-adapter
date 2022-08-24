@@ -1,7 +1,5 @@
 from flask import request
 from flask_restful import Resource
-from zeep.exceptions import Fault
-from marshmallow import ValidationError
 
 from app.libs.enum import ApplicationType
 from app.libs.classes.viva_application_data import DataClassApplication
@@ -17,28 +15,21 @@ class Completions(Resource):
     method_decorators = [authenticate]
 
     def post(self, hash_id):
-        try:
-            json_payload = request.json
+        json_payload = request.json
 
-            personal_number = hash_to_personal_number(hash_id=hash_id)
+        personal_number = hash_to_personal_number(hash_id=hash_id)
 
-            completion_schema = CompletionSchema()
-            validated_completion_payload = completion_schema.load(json_payload)
+        completion_schema = CompletionSchema()
+        validated_completion_payload = completion_schema.load(json_payload)
 
-            viva_application = VivaApplication(
-                my_pages=VivaMyPages(user=personal_number),
-                viva_attachments=VivaAttachments(user=personal_number),
-                application=DataClassApplication(
-                    operation_type=ApplicationType.COMPLETION,
-                    attachments=validated_completion_payload['attachments'],
-                    workflow_id=validated_completion_payload['workflow_id']))
+        viva_application = VivaApplication(
+            my_pages=VivaMyPages(user=personal_number),
+            viva_attachments=VivaAttachments(user=personal_number),
+            application=DataClassApplication(
+                operation_type=ApplicationType.COMPLETION,
+                attachments=validated_completion_payload['attachments'],
+                workflow_id=validated_completion_payload['workflow_id']))
 
-            submit_response = viva_application.submit()
+        submit_response = viva_application.submit()
 
-            return submit_response
-
-        except (ValidationError, Fault) as error:
-            return {
-                'message': f'{error}',
-                'code': 500
-            }, 500
+        return submit_response, 200
