@@ -6,7 +6,7 @@ from flask import current_app
 hashids_instance = None
 
 
-def get_hash_ids():
+def get_hash_ids() -> Hashids:
     global hashids_instance
     if hashids_instance is None:
         hashids_instance = Hashids(
@@ -14,7 +14,7 @@ def get_hash_ids():
     return hashids_instance
 
 
-def decode_hash_id(hash_id: str = None):
+def decode_hash_id(hash_id: str = None) -> str:
     if not isinstance(hash_id, str):
         raise TypeError(
             f'expected hash_id to be of type string got {hash_id} instead')
@@ -22,7 +22,7 @@ def decode_hash_id(hash_id: str = None):
     return get_hash_ids().decode(hash_id)
 
 
-def hash_to_personal_number(hash_id=None):
+def hash_to_personal_number(hash_id: str = None) -> str:
 
     decoded_hash_id = decode_hash_id(hash_id)
 
@@ -36,13 +36,13 @@ def hash_to_personal_number(hash_id=None):
     return viva_personal_number
 
 
-def split_personal_number(personal_number=str):
+def split_personal_number(personal_number: str):
     # YYYYMMDDXXXX parts becomes [YYYYMMDD, XXXX]
     regex = re.compile('([0-9]{8})([0-9]{4})')
     parts = regex.match(personal_number).groups()
     return parts
 
 
-def to_viva_formatted_personal_number(personal_number=str):
+def to_viva_formatted_personal_number(personal_number: str) -> str:
     personal_number_split = split_personal_number(personal_number)
     return '-'.join(personal_number_split)

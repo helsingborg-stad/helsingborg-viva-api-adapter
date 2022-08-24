@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def milliseconds_to_date_string(milliseconds=int):
+def milliseconds_to_date_string(milliseconds: int) -> str:
     """
     return format: year-month-date
     """
@@ -13,7 +13,7 @@ def milliseconds_to_date_string(milliseconds=int):
         raise e
 
 
-def generate_period_string(period):
+def generate_period_string(period) -> str:
     if not period.start_date or not period.end_date:
         return ''
 

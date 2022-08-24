@@ -5,7 +5,7 @@ from werkzeug.exceptions import Unauthorized
 from werkzeug.exceptions import BadRequest
 
 
-def validate_token():
+def validate_token() -> bool:
     """
     JSON Web Tokens with Public Key Signatures
     https://blog.miguelgrinberg.com/post/json-web-tokens-with-public-key-signatures
