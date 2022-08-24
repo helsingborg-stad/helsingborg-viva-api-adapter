@@ -1,6 +1,6 @@
-from app.libs.classes.application_answer import ApplicationAnswer
-from app.libs.classes.application_answer import ApplicationAnswerCollection
-from app.libs.classes.application_answer import ZeepHousing
+from app.libs.classes.application_answer.answer import ApplicationAnswer
+from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
+from app.libs.classes.application_answer.zeep_housing import ZeepHousing
 
 
 def answer_collection(*args):
