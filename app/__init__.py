@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 
 from app.cache import cache
@@ -17,11 +16,6 @@ def create_app(test_config=None):
             app.config.from_object('config.ProdConfig')
     else:
         app.config.from_mapping(test_config)
-
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     cache.init_app(app)
 
