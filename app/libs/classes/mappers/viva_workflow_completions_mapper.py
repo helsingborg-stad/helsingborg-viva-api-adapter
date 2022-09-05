@@ -4,6 +4,10 @@ import datetime
 SKIP_COMPLETIONS_TYPE: str = 'stickprovskontroll'
 
 
+def create_timestamp(date: str) -> int:
+    return int(round(datetime.datetime.strptime(date, "%Y-%m-%d").timestamp() * 1000))
+
+
 @dataclass
 class VivaWorkflowCompletionsMapper():
     viva_workflow: dict
@@ -14,12 +18,12 @@ class VivaWorkflowCompletionsMapper():
         if not due_date:
             return None
 
-        return int(round(datetime.datetime.strptime(due_date, "%Y-%m-%d").timestamp() * 1000))
+        return create_timestamp(date=due_date)
 
     @property
     def is_random_check(self):
         description = self.viva_workflow['application']['completiondescription']
-        return (description and 'stickprov' in description) is True
+        return (description and SKIP_COMPLETIONS_TYPE in description) is True
 
     @property
     def is_due_date_expired(self):
@@ -46,7 +50,7 @@ class VivaWorkflowCompletionsMapper():
         if not received_date:
             return None
 
-        return int(round(datetime.datetime.strptime(received_date, "%Y-%m-%d").timestamp() * 1000))
+        return create_timestamp(date=received_date)
 
     @property
     def description(self):

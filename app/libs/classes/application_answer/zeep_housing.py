@@ -52,7 +52,7 @@ class ZeepHousing(dict):
             housing['CLIENT']['ADDRESSES']['ADDRESS']['ZIP'] = postalCode.value
 
         city = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'city'])
+            tags=['housing', 'postalAddress'])
         if city:
             housing['CLIENT']['ADDRESSES']['ADDRESS']['CITY'] = city.value
 

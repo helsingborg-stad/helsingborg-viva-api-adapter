@@ -25,7 +25,7 @@ def test_housing_list_happy_path():
         answer('Kavat', ['housing', 'lastName']),
         answer('Gamla vägen 3', ['housing', 'address']),
         answer('12345', ['housing', 'postalCode']),
-        answer('Helsingborg', ['housing', 'city']),
+        answer('Helsingborg', ['housing', 'postalAddress']),
         answer('+46700121212', ['housing', 'telephone']),
         answer('nobody@example.com', ['housing', 'email']),
     ))
@@ -78,7 +78,7 @@ def test_housing_list_email_and_phone_number_excluded():
         answer('Herlitz', ['housing', 'lastName']),
         answer('Min gata 1', ['housing', 'address']),
         answer('12345', ['housing', 'postalCode']),
-        answer('Helsingborg', ['housing', 'city']),
+        answer('Helsingborg', ['housing', 'postalAddress']),
     ))
 
     assert housing.get_client(personal_number) == {
