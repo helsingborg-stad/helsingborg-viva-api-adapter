@@ -1,4 +1,5 @@
 from flask_restful import Api
+from flask import current_app
 from werkzeug.http import HTTP_STATUS_CODES
 from werkzeug.exceptions import HTTPException
 from requests.exceptions import ConnectionError
@@ -10,6 +11,7 @@ from app.errors.viva_request_error import VivaRequestError
 class CustomFlaskRestfulApi(Api):
 
     def handle_error(self, error):
+        current_app.logger.debug(msg=error)
 
         if isinstance(error, HTTPException):
             return self._error_response(status_code=error.code, details=error.description)
