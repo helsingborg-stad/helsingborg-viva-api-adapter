@@ -5,7 +5,7 @@ SKIP_COMPLETIONS_TYPE: str = 'stickprovskontroll'
 
 
 def create_timestamp(date: str) -> int:
-    return int(round(datetime.datetime.strptime(date, "%Y-%m-%d").timestamp() * 1000))
+    return int(round(datetime.datetime.strptime(f'{date}+00:00:00.000', "%Y-%m-%d%z").timestamp() * 1000))
 
 
 @dataclass
