@@ -26,12 +26,13 @@ class MyPages(Resource):
         my_pages = VivaMyPages(user=personal_number)
 
         response = {
-            'person': {
+            'type': 'getMyPages',
+            'attributes': {
                 'cases': my_pages.person_cases['vivadata'],
             }
         }
 
         if my_pages.person_application is not False:
-            response['person']['application'] = my_pages.person_application['vivadata']
+            response['attributes']['application'] = my_pages.person_application['vivadata']
 
         return response, 200
