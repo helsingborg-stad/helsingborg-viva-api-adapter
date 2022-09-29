@@ -169,7 +169,8 @@ def test_received_date():
     viva_workflow['application']['completionreceiveddate'] = '2022-05-01'
     completion_mapper = VivaWorkflowCompletionsMapper(viva_workflow)
 
-    assert completion_mapper.received_date == 1651356000000
+    # UTC time & date
+    assert completion_mapper.received_date == 1651363200000
 
 
 def test_completions_uploaded():
