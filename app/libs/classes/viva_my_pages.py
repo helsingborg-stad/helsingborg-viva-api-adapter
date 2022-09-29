@@ -106,6 +106,7 @@ class VivaMyPages(Viva):
         }
 
     def _get_person_info(self):
+        """NOT IMPLEMENTED"""
         current_app.logger.debug(msg='PERSONCASES')
         response_info = self._service.PERSONINFO(
             USER=self._user,
@@ -115,7 +116,7 @@ class VivaMyPages(Viva):
 
         return xmltodict.parse(response_info)
 
-    @cache.memoize(timeout=300)
+    @cache.memoize(timeout=900)
     def _get_person_cases(self):
         current_app.logger.debug(msg='PERSONCASES')
         service_response = self._service.PERSONCASES(
@@ -142,7 +143,7 @@ class VivaMyPages(Viva):
 
         return xmltodict.parse(service_response)
 
-    @cache.memoize(timeout=300)
+    @cache.memoize(timeout=900)
     def _get_person_application(self):
         current_app.logger.debug(msg='PERSONAPPLICATION')
         service_response = self._service.PERSONAPPLICATION(
