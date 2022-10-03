@@ -25,11 +25,11 @@ class VivaApplicationStatus(Viva):
         4 - väntar signering (avser medsökande: sökande har signerat en ansökan som inkluderar medsökande)
         8 - väntar att medsökande ska signera (avser sökande medan hen väntar på att medsökande ska signera)
         16 - ansökan inskickad
-        32 - ansökan mottagen(/registrerad i Viva)
+        32 - ansökan mottagen/registrerad i Viva
         64 - komplettering begärd
         128 - ärende finns (försörjningsstödsärende)
         256 - ett ärende är aktiverat på web (egenskap på ärendet som gör att det visas på Mina sidor)
-        512 - ärendet tillåter e-ansökan  (egenskap på ärendet som gör att det går att skapa fortsatt ansökan)
+        512 - ärendet tillåter e-ansökan (egenskap på ärendet som gör att det går att skapa fortsatt ansökan)
 
         2, 4 och 8 blir bara aktuella när man parkerar eller autosparar ansökan i Viva.
 
@@ -53,11 +53,11 @@ class VivaApplicationStatus(Viva):
             4: 'Awaiting signing',
             8: 'Waiting for co-applicants to sign',
             16: 'Application submitted',
-            32: 'Application received / registered',
+            32: 'Application received/registered in Viva',
             64: 'Completion requested',
             128: 'Case available (income support)',
-            256: 'Case is activated on the web',
-            512: 'The case allows e-application',
+            256: 'Case is activated on the web. Is displayed on My Pages',
+            512: 'The case allows e-application. Is possible to create a continued application',
         }
 
         status_list = []

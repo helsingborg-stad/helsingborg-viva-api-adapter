@@ -14,6 +14,11 @@ class ApplicationStatus(Resource):
         viva_application_status = VivaApplicationStatus(
             personal_number=personal_number)
 
-        response = viva_application_status.get()
+        response = {
+            'type': 'getApplicationsStatus',
+            'attributes': {
+                'status': viva_application_status.get()
+            }
+        }
 
         return response, 200

@@ -38,7 +38,7 @@ class MyPagesWorkflows(Resource):
         response = {
             'type': 'getWorkflowDetials',
             'attributes': {
-                **self.my_pages.get_workflow(workflow_id=self.workflow_id),
+                'workflow': self.my_pages.get_workflow(workflow_id=self.workflow_id),
             }
         }
 

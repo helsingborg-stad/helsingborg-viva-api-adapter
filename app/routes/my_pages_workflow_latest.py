@@ -16,7 +16,7 @@ class MyPagesWorkflowLatest(Resource):
         response = {
             'type': 'getWorkflowLatest',
             'attributes': {
-                **latest_workflow,
+                'latestWorkflow': latest_workflow,
             }
         }
 

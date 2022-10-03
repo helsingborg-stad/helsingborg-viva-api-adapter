@@ -43,7 +43,7 @@ def create_app(test_config=None):
 
         api.add_resource(
             MyPagesWorkflows,
-            '/mypages/<string:hash_id>/workflows/',
+            '/mypages/<string:hash_id>/workflows',
             '/mypages/<string:hash_id>/workflows/<string:workflow_id>',
         )
 
@@ -79,7 +79,7 @@ def create_app(test_config=None):
 
         api.add_resource(
             CheckCookie,
-            '/testcookie/',
+            '/testcookie',
         )
 
         api.add_resource(
