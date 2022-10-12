@@ -90,7 +90,8 @@ class VivaApplication(Viva):
 
         housing = ZeepHousing(
             application_answer_collection=self._answer_collection)
-        client = housing.get_client(self._personal_number)
+        client = housing.get_client(self._personal_number, 'client')
+        partner = housing.get_client(self._personal_number, 'partner')
 
         if not client:
             raise ValueError(f'Client can not be {client}. Verify your tags!')
@@ -98,7 +99,7 @@ class VivaApplication(Viva):
         attachment_list = self._get_zeep_attachment_list()
         new_application = self._get_zeep_application_dict()
 
-        return {**initial_new_application, **client, **new_application, **attachment_list}
+        return {**initial_new_application, **client, **partner, ** new_application, **attachment_list}
 
     def _save_attachments(self):
         for attachment in self._attachments:
