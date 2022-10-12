@@ -11,14 +11,14 @@ class ZeepHousing(dict):
             tags)
         return next((answer for answer in answers_by_tags if answer.value), None)
 
-    def get_client(self, personal_number: str):
+    def get_client(self, personal_number: str, type: str):
         housing_answer = self._get_first_matching_answer_by_tags(tags=[
                                                                  'housing'])
         if not housing_answer:
             return None
 
         housing = {
-            'CLIENT': {
+            type.upper(): {
                 'PNUMBER': personal_number,
                 'ADDRESSES': {'ADDRESS': {'TYPE': 'FB', 'CO': ''}},
                 'FOREIGNCITIZEN': False,
@@ -32,40 +32,40 @@ class ZeepHousing(dict):
         }
 
         first_name = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'firstName'])
+            tags=['housing', 'firstName', type.lower()])
         if first_name:
-            housing['CLIENT']['FNAME'] = first_name.value
+            housing[type.upper()]['FNAME'] = first_name.value
 
         last_name = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'lastName'])
+            tags=['housing', 'lastName', type.lower()])
         if last_name:
-            housing['CLIENT']['LNAME'] = last_name.value
+            housing[type.upper()]['LNAME'] = last_name.value
 
         address = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'address'])
+            tags=['housing', 'address', type.lower()])
         if address:
-            housing['CLIENT']['ADDRESSES']['ADDRESS']['ADDRESS'] = address.value
+            housing[type.upper()]['ADDRESSES']['ADDRESS']['ADDRESS'] = address.value
 
         postalCode = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'postalCode'])
+            tags=['housing', 'postalCode', type.lower()])
         if postalCode:
-            housing['CLIENT']['ADDRESSES']['ADDRESS']['ZIP'] = postalCode.value
+            housing[type.upper()]['ADDRESSES']['ADDRESS']['ZIP'] = postalCode.value
 
         city = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'postalAddress'])
+            tags=['housing', 'postalAddress', type.lower()])
         if city:
-            housing['CLIENT']['ADDRESSES']['ADDRESS']['CITY'] = city.value
+            housing[type.upper()]['ADDRESSES']['ADDRESS']['CITY'] = city.value
 
         e_mail = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'email'])
+            tags=['housing', 'email', type.lower()])
         if e_mail:
-            housing['CLIENT']['EMAIL'] = {
+            housing[type.upper()]['EMAIL'] = {
                 'EMAIL': e_mail.value, 'NOTIFY':  False}
 
         phonenumber_answer = self._get_first_matching_answer_by_tags(
-            tags=['housing', 'telephone'])
+            tags=['housing', 'telephone', type.lower()])
         if phonenumber_answer:
-            housing['CLIENT']['PHONENUMBERS'] = {'PHONENUMBER': {
+            housing[type.upper()]['PHONENUMBERS'] = {'PHONENUMBER': {
                 'NUMBER': phonenumber_answer.value, 'TYPE': 'Mobiltelefon', 'SMS': False}}
 
         return housing
