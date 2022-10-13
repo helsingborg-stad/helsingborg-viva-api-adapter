@@ -20,7 +20,8 @@ def test_person_info_list_client_happy_path():
 
     personal_number = '19860303-2395'
 
-    person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+    client_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+        answer(personal_number, ['personInfo', 'personalNumber', 'client']),
         answer('Milton', ['personInfo', 'firstName', 'client']),
         answer('Herlitz', ['personInfo', 'lastName', 'client', 'client']),
         answer('Gamla vägen 3', ['personInfo', 'address', 'client']),
@@ -30,9 +31,9 @@ def test_person_info_list_client_happy_path():
         answer('nobody@example.com', ['personInfo', 'email', 'client']),
     ))
 
-    assert person_info.create(personal_number=personal_number, person_type='client') == {
+    assert client_person_info.create() == {
         'CLIENT': {
-            'PNUMBER': '19860303-2395',
+            'PNUMBER': personal_number,
             'FNAME': 'Milton',
             'LNAME': 'Herlitz',
             'ADDRESSES': {
@@ -73,7 +74,8 @@ def test_person_info_list_client_email_and_phone_number_excluded():
 
     personal_number = '19860303-2391'
 
-    person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+    client_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+        answer(personal_number, ['personInfo', 'personalNumber', 'client']),
         answer('Milton', ['personInfo', 'firstName', 'client']),
         answer('Herlitz', ['personInfo', 'lastName', 'client']),
         answer('Min gata 1', ['personInfo', 'address', 'client']),
@@ -81,9 +83,9 @@ def test_person_info_list_client_email_and_phone_number_excluded():
         answer('Helsingborg', ['personInfo', 'postalAddress', 'client']),
     ))
 
-    assert person_info.create(personal_number=personal_number, person_type='client') == {
+    assert client_person_info.create() == {
         'CLIENT': {
-            'PNUMBER': '19860303-2391',
+            'PNUMBER': personal_number,
             'FNAME': 'Milton',
             'LNAME': 'Herlitz',
             'ADDRESSES': {
@@ -124,7 +126,8 @@ def test_person_info_list_partner_happy_path():
 
     personal_number = '19860303-1234'
 
-    person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+    partner_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+        answer(personal_number, ['personInfo', 'personalNumber', 'partner']),
         answer('Kajsa', ['personInfo', 'firstName', 'partner']),
         answer('Kavat', ['personInfo', 'lastName', 'partner']),
         answer('Gamla vägen 3', ['personInfo', 'address', 'partner']),
@@ -132,11 +135,11 @@ def test_person_info_list_partner_happy_path():
         answer('Helsingborg', ['personInfo', 'postalAddress', 'partner']),
         answer('+46700121212', ['personInfo', 'telephone', 'partner']),
         answer('nobody@example.com', ['personInfo', 'email', 'partner']),
-    ))
+    ), person_type='partner')
 
-    assert person_info.create(personal_number=personal_number, person_type='partner') == {
+    assert partner_person_info.create() == {
         'PARTNER': {
-            'PNUMBER': '19860303-1234',
+            'PNUMBER': personal_number,
             'FNAME': 'Kajsa',
             'LNAME': 'Kavat',
             'ADDRESSES': {
@@ -177,17 +180,18 @@ def test_person_info_list_partner_email_and_phone_number_excluded():
 
     personal_number = '19860303-1234'
 
-    person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+    partner_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+        answer(personal_number, ['personInfo', 'personalNumber', 'partner']),
         answer('Kajsa', ['personInfo', 'firstName', 'partner']),
         answer('Kavat', ['personInfo', 'lastName', 'partner']),
         answer('Min gata 1', ['personInfo', 'address', 'partner']),
         answer('12345', ['personInfo', 'postalCode', 'partner']),
         answer('Helsingborg', ['personInfo', 'postalAddress', 'partner']),
-    ))
+    ), person_type='partner')
 
-    assert person_info.create(personal_number=personal_number, person_type='partner') == {
+    assert partner_person_info.create() == {
         'PARTNER': {
-            'PNUMBER': '19860303-1234',
+            'PNUMBER': personal_number,
             'FNAME': 'Kajsa',
             'LNAME': 'Kavat',
             'ADDRESSES': {
