@@ -8,9 +8,9 @@ from app.libs.classes.viva_attachments import VivaAttachments
 from app.libs.classes.application_answer.answer import ApplicationAnswer
 from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 from app.libs.classes.application_answer.zeep import ZeepApplication
-from app.libs.classes.application_answer.zeep_housing import ZeepHousing
 from app.libs.classes.application_answer.zeep_notification import ZeepNotification
 from app.libs.classes.mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
+from app.libs.classes.application_answer.zeep_person_info import ZeepPersonInfo
 from app.libs.viva_error_helper import catch_viva_error
 
 
@@ -88,18 +88,26 @@ class VivaApplication(Viva):
             'RAWDATATYPE': self._raw_data_type,
         }
 
-        housing = ZeepHousing(
+        zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection)
-        client = housing.get_client(self._personal_number, 'client')
-        partner = housing.get_client(self._personal_number, 'partner')
 
-        if not client:
-            raise ValueError(f'Client can not be {client}. Verify your tags!')
+        client_info = zeep_person_info.create(
+            personal_number=self._personal_number, type='client')
+
+        if not client_info:
+            raise ValueError(
+                f'Client can not be {client_info}. Verify your tags!')
+
+        partner_info = zeep_person_info.create(
+            personal_number=self._personal_number, type='partner')
+
+        children_info = zeep_person_info.create(
+            personal_number=self._personal_number, type='children')
 
         attachment_list = self._get_zeep_attachment_list()
         new_application = self._get_zeep_application_dict()
 
-        return {**initial_new_application, **client, **partner, ** new_application, **attachment_list}
+        return {**initial_new_application, **client_info, **partner_info, **children_info, ** new_application, **attachment_list}
 
     def _save_attachments(self):
         for attachment in self._attachments:
