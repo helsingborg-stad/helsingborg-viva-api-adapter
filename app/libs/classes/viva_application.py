@@ -88,21 +88,21 @@ class VivaApplication(Viva):
             'RAWDATATYPE': self._raw_data_type,
         }
 
-        zeep_person_info = ZeepPersonInfo(
+        client_zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection)
-
-        client_info = zeep_person_info.create(
-            personal_number=self._personal_number, type='client')
+        client_info = client_zeep_person_info.create()
 
         if not client_info:
             raise ValueError(
                 f'Client can not be {client_info}. Verify your tags!')
 
-        partner_info = zeep_person_info.create(
-            personal_number=self._personal_number, type='partner')
+        partner_zeep_person_info = ZeepPersonInfo(
+            application_answer_collection=self._answer_collection, person_type='partner')
+        partner_info = partner_zeep_person_info.create()
 
-        children_info = zeep_person_info.create(
-            personal_number=self._personal_number, type='children')
+        children_zeep_person_info = ZeepPersonInfo(
+            application_answer_collection=self._answer_collection, person_type='children')
+        children_info = children_zeep_person_info.create()
 
         attachment_list = self._get_zeep_attachment_list()
         new_application = self._get_zeep_application_dict()
