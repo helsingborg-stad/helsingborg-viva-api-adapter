@@ -13,7 +13,7 @@ class ZeepPersonInfo(dict):
         self.person_type = person_type
 
     def _get_first_matching_answer_by_tags(self, tags: List[str]) -> ApplicationAnswer:
-        answers_by_tags = self.application_answer_collection.filter_by_tags(
+        answers_by_tags: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
             tags=tags)
         return next((answer for answer in answers_by_tags if answer.value), None)
 
@@ -27,15 +27,18 @@ class ZeepPersonInfo(dict):
         return creater_mapping[self.person_type]()
 
     def _create_applicant(self):
-        answer = self._get_first_matching_answer_by_tags(tags=[
+        answer: ApplicationAnswer = self._get_first_matching_answer_by_tags(tags=[
             self.find_by_tag])
 
         if not answer:
             return None
 
+        applicantAnswers: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
+            tags=[self.find_by_tag])
+
         return {
             self.person_type.upper(): {
-                'PNUMBER': self._get_value(tags=['personalNumber']),
+                'PNUMBER': self._get_value(answers=applicantAnswers, tags=['personalNumber']),
                 'FOREIGNCITIZEN': False,
                 'RESIDENCEPERMITTYPE': '',
                 'RESIDENCEPERMITDATE': '',
@@ -44,57 +47,75 @@ class ZeepPersonInfo(dict):
                 'PHONENUMBERS': {
                     'PHONENUMBER': {
                         'TYPE': 'Mobiltelefon',
-                        'NUMBER': self._get_value(tags=['telephone']),
+                        'NUMBER': self._get_value(answers=applicantAnswers, tags=['telephone']),
                         'SMS': False
                     }
                 },
                 'EMAIL': {
-                    'EMAIL': self._get_value(tags=['email']),
+                    'EMAIL': self._get_value(answers=applicantAnswers, tags=['email']),
                     'NOTIFY': False
                 },
-                'FNAME': self._get_value(tags=['firstName']),
-                'LNAME': self._get_value(tags=['lastName']),
+                'FNAME': self._get_value(answers=applicantAnswers, tags=['firstName']),
+                'LNAME': self._get_value(answers=applicantAnswers, tags=['lastName']),
                 'ADDRESSES': {
                     'ADDRESS': {
                         'TYPE': 'FB',
                         'CO': '',
-                        'ADDRESS': self._get_value(tags=['address']),
-                        'ZIP': self._get_value(tags=['postalCode']),
-                        'CITY': self._get_value(tags=['postalAddress'])
+                        'ADDRESS': self._get_value(answers=applicantAnswers, tags=['address']),
+                        'ZIP': self._get_value(answers=applicantAnswers, tags=['postalCode']),
+                        'CITY': self._get_value(answers=applicantAnswers, tags=['postalAddress'])
                     }
                 }
             }
         }
 
     def _create_children(self):
-        answers_with_children = self.application_answer_collection.filter_by_tags(
+        child_answers: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
             tags=[self.find_by_tag, 'children'])
-        if not answers_with_children:
+        if not child_answers:
             return None
 
-        for answer in answers_with_children:
-            group = answer.get_tag_starting_with(value='group:')
+        child = [self._create_child(answers)
+                 for answers in self._create_grouped_answers(child_answers)]
 
-            if not group in self:
-                pass
+        return {
+            self.person_type.upper(): {
+                'CHILD': child if len(child) > 1 else child[0],
+            },
+        }
 
-        child = {
-            'PNUMBER': self._get_value(tags=['personalNumber']),
-            'FNAME': self._get_value(tags=['firstName']),
-            'LNAME': self._get_value(tags=['lastName']),
+    def _create_grouped_answers(self, answers: List[ApplicationAnswer]) -> List[List[ApplicationAnswer]]:
+        grouped_answers: List[List[ApplicationAnswer]] = []
+
+        for answer in answers:
+            group_tag: str = answer.get_tag_starting_with('group:')
+            group_index = int(group_tag.split(':')[1]) if group_tag else 0
+
+            if len(grouped_answers) <= group_index:
+                grouped_answers.append([answer])
+            else:
+                grouped_answers[group_index].append(answer)
+
+        return grouped_answers
+
+    def _create_child(self, answers: List[ApplicationAnswer]) -> dict:
+        return {
+            'PNUMBER': self._get_value(answers, tags=['personalNumber']),
+            'FNAME': self._get_value(answers, tags=['firstName']),
+            'LNAME': self._get_value(answers, tags=['lastName']),
             'ADDRESSES': {
                 'ADDRESS': {
                     'TYPE': 'FB',
                     'CO': '',
-                    'ADDRESS': self._get_value(tags=['address']),
-                    'ZIP': self._get_value(tags=['postalCode']),
-                    'CITY': self._get_value(tags=['postalAddress'])
+                    'ADDRESS': self._get_value(answers, tags=['address']),
+                    'ZIP': self._get_value(answers, tags=['postalCode']),
+                    'CITY': self._get_value(answers, tags=['postalAddress'])
                 },
             },
             'PHONENUMBERS': {
                 'PHONENUMBER': {
-                    'TYPE':  self._get_value(tags=['phoneType']),
-                    'NUMBER': self._get_value(tags=['phoneNumber']),
+                    'TYPE':  self._get_value(answers, tags=['phoneType']),
+                    'NUMBER': self._get_value(answers, tags=['phoneNumber']),
                     'SMS': False
                 },
             },
@@ -113,13 +134,8 @@ class ZeepPersonInfo(dict):
             'PARTTIMECHILDDAYS': '',
         }
 
-        return {
-            'CHILDREN': {
-                'CHILD': '',
-            },
-        }
-
-    def _get_value(self, tags: List[str]) -> str:
+    def _get_value(self, answers: List[ApplicationAnswer], tags: List[str]) -> str:
         search_tags = [*tags, self.person_type, self.find_by_tag]
-        answer = self._get_first_matching_answer_by_tags(tags=search_tags)
+        answer = next(
+            (answer for answer in answers if answer.has_all_tags(search_tags)), None)
         return answer.value if answer else ''
