@@ -116,7 +116,7 @@ class VivaMyPages(Viva):
 
         return xmltodict.parse(response_info)
 
-    @cache.memoize(timeout=900)
+    @cache.memoize(timeout=300)
     def _get_person_cases(self):
         current_app.logger.debug(msg='PERSONCASES')
         service_response = self._service.PERSONCASES(
@@ -143,7 +143,7 @@ class VivaMyPages(Viva):
 
         return xmltodict.parse(service_response)
 
-    @cache.memoize(timeout=900)
+    @cache.memoize(timeout=300)
     def _get_person_application(self):
         current_app.logger.debug(msg='PERSONAPPLICATION')
         service_response = self._service.PERSONAPPLICATION(
