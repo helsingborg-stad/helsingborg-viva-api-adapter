@@ -131,6 +131,48 @@
     },
     {
       "field": {
+        "id": "children.personalNumber",
+        "tags": ["personInfo", "personalNumber", "children", "group:0"]
+      },
+      "value": "200310012391"
+    },
+    {
+      "field": {
+        "id": "children.firstName",
+        "tags": ["personInfo", "firstName", "children", "group:0"]
+      },
+      "value": "Sven"
+    },
+    {
+      "field": {
+        "id": "children.lastName",
+        "tags": ["personInfo", "lastName", "children", "group:0"]
+      },
+      "value": "Svensson"
+    },
+    {
+      "field": {
+        "id": "children.personalNumber",
+        "tags": ["personInfo", "personalNumber", "children", "group:1"]
+      },
+      "value": "200410012191"
+    },
+    {
+      "field": {
+        "id": "children.firstName",
+        "tags": ["personInfo", "firstName", "children", "group:1"]
+      },
+      "value": "Kajsa"
+    },
+    {
+      "field": {
+        "id": "children.lastName",
+        "tags": ["personInfo", "lastName", "children", "group:1"]
+      },
+      "value": "Kavat"
+    },
+    {
+      "field": {
         "id": "rent",
         "tags": ["expenses", "boende", "amount", "month"]
       },

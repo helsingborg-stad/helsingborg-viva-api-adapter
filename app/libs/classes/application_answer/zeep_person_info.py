@@ -12,11 +12,6 @@ class ZeepPersonInfo(dict):
         self.find_by_tag = find_by_tag
         self.person_type = person_type
 
-    def _get_first_matching_answer_by_tags(self, tags: List[str]) -> ApplicationAnswer:
-        answers_by_tags: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
-            tags=tags)
-        return next((answer for answer in answers_by_tags if answer.value), None)
-
     def create(self):
         creater_mapping = {
             'client': self._create_applicant,
@@ -24,7 +19,12 @@ class ZeepPersonInfo(dict):
             'children': self._create_children,
         }
 
-        return creater_mapping[self.person_type]()
+        return creater_mapping[self.person_type]() or {}
+
+    def _get_first_matching_answer_by_tags(self, tags: List[str]) -> ApplicationAnswer:
+        answers_by_tags: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
+            tags=tags)
+        return next((answer for answer in answers_by_tags if answer.value), None)
 
     def _create_applicant(self):
         answer: ApplicationAnswer = self._get_first_matching_answer_by_tags(tags=[

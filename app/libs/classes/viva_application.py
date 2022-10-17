@@ -88,6 +88,18 @@ class VivaApplication(Viva):
             'RAWDATATYPE': self._raw_data_type,
         }
 
+        household_info = self._get_zeep_household_info()
+        attachment_list = self._get_zeep_attachment_list()
+        new_application = self._get_zeep_application_dict()
+
+        return {**initial_new_application, **household_info, **new_application, **attachment_list}
+
+    def _save_attachments(self):
+        for attachment in self._attachments:
+            self._viva_attachments.save(attachment=attachment)
+        return True
+
+    def _get_zeep_household_info(self):
         client_zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection)
         client_info = client_zeep_person_info.create()
@@ -104,15 +116,11 @@ class VivaApplication(Viva):
             application_answer_collection=self._answer_collection, person_type='children')
         children_info = children_zeep_person_info.create()
 
-        attachment_list = self._get_zeep_attachment_list()
-        new_application = self._get_zeep_application_dict()
-
-        return {**initial_new_application, **client_info, **partner_info, **children_info, ** new_application, **attachment_list}
-
-    def _save_attachments(self):
-        for attachment in self._attachments:
-            self._viva_attachments.save(attachment=attachment)
-        return True
+        return {
+            **client_info,
+            **partner_info,
+            **children_info,
+        }
 
     def _get_zeep_attachment_list(self):
         attachment_category_type = {
