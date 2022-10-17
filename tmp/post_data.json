@@ -1,0 +1,170 @@
+{
+  "applicationType": "new",
+  "hashid": "{{vada-hashid}}",
+  "workflowId": "",
+  "answers":[
+    {
+      "field": {
+        "id": "applicantInfo.firstName",
+        "tags": ["personInfo", "firstName", "applicant", "client"]
+      },
+      "value": "Milton"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.lastName",
+        "tags": ["personInfo", "lastName", "applicant", "client"]
+      },
+      "value": "Herlitz"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.personalNumber",
+        "tags": ["personInfo", "personalNumber", "applicant", "client"]
+      },
+      "value": "198603232391"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.phoneNumber",
+        "tags": ["personInfo", "phoneNumber", "applicant", "client"]
+      },
+      "value": "0733687702"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.phoneType",
+        "tags": ["personInfo", "phoneType", "applicant", "client"]
+      },
+      "value": "Mobiltelefon"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.email",
+        "tags": ["personInfo", "email", "applicant", "client"]
+      },
+      "value": "myName@example.com"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.citizenship",
+        "tags": ["personInfo", "citizenship", "applicant", "client"]
+      },
+      "value": "Svensk eller nordisk medborgare"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.street",
+        "tags": ["personInfo", "applicant", "address", "client"]
+      },
+      "value": "WAHRENDORFFSGATAN 2"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.postalCode",
+        "tags": ["personInfo", "applicant", "postalCode", "client"]
+      },
+      "value": "11147"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.postalAddress",
+        "tags": ["personInfo", "applicant", "postalAddress", "client"]
+      },
+      "value": "Stockholm"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.firstName",
+        "tags": ["personInfo", "firstName", "coApplicant", "partner"]
+      },
+      "value": "Kajsa"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.lastName",
+        "tags": ["personInfo", "lastName", "coApplicant", "partner"]
+      },
+      "value": "Kavat"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.personalNumber",
+        "tags": ["personInfo", "personalNumber", "coApplicant", "partner"]
+      },
+      "value": "197607012395"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.phoneNumber",
+        "tags": ["personInfo", "phoneNumber", "coApplicant", "partner"]
+      },
+      "value": "0733687702"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.phoneType",
+        "tags": ["personInfo", "phoneType", "coApplicant", "partner"]
+      },
+      "value": "Fast telefon"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.address.street",
+        "tags": ["personInfo", "coApplicant", "address", "partner"]
+      },
+      "value": "Min Gata 101"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.address.postalCode",
+        "tags": ["personInfo", "coApplicant", "postalCode", "partner"]
+      },
+      "value": "23412"
+    },
+    {
+      "field": {
+        "id": "coApplicantInfo.address.postalAddress",
+        "tags": ["personInfo", "coApplicant", "postalAddress", "partner"]
+      },
+      "value": "Helsingborg"
+    },
+    {
+      "field": {
+        "id": "rent",
+        "tags": ["expenses", "boende", "amount", "month"]
+      },
+      "value": "2000"
+    },
+    {
+      "field": {
+        "id": "rent-1",
+        "tags": ["expenses", "boende", "amount", "month-1"]
+      },
+      "value": "3000"
+    },
+    {
+      "field": {
+        "id": "rent-2",
+        "tags": ["expenses", "boende", "amount", "month-2"]
+      },
+      "value": "4000"
+    },
+    {
+      "field": {
+        "id": "notifyMe.applicant",
+        "tags": ["notification", "sms", "applicant"]
+      },
+      "value": true
+    },
+    {
+      "field": {
+        "id": "notifyMe.coApplicant",
+        "tags": ["notification", "sms", "coApplicant"]
+      },
+      "value": true
+    }
+  ],
+  "rawDataType": "pdf",
+  "rawData": ""
+}
