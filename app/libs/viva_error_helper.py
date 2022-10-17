@@ -20,7 +20,7 @@ def catch_viva_error(function):
             validated_viva_request_response['status']).lower()
 
         if not viva_response_status == 'ok':
-            current_app.logger.error(msg={**validated_viva_request_response})
+            current_app.logger.info(msg={**validated_viva_request_response})
             raise VivaRequestError(
                 message={**validated_viva_request_response})
 
