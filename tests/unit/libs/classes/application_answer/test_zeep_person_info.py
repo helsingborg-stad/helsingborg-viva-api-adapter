@@ -292,12 +292,11 @@ def test_person_info_list_many_children_happy_path():
     """
 
     personal_number_first_child = '20120101-1234'
-    personal_number_second_child = '20010101-1234'
+    personal_number_second_child = '20010101-4321'
 
     children_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
         answer(personal_number_first_child, ['personInfo',
                'personalNumber', 'children', 'group:0']),
-        answer('Barnsson2', ['personInfo', 'lastName', 'children', 'group:1']),
         answer('Barn', ['personInfo', 'firstName', 'children', 'group:0']),
         answer('Barnsson', ['personInfo', 'lastName', 'children', 'group:0']),
         answer('Min gata 1', ['personInfo', 'address', 'children', 'group:0']),
@@ -311,6 +310,7 @@ def test_person_info_list_many_children_happy_path():
         answer(personal_number_second_child, ['personInfo',
                'personalNumber', 'children', 'group:1']),
         answer('Barn2', ['personInfo', 'firstName', 'children', 'group:1']),
+        answer('Barnsson2', ['personInfo', 'lastName', 'children', 'group:1']),
         answer('Min gata 1', ['personInfo', 'address', 'children', 'group:1']),
         answer('12345', ['personInfo', 'postalCode', 'children', 'group:1']),
         answer('Helsingborg', ['personInfo',
