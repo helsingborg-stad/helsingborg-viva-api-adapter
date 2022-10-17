@@ -4,6 +4,7 @@ from app.libs.classes.application_answer.answer import ApplicationAnswer
 
 
 class ZeepPersonInfo(dict):
+
     def __init__(self, application_answer_collection: ApplicationAnswerCollection,
                  person_type: str = 'client', find_by_tag: str = 'personInfo') -> None:
         super().__init__(self)
@@ -17,10 +18,19 @@ class ZeepPersonInfo(dict):
         return next((answer for answer in answers_by_tags if answer.value), None)
 
     def create(self):
-        person_info_answers = self._get_first_matching_answer_by_tags(tags=[
-                                                                      self.find_by_tag])
+        creater_mapping = {
+            'client': self._create_applicant,
+            'partner': self._create_applicant,
+            'children': self._create_children,
+        }
 
-        if not person_info_answers:
+        return creater_mapping[self.person_type]()
+
+    def _create_applicant(self):
+        answer = self._get_first_matching_answer_by_tags(tags=[
+            self.find_by_tag])
+
+        if not answer:
             return None
 
         return {
@@ -54,6 +64,59 @@ class ZeepPersonInfo(dict):
                     }
                 }
             }
+        }
+
+    def _create_children(self):
+        answers_with_children = self.application_answer_collection.filter_by_tags(
+            tags=[self.find_by_tag, 'children'])
+        if not answers_with_children:
+            return None
+
+        for answer in answers_with_children:
+            group = answer.get_tag_starting_with(value='group:')
+
+            if not group in self:
+                pass
+
+        child = {
+            'PNUMBER': self._get_value(tags=['personalNumber']),
+            'FNAME': self._get_value(tags=['firstName']),
+            'LNAME': self._get_value(tags=['lastName']),
+            'ADDRESSES': {
+                'ADDRESS': {
+                    'TYPE': 'FB',
+                    'CO': '',
+                    'ADDRESS': self._get_value(tags=['address']),
+                    'ZIP': self._get_value(tags=['postalCode']),
+                    'CITY': self._get_value(tags=['postalAddress'])
+                },
+            },
+            'PHONENUMBERS': {
+                'PHONENUMBER': {
+                    'TYPE':  self._get_value(tags=['phoneType']),
+                    'NUMBER': self._get_value(tags=['phoneNumber']),
+                    'SMS': False
+                },
+            },
+            'EMAIL': {
+                'EMAIL': '',
+                'NOTIFY': False
+            },
+            'FOREIGNCITIZEN': False,
+            'RESIDENCEPERMITTYPE': '',
+            'RESIDENCEPERMITDATE': '',
+            'CIVILSTATUS': '',
+            'ALTCIVILSTATUS': '',
+            'REGISTEREDATHOUSEHOLDADDRESS': '',
+            'ALTERNATELYWITHPARENTS': '',
+            'ISPARTTIMECHILD': '',
+            'PARTTIMECHILDDAYS': '',
+        }
+
+        return {
+            'CHILDREN': {
+                'CHILD': '',
+            },
         }
 
     def _get_value(self, tags: List[str]) -> str:

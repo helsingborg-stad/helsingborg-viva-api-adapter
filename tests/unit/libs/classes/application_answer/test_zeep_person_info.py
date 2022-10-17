@@ -221,3 +221,177 @@ def test_person_info_list_partner_email_and_phone_number_excluded():
             'ALTCIVILSTATUS': '',
         },
     }
+
+
+def test_person_info_list_children_happy_path():
+    """
+    GIVEN a ZeepPersonInfo object
+    WHEN submitting a new application
+    THEN check that person_info object is in the correct Viva format
+    """
+
+    personal_number = '20120101-1234'
+
+    children_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+        answer(personal_number, ['personInfo', 'personalNumber', 'children']),
+        answer('Barn', ['personInfo', 'firstName', 'children']),
+        answer('Barnsson', ['personInfo', 'lastName', 'children']),
+        answer('Min gata 1', ['personInfo', 'address', 'children']),
+        answer('12345', ['personInfo', 'postalCode', 'children']),
+        answer('Helsingborg', ['personInfo', 'postalAddress', 'children']),
+        answer('+46700121212', ['personInfo',
+               'phoneNumber', 'children']),
+        answer('Mobiltelefon', ['personInfo', 'phoneType', 'children']),
+    ), person_type='children')
+
+    assert children_person_info.create() == {
+        'CHILDREN': {
+            'CHILD': {
+                'PNUMBER': personal_number,
+                'FNAME': 'Barn',
+                'LNAME': 'Barnsson',
+                'ADDRESSES': {
+                    'ADDRESS': {
+                        'TYPE': 'FB',
+                        'ADDRESS': 'Min gata 1',
+                        'CO': '',
+                        'ZIP': '12345',
+                        'CITY': 'Helsingborg',
+                    },
+                },
+                'PHONENUMBERS': {
+                    'PHONENUMBER': {
+                        'TYPE': 'Mobiltelefon',
+                        'NUMBER': '+46700121212',
+                        'SMS': False,
+                    },
+                },
+                'EMAIL': {
+                    'EMAIL': '',
+                    'NOTIFY': False,
+                },
+                'FOREIGNCITIZEN': False,
+                'RESIDENCEPERMITTYPE': '',
+                'RESIDENCEPERMITDATE': '',
+                'CIVILSTATUS': '',
+                'ALTCIVILSTATUS': '',
+                'REGISTEREDATHOUSEHOLDADDRESS': '',
+                'ALTERNATELYWITHPARENTS': '',
+                'ISPARTTIMECHILD': '',
+                'PARTTIMECHILDDAYS': '',
+            },
+        },
+    }
+
+
+def test_person_info_list_many_children_happy_path():
+    """
+    GIVEN a ZeepPersonInfo object
+    WHEN submitting a new application
+    THEN check that person_info object is in the correct Viva format
+    """
+
+    personal_number_first_child = '20120101-1234'
+    personal_number_second_child = '20010101-1234'
+
+    children_person_info = ZeepPersonInfo(application_answer_collection=answer_collection(
+        answer(personal_number_first_child, ['personInfo',
+               'personalNumber', 'children', 'group:0']),
+        answer('Barnsson2', ['personInfo', 'lastName', 'children', 'group:1']),
+        answer('Barn', ['personInfo', 'firstName', 'children', 'group:0']),
+        answer('Barnsson', ['personInfo', 'lastName', 'children', 'group:0']),
+        answer('Min gata 1', ['personInfo', 'address', 'children', 'group:0']),
+        answer('12345', ['personInfo', 'postalCode', 'children', 'group:0']),
+        answer('Helsingborg', ['personInfo',
+               'postalAddress', 'children', 'group:0']),
+        answer('+46700121212', ['personInfo',
+               'phoneNumber', 'children', 'group:0']),
+        answer('Mobiltelefon', ['personInfo',
+               'phoneType', 'children', 'group:0']),
+        answer(personal_number_second_child, ['personInfo',
+               'personalNumber', 'children', 'group:1']),
+        answer('Barn2', ['personInfo', 'firstName', 'children', 'group:1']),
+        answer('Min gata 1', ['personInfo', 'address', 'children', 'group:1']),
+        answer('12345', ['personInfo', 'postalCode', 'children', 'group:1']),
+        answer('Helsingborg', ['personInfo',
+               'postalAddress', 'children', 'group:1']),
+        answer('+46733556677', ['personInfo',
+               'phoneNumber', 'children', 'group:1']),
+        answer('Fast', ['personInfo',
+               'phoneType', 'children', 'group:1']),
+    ), person_type='children')
+
+    assert children_person_info.create() == {
+        'CHILDREN': {
+            'CHILD': [
+                {
+                    'PNUMBER': personal_number_first_child,
+                    'FNAME': 'Barn',
+                    'LNAME': 'Barnsson',
+                    'ADDRESSES': {
+                        'ADDRESS': {
+                            'TYPE': 'FB',
+                            'ADDRESS': 'Min gata 1',
+                            'CO': '',
+                            'ZIP': '12345',
+                            'CITY': 'Helsingborg',
+                        },
+                    },
+                    'PHONENUMBERS': {
+                        'PHONENUMBER': {
+                            'TYPE': 'Mobiltelefon',
+                            'NUMBER': '+46700121212',
+                            'SMS': False,
+                        },
+                    },
+                    'EMAIL': {
+                        'EMAIL': '',
+                        'NOTIFY': False,
+                    },
+                    'FOREIGNCITIZEN': False,
+                    'RESIDENCEPERMITTYPE': '',
+                    'RESIDENCEPERMITDATE': '',
+                    'CIVILSTATUS': '',
+                    'ALTCIVILSTATUS': '',
+                    'REGISTEREDATHOUSEHOLDADDRESS': '',
+                    'ALTERNATELYWITHPARENTS': '',
+                    'ISPARTTIMECHILD': '',
+                    'PARTTIMECHILDDAYS': '',
+                },
+                {
+                    'PNUMBER': personal_number_second_child,
+                    'FNAME': 'Barn2',
+                    'LNAME': 'Barnsson2',
+                    'ADDRESSES': {
+                        'ADDRESS': {
+                            'TYPE': 'FB',
+                            'ADDRESS': 'Min gata 1',
+                            'CO': '',
+                            'ZIP': '12345',
+                            'CITY': 'Helsingborg',
+                        },
+                    },
+                    'PHONENUMBERS': {
+                        'PHONENUMBER': {
+                            'TYPE': 'Fast',
+                            'NUMBER': '+46733556677',
+                            'SMS': False,
+                        },
+                    },
+                    'EMAIL': {
+                        'EMAIL': '',
+                        'NOTIFY': False,
+                    },
+                    'FOREIGNCITIZEN': False,
+                    'RESIDENCEPERMITTYPE': '',
+                    'RESIDENCEPERMITDATE': '',
+                    'CIVILSTATUS': '',
+                    'ALTCIVILSTATUS': '',
+                    'REGISTEREDATHOUSEHOLDADDRESS': '',
+                    'ALTERNATELYWITHPARENTS': '',
+                    'ISPARTTIMECHILD': '',
+                    'PARTTIMECHILDDAYS': '',
+                },
+            ],
+        },
+    }
