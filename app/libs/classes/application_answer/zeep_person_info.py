@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 from app.libs.classes.application_answer.answer import ApplicationAnswer
 
@@ -21,20 +21,12 @@ class ZeepPersonInfo(dict):
 
         return creater_mapping[self.person_type]() or {}
 
-    def _get_first_matching_answer_by_tags(self, tags: List[str]) -> ApplicationAnswer:
-        answers_by_tags: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
-            tags=tags)
-        return next((answer for answer in answers_by_tags if answer.value), None)
-
     def _create_applicant(self):
-        answer: ApplicationAnswer = self._get_first_matching_answer_by_tags(tags=[
-            self.find_by_tag])
-
-        if not answer:
-            return None
-
         applicantAnswers: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
             tags=[self.find_by_tag])
+
+        if not applicantAnswers:
+            return None
 
         return {
             self.person_type.upper(): {
@@ -134,7 +126,7 @@ class ZeepPersonInfo(dict):
             'PARTTIMECHILDDAYS': '',
         }
 
-    def _get_value(self, answers: List[ApplicationAnswer], tags: List[str]) -> str:
+    def _get_value(self, answers: List[ApplicationAnswer], tags: List[str]) -> Union[str, int, float]:
         search_tags = [*tags, self.person_type, self.find_by_tag]
         answer = next(
             (answer for answer in answers if answer.has_all_tags(search_tags)), None)
