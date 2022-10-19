@@ -81,8 +81,8 @@ class ZeepPersonInfo(dict):
         grouped_answers: List[List[ApplicationAnswer]] = []
 
         for answer in answers:
-            group_tag: str = answer.get_tag_starting_with('group:')
-            group_index = int(group_tag.split(':')[1]) if group_tag else 0
+            group_tag = answer.get_tag_starting_with('group:')
+            group_index = int(group_tag.split(':')[-1]) if group_tag else 0
 
             if len(grouped_answers) <= group_index:
                 grouped_answers.append([answer])
