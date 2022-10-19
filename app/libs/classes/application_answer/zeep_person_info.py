@@ -73,7 +73,7 @@ class ZeepPersonInfo(dict):
 
         return {
             self.person_type.upper(): {
-                'CHILD': child if len(child) > 1 else child[0],
+                'CHILD': child,
             },
         }
 

@@ -236,40 +236,42 @@ def test_person_info_list_children_happy_path():
 
     assert children_person_info.create() == {
         'CHILDREN': {
-            'CHILD': {
-                'PNUMBER': '20120101-1234',
-                'FNAME': 'Barn',
-                'LNAME': 'Barnsson',
-                'ADDRESSES': {
-                    'ADDRESS': {
-                        'TYPE': 'FB',
-                        'ADDRESS': 'Min gata 1',
-                        'CO': '',
-                        'ZIP': '12345',
-                        'CITY': 'Helsingborg',
+            'CHILD': [
+                {
+                    'PNUMBER': '20120101-1234',
+                    'FNAME': 'Barn',
+                    'LNAME': 'Barnsson',
+                    'ADDRESSES': {
+                        'ADDRESS': {
+                            'TYPE': 'FB',
+                            'ADDRESS': 'Min gata 1',
+                            'CO': '',
+                            'ZIP': '12345',
+                            'CITY': 'Helsingborg',
+                        },
                     },
-                },
-                'PHONENUMBERS': {
-                    'PHONENUMBER': {
-                        'TYPE': 'Mobiltelefon',
-                        'NUMBER': '+46700121212',
-                        'SMS': False,
+                    'PHONENUMBERS': {
+                        'PHONENUMBER': {
+                            'TYPE': 'Mobiltelefon',
+                            'NUMBER': '+46700121212',
+                            'SMS': False,
+                        },
                     },
+                    'EMAIL': {
+                        'EMAIL': '',
+                        'NOTIFY': False,
+                    },
+                    'FOREIGNCITIZEN': False,
+                    'RESIDENCEPERMITTYPE': '',
+                    'RESIDENCEPERMITDATE': '',
+                    'CIVILSTATUS': '',
+                    'ALTCIVILSTATUS': '',
+                    'REGISTEREDATHOUSEHOLDADDRESS': '',
+                    'ALTERNATELYWITHPARENTS': '',
+                    'ISPARTTIMECHILD': '',
+                    'PARTTIMECHILDDAYS': '',
                 },
-                'EMAIL': {
-                    'EMAIL': '',
-                    'NOTIFY': False,
-                },
-                'FOREIGNCITIZEN': False,
-                'RESIDENCEPERMITTYPE': '',
-                'RESIDENCEPERMITDATE': '',
-                'CIVILSTATUS': '',
-                'ALTCIVILSTATUS': '',
-                'REGISTEREDATHOUSEHOLDADDRESS': '',
-                'ALTERNATELYWITHPARENTS': '',
-                'ISPARTTIMECHILD': '',
-                'PARTTIMECHILDDAYS': '',
-            },
+            ],
         },
     }
 
