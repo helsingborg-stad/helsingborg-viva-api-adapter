@@ -1,6 +1,7 @@
-from typing import List, Union
+from typing import List
 from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 from app.libs.classes.application_answer.answer import ApplicationAnswer
+from app.libs.personal_number_helper import to_viva_formatted_personal_number
 
 
 class ZeepPersonInfo(dict):
@@ -30,7 +31,7 @@ class ZeepPersonInfo(dict):
 
         return {
             self.person_type.upper(): {
-                'PNUMBER': self._get_value(answers=applicantAnswers, tags=['personalNumber']),
+                'PNUMBER': to_viva_formatted_personal_number(self._get_value(answers=applicantAnswers, tags=['personalNumber'])),
                 'FOREIGNCITIZEN': False,
                 'RESIDENCEPERMITTYPE': '',
                 'RESIDENCEPERMITDATE': '',
@@ -92,7 +93,7 @@ class ZeepPersonInfo(dict):
 
     def _create_child(self, answers: List[ApplicationAnswer]) -> dict:
         return {
-            'PNUMBER': self._get_value(answers, tags=['personalNumber']),
+            'PNUMBER': to_viva_formatted_personal_number(self._get_value(answers, tags=['personalNumber'])),
             'FNAME': self._get_value(answers, tags=['firstName']),
             'LNAME': self._get_value(answers, tags=['lastName']),
             'ADDRESSES': {
@@ -126,8 +127,8 @@ class ZeepPersonInfo(dict):
             'PARTTIMECHILDDAYS': '',
         }
 
-    def _get_value(self, answers: List[ApplicationAnswer], tags: List[str]) -> Union[str, int, float]:
+    def _get_value(self, answers: List[ApplicationAnswer], tags: List[str]) -> str:
         search_tags = [*tags, self.person_type, self.find_by_tag]
         answer = next(
             (answer for answer in answers if answer.has_all_tags(search_tags)), None)
-        return answer.value if answer else ''
+        return str(answer.value) if answer else ''

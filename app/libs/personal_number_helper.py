@@ -44,5 +44,5 @@ def split_personal_number(personal_number: str) -> Union[tuple, None]:
 
 
 def to_viva_formatted_personal_number(personal_number: str) -> str:
-    personal_number_split = split_personal_number(personal_number) or ()
-    return '-'.join(personal_number_split)
+    personal_number_split = split_personal_number(personal_number)
+    return '-'.join(personal_number_split) if personal_number_split else personal_number
