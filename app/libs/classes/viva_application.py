@@ -39,7 +39,7 @@ class VivaApplication(Viva):
         self._viva_attachments = viva_attachments
         self._service = self._get_service(wsdl)
 
-        self._viva_soap_operation_types: ApplicationType = {
+        self._viva_soap_operation_types = {
             ApplicationType.NEW: self._new_application,
             ApplicationType.RECURRING: self._new_re_application,
             ApplicationType.COMPLETION: self._new_completion,
@@ -103,18 +103,17 @@ class VivaApplication(Viva):
         client_zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection)
         client_info = client_zeep_person_info.create()
-
         if not client_info:
             raise ValueError(
                 'Invalide client info. Please verify answer tags!')
 
         partner_zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection, person_type='partner')
-        partner_info = partner_zeep_person_info.create()
+        partner_info = partner_zeep_person_info.create() or {}
 
         children_zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection, person_type='children')
-        children_info = children_zeep_person_info.create()
+        children_info = children_zeep_person_info.create() or {}
 
         return {
             **client_info,

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 from app.libs.classes.application_answer.answer import ApplicationAnswer
 from app.libs.personal_number_helper import to_viva_formatted_personal_number
@@ -13,14 +13,14 @@ class ZeepPersonInfo(dict):
         self.find_by_tag = find_by_tag
         self.person_type = person_type
 
-    def create(self):
+    def create(self) -> Union[dict, None]:
         creater_mapping = {
             'client': self._create_applicant,
             'partner': self._create_applicant,
             'children': self._create_children,
         }
 
-        return creater_mapping[self.person_type]() or {}
+        return creater_mapping[self.person_type]() or None
 
     def _create_applicant(self):
         applicantAnswers: List[ApplicationAnswer] = self.application_answer_collection.filter_by_tags(
@@ -128,7 +128,7 @@ class ZeepPersonInfo(dict):
         }
 
     def _get_value(self, answers: List[ApplicationAnswer], tags: List[str]) -> str:
-        search_tags = [*tags, self.person_type, self.find_by_tag]
+        search_tags = [*tags, self.person_type]
         answer = next(
             (answer for answer in answers if answer.has_all_tags(search_tags)), None)
         return str(answer.value) if answer else ''
