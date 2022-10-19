@@ -8,21 +8,21 @@
         "id": "applicantInfo.firstName",
         "tags": ["personInfo", "firstName", "applicant", "client"]
       },
-      "value": "Milton"
+      "value": "Buster"
     },
     {
       "field": {
         "id": "applicantInfo.lastName",
         "tags": ["personInfo", "lastName", "applicant", "client"]
       },
-      "value": "Herlitz"
+      "value": "von Emmen"
     },
     {
       "field": {
         "id": "applicantInfo.personalNumber",
         "tags": ["personInfo", "personalNumber", "applicant", "client"]
       },
-      "value": "198603232391"
+      "value": "198603032395"
     },
     {
       "field": {
@@ -43,7 +43,7 @@
         "id": "applicantInfo.email",
         "tags": ["personInfo", "email", "applicant", "client"]
       },
-      "value": "myName@example.com"
+      "value": "buster@example.com"
     },
     {
       "field": {
@@ -57,119 +57,133 @@
         "id": "applicantInfo.address.street",
         "tags": ["personInfo", "applicant", "address", "client"]
       },
-      "value": "WAHRENDORFFSGATAN 2"
+      "value": "Min gata 1"
     },
     {
       "field": {
         "id": "applicantInfo.address.postalCode",
         "tags": ["personInfo", "applicant", "postalCode", "client"]
       },
-      "value": "11147"
+      "value": "12345"
     },
     {
       "field": {
         "id": "applicantInfo.address.postalAddress",
         "tags": ["personInfo", "applicant", "postalAddress", "client"]
       },
-      "value": "Stockholm"
+      "value": "Hbg"
     },
     {
       "field": {
-        "id": "coApplicantInfo.firstName",
+        "id": "applicantInfo.firstName",
         "tags": ["personInfo", "firstName", "coApplicant", "partner"]
       },
       "value": "Kajsa"
     },
     {
       "field": {
-        "id": "coApplicantInfo.lastName",
+        "id": "applicantInfo.lastName",
         "tags": ["personInfo", "lastName", "coApplicant", "partner"]
       },
-      "value": "Kavat"
+      "value": "Sandberg"
     },
     {
       "field": {
-        "id": "coApplicantInfo.personalNumber",
+        "id": "applicantInfo.personalNumber",
         "tags": ["personInfo", "personalNumber", "coApplicant", "partner"]
       },
-      "value": "197607012395"
+      "value": "198603052385"
     },
     {
       "field": {
-        "id": "coApplicantInfo.phoneNumber",
+        "id": "applicantInfo.phoneNumber",
         "tags": ["personInfo", "phoneNumber", "coApplicant", "partner"]
       },
       "value": "0733687702"
     },
     {
       "field": {
-        "id": "coApplicantInfo.phoneType",
+        "id": "applicantInfo.phoneType",
         "tags": ["personInfo", "phoneType", "coApplicant", "partner"]
       },
-      "value": "Fast telefon"
+      "value": "Mobiltelefon"
     },
     {
       "field": {
-        "id": "coApplicantInfo.address.street",
+        "id": "applicantInfo.email",
+        "tags": ["personInfo", "email", "coApplicant", "partner"]
+      },
+      "value": "kajsa@example.com"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.citizenship",
+        "tags": ["personInfo", "citizenship", "coApplicant", "partner"]
+      },
+      "value": "Svensk eller nordisk medborgare"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.street",
         "tags": ["personInfo", "coApplicant", "address", "partner"]
       },
-      "value": "Min Gata 101"
+      "value": "Min gata 12"
     },
     {
       "field": {
-        "id": "coApplicantInfo.address.postalCode",
+        "id": "applicantInfo.address.postalCode",
         "tags": ["personInfo", "coApplicant", "postalCode", "partner"]
       },
-      "value": "23412"
+      "value": "23456"
     },
     {
       "field": {
-        "id": "coApplicantInfo.address.postalAddress",
+        "id": "applicantInfo.address.postalAddress",
         "tags": ["personInfo", "coApplicant", "postalAddress", "partner"]
       },
-      "value": "Helsingborg"
+      "value": "Hbg"
     },
     {
       "field": {
         "id": "children.personalNumber",
         "tags": ["personInfo", "personalNumber", "children", "group:0"]
       },
-      "value": "200310012391"
+      "value": "200607112380"
     },
     {
       "field": {
         "id": "children.firstName",
         "tags": ["personInfo", "firstName", "children", "group:0"]
       },
-      "value": "Sven"
+      "value": "Malin"
     },
     {
       "field": {
         "id": "children.lastName",
         "tags": ["personInfo", "lastName", "children", "group:0"]
       },
-      "value": "Svensson"
+      "value": "Malm"
     },
     {
       "field": {
         "id": "children.personalNumber",
         "tags": ["personInfo", "personalNumber", "children", "group:1"]
       },
-      "value": "200410012191"
+      "value": "200606032399"
     },
     {
       "field": {
         "id": "children.firstName",
         "tags": ["personInfo", "firstName", "children", "group:1"]
       },
-      "value": "Kajsa"
+      "value": "Conny"
     },
     {
       "field": {
         "id": "children.lastName",
         "tags": ["personInfo", "lastName", "children", "group:1"]
       },
-      "value": "Kavat"
+      "value": "France"
     },
     {
       "field": {
