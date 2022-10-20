@@ -8,9 +8,9 @@ from app.libs.classes.viva_attachments import VivaAttachments
 from app.libs.classes.application_answer.answer import ApplicationAnswer
 from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 from app.libs.classes.application_answer.zeep import ZeepApplication
-from app.libs.classes.application_answer.zeep_housing import ZeepHousing
 from app.libs.classes.application_answer.zeep_notification import ZeepNotification
 from app.libs.classes.mappers.viva_persons_to_applicants_mapper import VivaPersonsToApplicantsMapper
+from app.libs.classes.application_answer.zeep_person_info import ZeepPersonInfo
 from app.libs.viva_error_helper import catch_viva_error
 
 
@@ -39,7 +39,7 @@ class VivaApplication(Viva):
         self._viva_attachments = viva_attachments
         self._service = self._get_service(wsdl)
 
-        self._viva_soap_operation_types: ApplicationType = {
+        self._viva_soap_operation_types = {
             ApplicationType.NEW: self._new_application,
             ApplicationType.RECURRING: self._new_re_application,
             ApplicationType.COMPLETION: self._new_completion,
@@ -88,22 +88,38 @@ class VivaApplication(Viva):
             'RAWDATATYPE': self._raw_data_type,
         }
 
-        housing = ZeepHousing(
-            application_answer_collection=self._answer_collection)
-        client = housing.get_client(self._personal_number)
-
-        if not client:
-            raise ValueError(f'Client can not be {client}. Verify your tags!')
-
+        household_info = self._get_zeep_household_info()
         attachment_list = self._get_zeep_attachment_list()
         new_application = self._get_zeep_application_dict()
 
-        return {**initial_new_application, **client, **new_application, **attachment_list}
+        return {**initial_new_application, **household_info, **new_application, **attachment_list}
 
     def _save_attachments(self):
         for attachment in self._attachments:
             self._viva_attachments.save(attachment=attachment)
         return True
+
+    def _get_zeep_household_info(self):
+        client_zeep_person_info = ZeepPersonInfo(
+            application_answer_collection=self._answer_collection)
+        client_info = client_zeep_person_info.create()
+        if not client_info:
+            raise ValueError(
+                'Invalid client info. Please verify answer tags.')
+
+        partner_zeep_person_info = ZeepPersonInfo(
+            application_answer_collection=self._answer_collection, person_type='partner')
+        partner_info = partner_zeep_person_info.create() or {}
+
+        children_zeep_person_info = ZeepPersonInfo(
+            application_answer_collection=self._answer_collection, person_type='children')
+        children_info = children_zeep_person_info.create() or {}
+
+        return {
+            **client_info,
+            **partner_info,
+            **children_info,
+        }
 
     def _get_zeep_attachment_list(self):
         attachment_category_type = {

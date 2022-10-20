@@ -64,7 +64,7 @@ class ZeepApplication(dict):
     def _get_posts(self, post_group_name: str = ''):
         posts = []
 
-        for post_type in ZeepApplication.POST_TYPES.keys():
+        for post_type in ZeepApplication.POST_TYPES:
             post_type_answers = self._get_post_type_answers(
                 post_type, post_group_name)
 

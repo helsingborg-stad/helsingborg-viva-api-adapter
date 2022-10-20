@@ -10,8 +10,8 @@
         "FNAME": "Therese",
         "LNAME": "Blom",
         "ADDRESSES": [
+          "ADDRESS": {
           {
-            "ADDRESS": {
               "TYPE": "P",
               "ADDRESS": "Gamla vägen 3",
               "CO": "",

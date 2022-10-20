@@ -1,0 +1,226 @@
+{
+  "applicationType": "new",
+  "hashid": "{{vada-hashid}}",
+  "workflowId": "",
+  "answers":[
+    {
+      "field": {
+        "id": "applicantInfo.firstName",
+        "tags": ["personInfo", "firstName", "applicant", "client"]
+      },
+      "value": "Buster"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.lastName",
+        "tags": ["personInfo", "lastName", "applicant", "client"]
+      },
+      "value": "von Emmen"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.personalNumber",
+        "tags": ["personInfo", "personalNumber", "applicant", "client"]
+      },
+      "value": "198603032395"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.phoneNumber",
+        "tags": ["personInfo", "phoneNumber", "applicant", "client"]
+      },
+      "value": "0733687702"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.phoneType",
+        "tags": ["personInfo", "phoneType", "applicant", "client"]
+      },
+      "value": "Mobiltelefon"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.email",
+        "tags": ["personInfo", "email", "applicant", "client"]
+      },
+      "value": "buster@example.com"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.citizenship",
+        "tags": ["personInfo", "citizenship", "applicant", "client"]
+      },
+      "value": "Svensk eller nordisk medborgare"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.street",
+        "tags": ["personInfo", "applicant", "address", "client"]
+      },
+      "value": "Min gata 1"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.postalCode",
+        "tags": ["personInfo", "applicant", "postalCode", "client"]
+      },
+      "value": "12345"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.postalAddress",
+        "tags": ["personInfo", "applicant", "postalAddress", "client"]
+      },
+      "value": "Hbg"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.firstName",
+        "tags": ["personInfo", "firstName", "coApplicant", "partner"]
+      },
+      "value": "Kajsa"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.lastName",
+        "tags": ["personInfo", "lastName", "coApplicant", "partner"]
+      },
+      "value": "Sandberg"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.personalNumber",
+        "tags": ["personInfo", "personalNumber", "coApplicant", "partner"]
+      },
+      "value": "198603052385"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.phoneNumber",
+        "tags": ["personInfo", "phoneNumber", "coApplicant", "partner"]
+      },
+      "value": "0733687702"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.phoneType",
+        "tags": ["personInfo", "phoneType", "coApplicant", "partner"]
+      },
+      "value": "Mobiltelefon"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.email",
+        "tags": ["personInfo", "email", "coApplicant", "partner"]
+      },
+      "value": "kajsa@example.com"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.citizenship",
+        "tags": ["personInfo", "citizenship", "coApplicant", "partner"]
+      },
+      "value": "Svensk eller nordisk medborgare"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.street",
+        "tags": ["personInfo", "coApplicant", "address", "partner"]
+      },
+      "value": "Min gata 12"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.postalCode",
+        "tags": ["personInfo", "coApplicant", "postalCode", "partner"]
+      },
+      "value": "23456"
+    },
+    {
+      "field": {
+        "id": "applicantInfo.address.postalAddress",
+        "tags": ["personInfo", "coApplicant", "postalAddress", "partner"]
+      },
+      "value": "Hbg"
+    },
+    {
+      "field": {
+        "id": "children.personalNumber",
+        "tags": ["personInfo", "personalNumber", "children", "group:0"]
+      },
+      "value": "200607112380"
+    },
+    {
+      "field": {
+        "id": "children.firstName",
+        "tags": ["personInfo", "firstName", "children", "group:0"]
+      },
+      "value": "Malin"
+    },
+    {
+      "field": {
+        "id": "children.lastName",
+        "tags": ["personInfo", "lastName", "children", "group:0"]
+      },
+      "value": "Malm"
+    },
+    {
+      "field": {
+        "id": "children.personalNumber",
+        "tags": ["personInfo", "personalNumber", "children", "group:1"]
+      },
+      "value": "200606032399"
+    },
+    {
+      "field": {
+        "id": "children.firstName",
+        "tags": ["personInfo", "firstName", "children", "group:1"]
+      },
+      "value": "Conny"
+    },
+    {
+      "field": {
+        "id": "children.lastName",
+        "tags": ["personInfo", "lastName", "children", "group:1"]
+      },
+      "value": "France"
+    },
+    {
+      "field": {
+        "id": "rent",
+        "tags": ["expenses", "boende", "amount", "month"]
+      },
+      "value": "2000"
+    },
+    {
+      "field": {
+        "id": "rent-1",
+        "tags": ["expenses", "boende", "amount", "month-1"]
+      },
+      "value": "3000"
+    },
+    {
+      "field": {
+        "id": "rent-2",
+        "tags": ["expenses", "boende", "amount", "month-2"]
+      },
+      "value": "4000"
+    },
+    {
+      "field": {
+        "id": "notifyMe.applicant",
+        "tags": ["notification", "sms", "applicant"]
+      },
+      "value": true
+    },
+    {
+      "field": {
+        "id": "notifyMe.coApplicant",
+        "tags": ["notification", "sms", "coApplicant"]
+      },
+      "value": true
+    }
+  ],
+  "rawDataType": "pdf",
+  "rawData": ""
+}

@@ -1,0 +1,19 @@
+version: 1
+sources:
+  #Files or Directories to be Excluded are mentioned in exclusions
+  exclusions:
+    - ".git"
+    - ".github"
+    - ".vscode"
+    - ".pytest_cache"
+
+modules:
+  - name: test
+    enabled: true
+    rules:
+      - key: "B104-hardcoded_bind_all_interfaces"
+        enabled: false
+      - key: "C0114-missing-module-docstring"
+        enabled: false
+      - key: "C0116-missing-function-docstring"
+        enabled: false
