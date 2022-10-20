@@ -105,7 +105,7 @@ class VivaApplication(Viva):
         client_info = client_zeep_person_info.create()
         if not client_info:
             raise ValueError(
-                'Invalide client info. Please verify answer tags!')
+                'Invalid client info. Please verify answer tags.')
 
         partner_zeep_person_info = ZeepPersonInfo(
             application_answer_collection=self._answer_collection, person_type='partner')
