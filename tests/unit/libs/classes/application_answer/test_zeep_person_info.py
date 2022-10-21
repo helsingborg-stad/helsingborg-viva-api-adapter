@@ -25,7 +25,8 @@ def test_person_info_list_client_happy_path():
         answer('Gamla vägen 3', ['personInfo', 'address', 'client']),
         answer('12345', ['personInfo', 'postalCode', 'client']),
         answer('Helsingborg', ['personInfo', 'postalAddress', 'client']),
-        answer('+46700121212', ['personInfo', 'telephone', 'client']),
+        answer('+46700121212', ['personInfo', 'phoneNumber', 'client']),
+        answer('Mobiltelefon', ['personInfo', 'phoneType', 'client']),
         answer('nobody@example.com', ['personInfo', 'email', 'client']),
     ))
 
@@ -97,7 +98,7 @@ def test_person_info_list_client_email_and_phone_number_excluded():
                 'PHONENUMBER': {
                     'NUMBER': '',
                     'SMS': False,
-                    'TYPE': 'Mobiltelefon',
+                    'TYPE': '',
                 }
             },
             'EMAIL': {
@@ -127,7 +128,8 @@ def test_person_info_list_partner_happy_path():
         answer('Gamla vägen 3', ['personInfo', 'address', 'partner']),
         answer('12345', ['personInfo', 'postalCode', 'partner']),
         answer('Helsingborg', ['personInfo', 'postalAddress', 'partner']),
-        answer('+46700121212', ['personInfo', 'telephone', 'partner']),
+        answer('+46700121212', ['personInfo', 'phoneNumber', 'partner']),
+        answer('Mobiltelefon', ['personInfo', 'phoneType', 'partner']),
         answer('nobody@example.com', ['personInfo', 'email', 'partner']),
     ), person_type='partner')
 
@@ -199,7 +201,7 @@ def test_person_info_list_partner_email_and_phone_number_excluded():
                 'PHONENUMBER': {
                     'NUMBER': '',
                     'SMS': False,
-                    'TYPE': 'Mobiltelefon',
+                    'TYPE': '',
                 },
             },
             'EMAIL': {
