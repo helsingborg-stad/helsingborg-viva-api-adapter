@@ -39,8 +39,8 @@ class ZeepPersonInfo(dict):
                 'ALTCIVILSTATUS': '',
                 'PHONENUMBERS': {
                     'PHONENUMBER': {
-                        'TYPE': 'Mobiltelefon',
-                        'NUMBER': self._get_value(answers=applicantAnswers, tags=['telephone']),
+                        'TYPE': self._get_value(answers=applicantAnswers, tags=['phoneType']),
+                        'NUMBER': self._get_value(answers=applicantAnswers, tags=['phoneNumber']),
                         'SMS': False
                     }
                 },
