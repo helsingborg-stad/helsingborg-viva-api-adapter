@@ -107,7 +107,7 @@ class VivaMyPages(Viva):
 
     def _get_person_info(self):
         """NOT IMPLEMENTED"""
-        current_app.logger.debug(msg='PERSONCASES')
+        current_app.logger.debug(msg='PERSONINFO')
         response_info = self._service.PERSONINFO(
             USER=self._user,
             PNR=self._pnr,
