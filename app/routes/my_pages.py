@@ -32,7 +32,7 @@ class MyPages(Resource):
             }
         }
 
-        if my_pages.person_application is not False:
+        if my_pages.person_application:
             response['attributes']['application'] = my_pages.person_application['vivadata']
 
         return response, 200
