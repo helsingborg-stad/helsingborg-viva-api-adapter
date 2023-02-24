@@ -14,7 +14,7 @@ class VivaApplicationStatus(Viva):
         self._service = self._get_service(wsdl)
 
     def get(self):
-        current_app.logger.debug('APPLICATIONSTATUS')
+        current_app.logger.debug(msg='GET')
         """
         ApplicationStatus förklaring:
         -1 - fel (t.ex. person finns inte i personregistret)
