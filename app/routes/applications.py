@@ -28,7 +28,10 @@ class Applications(Resource):
         if application_type == ApplicationType.NEW.value:
             return self._new_application().submit()
 
-        return self._recurring_application().submit()
+        return {
+            'type': 'postApplication',
+            'attributes': self._recurring_application().submit(),
+        }
 
     def _recurring_application(self) -> VivaApplication:
         return VivaApplication(
