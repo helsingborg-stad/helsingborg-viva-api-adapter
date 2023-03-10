@@ -1,23 +1,24 @@
 from flask_restful import Resource
 
-from app.libs.classes.viva_application_status import VivaApplicationStatus
 from app.libs.personal_number_helper import hash_to_personal_number
+from app.libs.data_domain.ekb_provider import EkbProvider
 from app.libs.authenticate_helper import authenticate
 
 
-class ApplicationStatus(Resource):
+class Status(Resource):
     method_decorators = [authenticate]
+
+    def __init__(self, ekb: EkbProvider):
+        self.ekb = ekb
 
     def get(self, hash_id):
         personal_number = hash_to_personal_number(hash_id=hash_id)
 
-        viva_application_status = VivaApplicationStatus(
-            personal_number=personal_number)
-
+        status = self.ekb.get_status(personal_number)
         response = {
             'type': 'getApplicationsStatus',
             'attributes': {
-                'status': viva_application_status.get()
+                'status': status.get_status_text()
             }
         }
 
