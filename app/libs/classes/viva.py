@@ -14,7 +14,8 @@ class Viva():
                  current_app=current_app,
                  zeep_helpers=zeep_helpers
                  ):
-        self._settings = settings(strict=False, xml_huge_tree=True)
+        self._settings = settings(
+            strict=False, xml_huge_tree=True)  # type: ignore
         self._config = current_app.config['VIVA']
         self._helpers = zeep_helpers
         self._session = session()
