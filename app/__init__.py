@@ -2,10 +2,12 @@ from flask import Flask
 
 from app.cache import cache
 from app.api import CustomFlaskRestfulApi
+from app.libs.adapters.viva import VivaAdapter
 
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=False)
+    adapter = VivaAdapter()
 
     if test_config is None:
         if app.config['ENV'] == 'development':
@@ -27,7 +29,7 @@ def create_app(test_config=None):
         from app.routes.my_pages_workflow_latest import MyPagesWorkflowLatest
         from app.routes.my_pages_workflow_completions import MyPagesWorkflowCompletions
         from app.routes.applications import Applications
-        from app.routes.application_status import ApplicationStatus
+        from app.routes.status import Status
         from app.routes.completions import Completions
         from app.routes.attachments import Attachments
         from app.routes.check_cookie import CheckCookie
@@ -63,8 +65,9 @@ def create_app(test_config=None):
         )
 
         api.add_resource(
-            ApplicationStatus,
+            Status,
             '/applications/<string:hash_id>/status',
+            resource_class_kwargs={'ekb': adapter},
         )
 
         api.add_resource(
