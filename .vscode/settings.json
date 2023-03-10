@@ -4,5 +4,6 @@
     "titleBar.inactiveForeground": "#ffffffcc",
     "titleBar.activeBackground": "#FF2C70",
     "titleBar.inactiveBackground": "#ff2c6fad"
-  }
+  },
+  "python.analysis.typeCheckingMode": "basic"
 }
