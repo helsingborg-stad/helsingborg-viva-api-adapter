@@ -41,6 +41,7 @@ def create_app(test_config=None):
             MyPages,
             '/mypages/',
             '/mypages/<string:hash_id>',
+            resource_class_kwargs={'ekb': adapter},
         )
 
         api.add_resource(

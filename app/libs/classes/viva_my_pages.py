@@ -7,7 +7,7 @@ from app.cache import cache
 
 
 class VivaMyPages(Viva):
-    def __init__(self, wsdl='MyPages', user=str):
+    def __init__(self, user: str, wsdl='MyPages'):
         super(VivaMyPages, self).__init__()
 
         self._service = self._get_service(wsdl)
@@ -17,6 +17,13 @@ class VivaMyPages(Viva):
 
         self.person_cases = self._get_person_cases()
         self.person_application = self._get_person_application()
+
+    @property
+    def person(self):
+        return {
+            'cases': self.person_cases,
+            'application': self.person_application,
+        }
 
     def get_case_client(self):
         return self.person_cases['vivadata']['vivacases']['vivacase']['client']
