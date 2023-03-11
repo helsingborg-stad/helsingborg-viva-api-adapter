@@ -2,12 +2,15 @@ from flask import Flask
 
 from app.cache import cache
 from app.api import CustomFlaskRestfulApi
-from app.libs.adapters.viva import VivaAdapter
+from app.libs.providers.viva_provider import VivaProvider
+from app.libs.providers.ekb_abc_provider import EkbABCProvider
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=False)
-    adapter = VivaAdapter()
+    app: Flask = Flask(__name__, instance_relative_config=False)
+    provider: EkbABCProvider = VivaProvider()
+
+    cache.init_app(app)
 
     if test_config is None:
         if app.config['ENV'] == 'development':
@@ -18,8 +21,6 @@ def create_app(test_config=None):
             app.config.from_object('config.ProdConfig')
     else:
         app.config.from_mapping(test_config)
-
-    cache.init_app(app)
 
     with app.app_context():
         api = CustomFlaskRestfulApi(app)
@@ -36,12 +37,11 @@ def create_app(test_config=None):
         from app.routes.to_hashid import ToHashId
         from app.routes.index import Index
 
-        # Viva adapter api endpoints
         api.add_resource(
             MyPages,
             '/mypages/',
             '/mypages/<string:hash_id>',
-            resource_class_kwargs={'ekb': adapter},
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
@@ -68,7 +68,7 @@ def create_app(test_config=None):
         api.add_resource(
             Status,
             '/applications/<string:hash_id>/status',
-            resource_class_kwargs={'ekb': adapter},
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(

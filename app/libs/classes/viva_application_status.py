@@ -1,4 +1,3 @@
-from typing import List
 from flask import current_app
 
 from app.libs.classes.viva import Viva
@@ -52,7 +51,7 @@ class VivaApplicationStatus(Viva):
         self._personal_number = personal_number
         self._service = self._get_service(wsdl)
 
-    def get(self) -> List[dict]:
+    def get(self):
         current_app.logger.debug(msg='GET')
 
         status_code = self._service.APPLICATIONSTATUS(
@@ -64,16 +63,17 @@ class VivaApplicationStatus(Viva):
 
         status_list = []
 
-        if not self._is_negative(status_code):
-            for bit in self._bits(status_code):
-                status_list.append({
-                    'code': bit,
-                    'description': STATUS_DESCRIPTION[bit]
-                })
-        else:
+        if self._is_negative(status_code):
             status_list.append({
                 'code': status_code,
                 'description': STATUS_DESCRIPTION[status_code]
+            })
+            return status_list
+
+        for bit in self._bits_generator(status_code):
+            status_list.append({
+                'code': bit,
+                'description': STATUS_DESCRIPTION[bit]
             })
 
         return status_list
@@ -81,7 +81,7 @@ class VivaApplicationStatus(Viva):
     def _is_negative(self, number):
         return float(number) < 0
 
-    def _bits(self, number):
+    def _bits_generator(self, number):
         while number:
             bit = number & (~number+1)
             yield bit

@@ -1,9 +1,13 @@
-from typing import List, Dict
+from dataclasses import dataclass
+from typing import List
 
 
+@dataclass
+class EkbStatusItem:
+    code: int
+    description: str
+
+
+@dataclass
 class EkbStatus:
-    def __init__(self, status_text_list: List[Dict[str, str]]):
-        self._status_text_list = status_text_list
-
-    def get_status_text(self) -> List[Dict[str, str]]:
-        return self._status_text_list
+    status: List[EkbStatusItem]
