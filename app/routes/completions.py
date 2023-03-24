@@ -30,6 +30,7 @@ class Completions(Resource):
                 attachments=validated_completion_payload['attachments'],
                 workflow_id=validated_completion_payload['workflow_id']))
 
-        submit_response = viva_application.submit()
-
-        return submit_response, 200
+        return {
+            'type': 'postCompletions',
+            'attributes': viva_application.submit(),
+        }, 200
