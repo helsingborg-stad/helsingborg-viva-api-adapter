@@ -1,7 +1,3 @@
-from flask import current_app
-
-from app.libs.classes.viva import Viva
-
 """
 ApplicationStatus förklaring (taget direkt från Cambio):
 -1 - fel (t.ex. person finns inte i personregistret)
@@ -41,20 +37,17 @@ STATUS_DESCRIPTION = {
 }
 
 
-class VivaApplicationStatus(Viva):
-    def __init__(self, wsdl='VivaApplication', personal_number=None):
-        super(VivaApplicationStatus, self).__init__()
+class VivaApplicationStatus():
+    def __init__(self, personal_number=None, client=None):
 
         if not isinstance(personal_number, str):
             raise TypeError('personal_number should be type string')
 
         self._personal_number = personal_number
-        self._service = self._get_service(wsdl)
+        self._client = client
 
     def get(self):
-        current_app.logger.debug(msg='GET')
-
-        status_code = self._service.APPLICATIONSTATUS(
+        status_code = self._client.APPLICATIONSTATUS(
             SUSER=self._personal_number,
             SPNR=self._personal_number,
             SCASETYPE='01',  # 01 = EKB
