@@ -9,5 +9,5 @@ class EkbStatusItem:
 
 
 @dataclass
-class EkbStatus:
+class EkbStatus(dict):
     status: List[EkbStatusItem]

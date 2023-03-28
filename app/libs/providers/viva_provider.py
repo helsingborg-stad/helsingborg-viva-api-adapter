@@ -17,13 +17,11 @@ class AbstractVivaProvider(EkbABCProvider):
         viva_application_status = VivaApplicationStatus(
             personal_number=id, client=self.create_client(wsdl_name='VivaApplication'))
 
-        status: EkbStatus = viva_application_status.get()  # type: ignore
-        return status
+        return viva_application_status.get()  # type: ignore
 
     def get_mypages(self, id: str) -> EkbMyPages:
-        person: EkbMyPages = VivaMyPages(
+        return VivaMyPages(
             client=self.create_client(wsdl_name='MyPages'), user=id).person  # type: ignore
-        return person
 
 
 class VivaProvider(AbstractVivaProvider):
