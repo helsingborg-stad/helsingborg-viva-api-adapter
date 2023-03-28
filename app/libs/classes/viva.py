@@ -20,9 +20,9 @@ class Viva():
         self._helpers = zeep_helpers
         self._session = session()
 
-    def _get_service(self, wsdl):
+    def _get_service(self, wsdl_name):
         transport = self._session.get_transport()
-        wsdl_url = self._config['wsdl_url'] + '/' + wsdl + '?WSDL'
+        wsdl_url = self._config['wsdl_url'] + '/' + wsdl_name + '?WSDL'
         client = Client(wsdl=wsdl_url, transport=transport)
 
         return client.service
