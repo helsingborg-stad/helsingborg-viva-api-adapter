@@ -3,7 +3,7 @@ from app.libs.providers.viva_provider import AbstractVivaProvider
 
 class TestVivaProvider(AbstractVivaProvider):
 
-    def create_client(self):
+    def create_client(self, wsdl_name: str):
         return self
 
 
@@ -30,6 +30,6 @@ def test_application_status_recurring_application_path():
 def test_mypages_path():
 
     viva_provider = TestVivaProvider()
-    viva_provider.MYPAGES = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: {}
+    viva_provider.PERSONCASES = lambda USER, PNR, SYSTEM, RETURNAS: {}
 
     assert viva_provider.get_mypages('19900102034444') == {}
