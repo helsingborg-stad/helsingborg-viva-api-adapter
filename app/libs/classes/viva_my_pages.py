@@ -1,16 +1,14 @@
+from typing import Any
 import xmltodict
 from flask import current_app
 from werkzeug.exceptions import NotFound
 
-from app.libs.classes.viva import Viva
 from app.cache import cache
 
 
-class VivaMyPages(Viva):
-    def __init__(self, user: str, wsdl='MyPages'):
-        super(VivaMyPages, self).__init__()
-
-        self._service = self._get_service(wsdl)
+class VivaMyPages():
+    def __init__(self, client: Any, user: str):
+        self._client = client
 
         self._user = user
         self._pnr = self._user
@@ -83,7 +81,6 @@ class VivaMyPages(Viva):
 
         if not person_case['client']:
             message = 'Personal number not found'
-            current_app.logger.warn(msg=message)
             raise NotFound(description=message)
 
         return person_case['client']['pnumber']
@@ -103,7 +100,7 @@ class VivaMyPages(Viva):
     def get_casessi(self):
         if not self.person_cases['vivadata']['vivacases']:
             message = 'Person cases not found'
-            current_app.logger.warn(msg=message)
+
             raise NotFound(description=message)
 
         casessi = self.person_cases['vivadata']['vivacases']['vivacase']['casessi']
@@ -114,8 +111,7 @@ class VivaMyPages(Viva):
 
     def _get_person_info(self):
         """NOT IMPLEMENTED"""
-        current_app.logger.debug(msg='PERSONINFO')
-        response_info = self._service.PERSONINFO(
+        response_info = self._client.PERSONINFO(
             USER=self._user,
             PNR=self._pnr,
             RETURNAS='xml',
@@ -125,8 +121,7 @@ class VivaMyPages(Viva):
 
     @cache.memoize(timeout=300)
     def _get_person_cases(self):
-        current_app.logger.debug(msg='PERSONCASES')
-        service_response = self._service.PERSONCASES(
+        service_response = self._client.PERSONCASES(
             USER=self._user,
             PNR=self._pnr,
             SYSTEM=1,
@@ -136,11 +131,10 @@ class VivaMyPages(Viva):
         return xmltodict.parse(service_response)
 
     def _get_person_caseworkflow(self, limit=None):
-        current_app.logger.debug(msg='PERSONCASEWORKFLOW')
         assert isinstance(
             limit, int), f'{limit} should be type int. Got {type(limit)}'
 
-        service_response = self._service.PERSONCASEWORKFLOW(
+        service_response = self._client.PERSONCASEWORKFLOW(
             USER=self._user,
             PNR=self._pnr,
             SSI=self.get_casessi(),
@@ -152,8 +146,7 @@ class VivaMyPages(Viva):
 
     @cache.memoize(timeout=300)
     def _get_person_application(self):
-        current_app.logger.debug(msg='PERSONAPPLICATION')
-        service_response = self._service.PERSONAPPLICATION(
+        service_response = self._client.PERSONAPPLICATION(
             USER=self._user,
             PNR=self._pnr,
             SSI=self.get_casessi(),
