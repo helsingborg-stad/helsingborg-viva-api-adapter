@@ -38,7 +38,7 @@ STATUS_DESCRIPTION = {
 
 
 class VivaApplicationStatus():
-    def __init__(self, personal_number=None, client=None):
+    def __init__(self, client, personal_number=None):
 
         if not isinstance(personal_number, str):
             raise TypeError('personal_number should be type string')
