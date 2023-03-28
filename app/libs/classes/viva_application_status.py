@@ -1,3 +1,5 @@
+from typing import Any
+
 """
 ApplicationStatus förklaring (taget direkt från Cambio):
 -1 - fel (t.ex. person finns inte i personregistret)
@@ -38,7 +40,7 @@ STATUS_DESCRIPTION = {
 
 
 class VivaApplicationStatus():
-    def __init__(self, client, personal_number=None):
+    def __init__(self, client: Any, personal_number: str):
 
         if not isinstance(personal_number, str):
             raise TypeError('personal_number should be type string')
