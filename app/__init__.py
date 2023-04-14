@@ -25,6 +25,7 @@ def create_app(test_config=None):
     with app.app_context():
         api = CustomFlaskRestfulApi(app)
 
+        from app.routes.user import User
         from app.routes.my_pages import MyPages
         from app.routes.my_pages_workflows import MyPagesWorkflows
         from app.routes.my_pages_workflow_latest import MyPagesWorkflowLatest
@@ -36,6 +37,12 @@ def create_app(test_config=None):
         from app.routes.check_cookie import CheckCookie
         from app.routes.to_hashid import ToHashId
         from app.routes.index import Index
+
+        api.add_resource(
+            User,
+            '/user/<string:hash_id>',
+            resource_class_kwargs={'provider': provider},
+        )
 
         api.add_resource(
             MyPages,
