@@ -16,6 +16,9 @@ def validate_token() -> bool:
 
         token = request.headers['X-Api-Key']
 
+        if current_app.testing and token == 'abc123Testing':
+            return True
+
         if current_app.config['ENV'] in ('development', 'test'):
             public_key = open('jwtRS256_dev.key.pub').read()
         else:
