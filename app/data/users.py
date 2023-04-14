@@ -28,11 +28,6 @@ USERS = [
         **insert_pnr_and_endpoints(198602132394),
     },
     {
-        'name': 'Petronella Malteskog (Dan)',
-        'info': 'Single',
-        **insert_pnr_and_endpoints(198602102389),
-    },
-    {
         'name': 'Bruno Heed (Dan)',
         'info': 'Partner with Jenny Färm',
         **insert_pnr_and_endpoints(198602102397),
