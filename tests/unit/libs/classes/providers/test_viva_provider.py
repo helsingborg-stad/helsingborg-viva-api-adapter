@@ -1,5 +1,6 @@
 from typing import Any
 from app.libs.providers.viva_provider import AbstractVivaProvider
+from app.libs.data_domain.ekb_status import EkbStatus, EkbStatusItem
 
 
 class TestVivaProvider(AbstractVivaProvider):
@@ -11,8 +12,30 @@ class TestVivaProvider(AbstractVivaProvider):
         return self
 
 
-def create_viva_xml_mock():
-    return '<vivadata><vivacases><vivacase><casessi><server>abc</server></casessi></vivacase></vivacases></vivadata>'
+def create_viva_xml_person_application_mock():
+    return '''
+    <vivadata>
+        <vivacases>
+            <vivacase>
+                <casessi>
+                    <server>abc</server>
+                </casessi>
+            </vivacase>
+        </vivacases>
+    </vivadata>'''
+
+
+def create_viva_xml_person_cases_mock():
+    return '''
+    <vivadata>
+        <vivacases>
+            <vivacase>
+                <casessi>
+                    <personCases>abc123</personCases>
+                </casessi>
+            </vivacase>
+        </vivacases>
+    </vivadata>'''
 
 
 def test_application_status_new_application_allowed():
@@ -85,12 +108,12 @@ def test_application_status_recurring_application_completions():
     ]
 
 
-# MY PAGES
-def test_get_mypages():
+# VIVA
+def test_viva_mypages():
 
     viva_provider = TestVivaProvider()
-    viva_provider.PERSONAPPLICATION = lambda USER, PNR, SSI, WORKFLOWID, RETURNAS: create_viva_xml_mock()
-    viva_provider.PERSONCASES = lambda USER, PNR, SYSTEM, RETURNAS: create_viva_xml_mock()
+    viva_provider.PERSONAPPLICATION = lambda USER, PNR, SSI, WORKFLOWID, RETURNAS: create_viva_xml_person_application_mock()
+    viva_provider.PERSONCASES = lambda USER, PNR, SYSTEM, RETURNAS: create_viva_xml_person_cases_mock()
 
     assert viva_provider.get_mypages(id='123') == {
         'application': {
@@ -109,7 +132,7 @@ def test_get_mypages():
                 'vivacases': {
                     'vivacase': {
                         'casessi': {
-                            'server': 'abc',
+                            'personCases': 'abc123',
                         },
                     },
                 },
