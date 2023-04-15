@@ -15,21 +15,74 @@ def create_viva_xml_mock():
     return '<vivadata><vivacases><vivacase><casessi><server>abc</server></casessi></vivacase></vivacases></vivadata>'
 
 
-def test_application_status_new_application():
+def test_application_status_new_application_allowed():
     viva_provider = TestVivaProvider()
     viva_provider.APPLICATIONSTATUS = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: 1
 
-    assert viva_provider.get_status('19900102034444') == [
-        {'code': 1, 'description': 'Application allowed'}]
+    result = viva_provider.get_status('198602102389')
+    assert result.status == [{
+        'code': 1,
+        'description': 'Application allowed',
+    }]
 
 
-def test_application_status_recurring_application():
+def test_application_status_user_not_found():
+    viva_provider = TestVivaProvider()
+    viva_provider.APPLICATIONSTATUS = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: -1
+
+    result = viva_provider.get_status('198602102389')
+    assert result.status == [{
+        'code': -1,
+        'description': 'Error (for example that the person is not in the personal register)',
+    }]
+
+
+def test_application_status_recurring_application_allowed():
     viva_provider = TestVivaProvider()
     viva_provider.APPLICATIONSTATUS = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: 897
 
-    result = viva_provider.get_status('19900102034444')
+    result = viva_provider.get_status('198602102389')
 
-    assert result[0]['code'] == 1
+    assert result.status == [
+        {
+            'code': 1,
+            'description': 'Application allowed'
+        },
+        {
+            'code': 128,
+            'description': 'Case available (income support)'
+        },
+        {
+            'code': 256,
+            'description': 'Case is activated on the web. Is displayed on My Pages'
+        },
+        {
+            'code': 512,
+            'description': 'The case allows e-application. Is possible to create a continued application'
+        }
+    ]
+
+
+def test_application_status_recurring_application_completions():
+    viva_provider = TestVivaProvider()
+    viva_provider.APPLICATIONSTATUS = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: 832
+
+    result = viva_provider.get_status('198602102389')
+
+    assert result.status == [
+        {
+            'code': 64,
+            'description': 'Completion requested'
+        },
+        {
+            'code': 256,
+            'description': 'Case is activated on the web. Is displayed on My Pages'
+        },
+        {
+            'code': 512,
+            'description': 'The case allows e-application. Is possible to create a continued application'
+        }
+    ]
 
 
 # MY PAGES

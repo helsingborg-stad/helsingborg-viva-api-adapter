@@ -17,7 +17,7 @@ class AbstractVivaProvider(EkbABCProvider):
         viva_application_status = VivaApplicationStatus(
             personal_number=id, client=self.create_client(wsdl_name='VivaApplication'))
 
-        return viva_application_status.get()  # type: ignore
+        return EkbStatus(status=viva_application_status.get())
 
     def get_mypages(self, id: str) -> EkbMyPages:
         return VivaMyPages(
