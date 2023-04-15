@@ -1,6 +1,5 @@
 from typing import Any
 from app.libs.providers.viva_provider import AbstractVivaProvider
-from app.libs.data_domain.ekb_status import EkbStatus, EkbStatusItem
 
 
 class TestVivaProvider(AbstractVivaProvider):
