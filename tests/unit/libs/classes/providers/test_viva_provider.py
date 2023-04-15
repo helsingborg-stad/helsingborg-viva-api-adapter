@@ -6,6 +6,8 @@ class TestVivaProvider(AbstractVivaProvider):
     APPLICATIONSTATUS: Any = callable
     PERSONAPPLICATION: Any = callable
     PERSONCASES: Any = callable
+    PERSONINFO: Any = callable
+    PERSONCASEWORKFLOW: Any = callable
 
     def create_client(self, wsdl_name: str):
         return self
