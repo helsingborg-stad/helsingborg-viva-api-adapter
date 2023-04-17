@@ -16,9 +16,6 @@ def validate_token() -> bool:
 
         token = request.headers['X-Api-Key']
 
-        if current_app.testing and token == 'abc123Testing':
-            return True
-
         if current_app.config['ENV'] in ('development', 'test'):
             public_key = open('jwtRS256_dev.key.pub').read()
         else:
@@ -43,8 +40,11 @@ def authenticate(f):
         ...
         ...
     """
-    @wraps(f)
+    @ wraps(f)
     def wrapper(*args, **kwargs):
+        if current_app.testing:
+            return True
+
         if not getattr(f, 'authenticate', True):
             return f(*args, **kwargs)
 
