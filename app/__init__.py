@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 
 from app.cache import cache
@@ -11,11 +12,12 @@ def create_app(test_config=None):
     provider: EkbABCProvider = VivaProvider()
 
     cache.init_app(app)
+    env = os.environ.get('ENV', 'development')
 
     if test_config is None:
-        if app.config['ENV'] == 'development':
+        if env == 'development':
             app.config.from_object('config.DevConfig')
-        elif app.config['ENV'] == 'test':
+        elif env == 'test':
             app.config.from_object('config.TestConfig')
         else:
             app.config.from_object('config.ProdConfig')
