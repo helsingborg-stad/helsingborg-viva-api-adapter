@@ -5,9 +5,8 @@ from app import create_app
 
 @pytest.fixture(scope='module')
 def test_client():
-    app = create_app({
-        'TESTING': True,
-    })
+    flask_app = create_app()
+    flask_app.testing = True
 
-    with app.test_client() as test_client:
+    with flask_app.test_client() as test_client:
         yield test_client
