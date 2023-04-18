@@ -9,6 +9,7 @@ class Config:
 class DevConfig(Config):
     DEBUG = True
     STAGE = 'dev'
+    PUBLIC_KEY_FILE = os.environ.get('DEV_PUBLIC_KEY_FILE')
     VIVA = {
         'wsdl_url': os.environ.get('DEV_WSDL_URL'),
         'login': {
@@ -22,6 +23,7 @@ class DevConfig(Config):
 class TestConfig(Config):
     DEBUG = False
     STAGE = 'test'
+    PUBLIC_KEY_FILE = os.environ.get('TEST_PUBLIC_KEY_FILE')
     VIVA = {
         'wsdl_url': os.environ.get('TEST_WSDL_URL'),
         'login': {
@@ -35,6 +37,7 @@ class TestConfig(Config):
 class ProdConfig(Config):
     DEBUG = False
     STAGE = 'prod'
+    PUBLIC_KEY_FILE = os.environ.get('PROD_PUBLIC_KEY_FILE')
     VIVA = {
         'wsdl_url': os.environ.get('PROD_WSDL_URL'),
         'login': {
