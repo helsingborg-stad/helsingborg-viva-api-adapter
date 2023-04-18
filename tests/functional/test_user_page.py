@@ -1,5 +1,4 @@
 import json
-from app import create_app
 
 from app.libs.personal_number_helper import get_hash_ids, hash_to_personal_number
 
@@ -7,27 +6,22 @@ from app.libs.personal_number_helper import get_hash_ids, hash_to_personal_numbe
 personal_number = 198602102389
 
 
-def test_user_page():
+def test_user_page(test_client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/user/[hashId]' page is requested (GET)
     THEN check that the response is a user
     """
 
-    flask_app = create_app()
-    flask_app.testing = True
+    hashid = get_hash_ids().encode(personal_number)
+    response = test_client.get(f'/user/{hashid}')
 
-    with flask_app.test_client() as test_client:
+    data = json.loads(response.data)
 
-        hashid = get_hash_ids().encode(personal_number)
-        response = test_client.get(f'/user/{hashid}')
-
-        data = json.loads(response.data)
-
-        assert response.status_code == 200
-        assert data == {
-            'type': 'EkbUser',
-            'attributes': {
-                'personalNumber': hash_to_personal_number(hash_id=hashid),
-            },
-        }
+    assert response.status_code == 200
+    assert data == {
+        'type': 'EkbUser',
+        'attributes': {
+            'personalNumber': hash_to_personal_number(hash_id=hashid),
+        },
+    }
