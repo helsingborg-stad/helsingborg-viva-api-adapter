@@ -1,6 +1,11 @@
 import json
 from app import create_app
 
+from app.libs.personal_number_helper import get_hash_ids, hash_to_personal_number
+
+# Test user: Petronella Malteskog
+personal_number = 198602102389
+
 
 def test_user_page():
     """
@@ -13,10 +18,16 @@ def test_user_page():
     flask_app.testing = True
 
     with flask_app.test_client() as test_client:
-        response = test_client.get(
-            '/user/RPwl497dEgao8B0ma7RJykVr6b5LJ1Nq', headers={'X-Api-Key': 'abc123Testing'})
+
+        hashid = get_hash_ids().encode(personal_number)
+        response = test_client.get(f'/user/{hashid}')
 
         data = json.loads(response.data)
 
         assert response.status_code == 200
-        assert data['type'] == 'EkbUser'
+        assert data == {
+            'type': 'EkbUser',
+            'attributes': {
+                'personalNumber': hash_to_personal_number(hash_id=hashid),
+            },
+        }
