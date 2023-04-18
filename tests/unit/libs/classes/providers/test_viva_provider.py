@@ -48,7 +48,7 @@ def test_application_status_new_application_allowed():
     viva_provider.APPLICATIONSTATUS = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: 1
 
     result = viva_provider.get_status('198602102389')
-    assert result.status == [{
+    assert result == [{
         'code': 1,
         'description': 'Application allowed',
     }]
@@ -59,7 +59,7 @@ def test_application_status_user_not_found():
     viva_provider.APPLICATIONSTATUS = lambda SUSER, SPNR, SCASETYPE, SSYSTEM: -1
 
     result = viva_provider.get_status('198602102389')
-    assert result.status == [{
+    assert result == [{
         'code': -1,
         'description': 'Error (for example that the person is not in the personal register)',
     }]
@@ -71,7 +71,7 @@ def test_application_status_recurring_application_allowed():
 
     result = viva_provider.get_status('198602102389')
 
-    assert result.status == [
+    assert result == [
         {
             'code': 1,
             'description': 'Application allowed'
@@ -97,7 +97,7 @@ def test_application_status_recurring_application_completions():
 
     result = viva_provider.get_status('198602102389')
 
-    assert result.status == [
+    assert result == [
         {
             'code': 64,
             'description': 'Completion requested'

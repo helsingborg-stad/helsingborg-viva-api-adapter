@@ -1,3 +1,4 @@
+from typing import List
 from abc import abstractmethod
 from app.libs.providers.ekb_abc_provider import EkbABCProvider
 from app.libs.data_domain.ekb_user import EkbUser
@@ -13,11 +14,11 @@ class AbstractVivaProvider(EkbABCProvider):
     def create_client(self, wsdl_name: str):
         pass
 
-    def get_status(self, id: str) -> EkbStatus:
+    def get_status(self, id: str) -> List[EkbStatus]:
         viva_application_status = VivaApplicationStatus(
             personal_number=id, client=self.create_client(wsdl_name='VivaApplication'))
 
-        return EkbStatus(status=viva_application_status.get())
+        return viva_application_status.get()
 
     def get_mypages(self, id: str) -> EkbMyPages:
         return VivaMyPages(
