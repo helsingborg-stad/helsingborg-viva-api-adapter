@@ -16,5 +16,7 @@ class User(Resource):
 
         return {
             'type': 'EkbUser',
-            'attributes': self.provider.get_user(id=personal_number)
+            'attributes': {
+                'personalNumber': personal_number,
+            }
         }, 200
