@@ -22,6 +22,7 @@ pyjwt = "*"
 cryptography = "*"
 flask-caching = "*"
 dataclasses-json = "*"
+flask-apispec = "*"
 
 [requires]
 python_version = "3.10"
