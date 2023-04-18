@@ -1,5 +1,8 @@
 import os
 from flask import Flask
+from apispec import APISpec
+from flask_apispec.extension import FlaskApiSpec
+from apispec.ext.marshmallow import MarshmallowPlugin
 
 from app.cache import cache
 from app.api import CustomFlaskRestfulApi
@@ -23,6 +26,31 @@ def create_app(test_config=None):
             app.config.from_object('config.ProdConfig')
     else:
         app.config.from_mapping(test_config)
+
+    app.config.update({
+        'APISPEC_SPEC': APISpec(
+            title='EKB API',
+            version='v1',
+            plugins=[MarshmallowPlugin()],
+            openapi_version='3.0.2',
+            info={
+                'description': 'Viva to EKB API',
+            }
+        ),
+        'APISPEC_SWAGGER_URL': '/swagger/',
+        'APISPEC_SWAGGER_UI_URL': '/swagger-ui/',
+        'components': {
+            'security_scheme': {
+                'ApiKeyAuth': {
+                    'type': 'apiKey',
+                    'in': 'header',
+                    'name': 'X-API-KEY',
+                },
+            },
+        },
+    })
+
+    docs = FlaskApiSpec(app)
 
     with app.app_context():
         api = CustomFlaskRestfulApi(app)
@@ -104,5 +132,7 @@ def create_app(test_config=None):
             Index,
             '/',
         )
+
+    docs.register(User)
 
     return app
