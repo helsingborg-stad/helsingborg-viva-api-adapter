@@ -114,7 +114,7 @@ def test_application_status_recurring_application_completions():
 
 
 # VIVA
-def test_viva_mypages():
+def test_viva_provider():
 
     viva_provider = TestVivaProvider()
     viva_provider.PERSONAPPLICATION = lambda USER, PNR, SSI, WORKFLOWID, RETURNAS: create_viva_xml_person_application_mock()
