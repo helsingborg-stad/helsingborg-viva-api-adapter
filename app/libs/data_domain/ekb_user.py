@@ -6,19 +6,25 @@ from typing import List
 class EkbCase:
     id: str = ''
 
+    def __iter__(self):
+        return iter(self.__dict__.items())
+
 
 @dataclass
 class EkbPerson:
-    personalNumber: str = ''
-    firstName: str = ''
-    lastName: str = ''
+    personal_number: str = ''
+    first_name: str = ''
+    last_name: str = ''
     role: str = ''
+
+    def __iter__(self):
+        return iter(self.__dict__.items())
 
 
 @dataclass
 class EkbUser:
-    personalNumber: str = ''
-    firstName: str = ''
-    lastName: str = ''
+    personal_number: str = ''
+    first_name: str = ''
+    last_name: str = ''
     cases: List[EkbCase] = field(default_factory=list)
     persons: List[EkbPerson] = field(default_factory=list)
