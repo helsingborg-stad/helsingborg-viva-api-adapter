@@ -17,7 +17,6 @@ def test_user_page(test_client):
     response = test_client.get(f'/user/{hashid}')
 
     data = json.loads(response.data)
-    print(data)
 
     expected_personal_number = hash_to_personal_number(hash_id=hashid)
 
