@@ -72,11 +72,9 @@ class VivaMyPages():
         return workflow
 
     def get_workflow_list(self):
-        try:
-            person_caseworkflow = self._get_person_caseworkflow(limit=6)
-            return person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
-        except KeyError:
-            raise NotFound(description='No workflows found')
+        person_caseworkflow = self._get_person_caseworkflow(limit=6)
+        workflows = person_caseworkflow['vivadata']['vivacaseworkflows']['workflow']
+        return workflows if workflows else []
 
     def get_latest_workflow(self):
         try:
