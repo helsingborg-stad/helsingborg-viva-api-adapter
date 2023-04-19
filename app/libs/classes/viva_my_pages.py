@@ -22,6 +22,16 @@ class VivaMyPages():
             'application': self.person_application,
         }
 
+    @property
+    def user(self):
+        return {
+            'personal_number': self._user,
+            'first_name': self.get_case_client(),
+            'last_name': self.get_case_client(),
+            'persons': self.get_case_persons(),
+            'cases': self.get_workflow_list(),
+        }
+
     def get_case_client(self):
         return self.person_cases['vivadata']['vivacases']['vivacase']['client']
 
