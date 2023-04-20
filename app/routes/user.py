@@ -2,7 +2,6 @@ from typing import Union
 from flask_restful import Resource
 from flask_apispec.views import MethodResource
 from flask_apispec import doc, marshal_with
-
 from marshmallow import Schema, fields as ma_fields
 
 from app.libs.providers.ekb_abc_provider import EkbABCProvider
@@ -13,11 +12,11 @@ from app.libs.authenticate_helper import authenticate
 class UserResponseSchema(Schema):
     type = ma_fields.String()
     attributes = ma_fields.Nested({
-        'personalNumber': ma_fields.String(),
-        'firstName': ma_fields.String(),
-        'lastName': ma_fields.String(),
-        'cases': ma_fields.List(ma_fields.Dict()),
-        'persons': ma_fields.List(ma_fields.Dict()),
+        'personalNumber': ma_fields.String(allow_none=True),
+        'firstName': ma_fields.String(allow_none=True),
+        'lastName': ma_fields.String(allow_none=True),
+        'cases': ma_fields.List(ma_fields.Dict(allow_none=True)),
+        'persons': ma_fields.List(ma_fields.Dict(allow_none=True)),
     })
 
 
