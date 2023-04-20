@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 
@@ -10,4 +10,4 @@ class EkbStatusItem:
 
 @dataclass
 class EkbStatus(dict):
-    status: List[EkbStatusItem]
+    status: List[EkbStatusItem] = field(default_factory=list)
