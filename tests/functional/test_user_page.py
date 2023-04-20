@@ -13,17 +13,21 @@ def test_user_page(test_client):
     THEN check that the response is a user
     """
 
-    hashid = get_hash_ids().encode(personal_number)
-    response = test_client.get(f'/user/{hashid}')
+    hash_id = get_hash_ids().encode(personal_number)
+    response = test_client.get(f'/user/{hash_id}')
 
     data = json.loads(response.data)
 
-    expected_personal_number = hash_to_personal_number(hash_id=hashid)
+    expected_personal_number = hash_to_personal_number(hash_id=hash_id)
 
     assert response.status_code == 200
     assert data == {
         'type': 'EkbUser',
         'attributes': {
-            'personalNumber': expected_personal_number
+            'personalNumber': expected_personal_number,
+            'firstName': 'Petronella',
+            'lastName': 'Malteskog',
+            'cases': [],
+            'persons': [],
         },
     }
