@@ -9,6 +9,7 @@ class VivaProvider(AbstractVivaProvider):
 
     def create_client(self, wsdl_name: str):
         config = current_app.config['VIVA']
+
         session = Session(config=config)
 
         viva = Viva(config=config, session=session)

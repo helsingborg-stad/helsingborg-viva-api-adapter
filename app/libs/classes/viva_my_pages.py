@@ -5,7 +5,7 @@ from werkzeug.exceptions import NotFound
 from app.cache import cache
 
 
-class VivaMyPages():
+class VivaMyPages:
     def __init__(self, client: Any, user: str):
         self._client = client
 

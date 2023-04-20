@@ -10,7 +10,7 @@ def test_user_page(test_client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/user/[hashId]' page is requested (GET)
-    THEN check that the response is a user
+    THEN check that the response is a ekb user
     """
 
     hash_id = get_hash_ids().encode(personal_number)
