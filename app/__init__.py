@@ -80,21 +80,25 @@ def create_app(provider: EkbABCProvider, test_config=None, env=None) -> Flask:
             MyPagesWorkflows,
             '/mypages/<string:hash_id>/workflows',
             '/mypages/<string:hash_id>/workflows/<string:workflow_id>',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
             MyPagesWorkflowLatest,
             '/mypages/<string:hash_id>/workflows/latest',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
             MyPagesWorkflowCompletions,
             '/mypages/<string:hash_id>/workflows/<string:workflow_id>/completions',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
             Applications,
             '/applications',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
@@ -106,16 +110,19 @@ def create_app(provider: EkbABCProvider, test_config=None, env=None) -> Flask:
         api.add_resource(
             Completions,
             '/applications/<string:hash_id>/completions',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
             Attachments,
             '/attachments',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
             CheckCookie,
             '/testcookie',
+            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
