@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from apispec import APISpec
 from flask_apispec.extension import FlaskApiSpec
@@ -10,22 +9,18 @@ from app.libs.providers.viva_provider import VivaProvider
 from app.libs.providers.ekb_abc_provider import EkbABCProvider
 
 
-def create_app(test_config=None):
+def create_app(test_config=None, env=None) -> Flask:
     app: Flask = Flask(__name__, instance_relative_config=False)
-    provider: EkbABCProvider = VivaProvider()
 
-    cache.init_app(app)
-    env = os.environ.get('ENV', 'development')
-
-    if test_config is None:
+    if test_config:
+        app.config.from_mapping(test_config)
+    else:
         if env == 'development':
             app.config.from_object('config.DevConfig')
         elif env == 'test':
             app.config.from_object('config.TestConfig')
         else:
             app.config.from_object('config.ProdConfig')
-    else:
-        app.config.from_mapping(test_config)
 
     app.config.update({
         'APISPEC_SPEC': APISpec(
