@@ -45,7 +45,9 @@ def create_app(test_config=None, env=None) -> Flask:
         },
     })
 
+    cache.init_app(app)
     docs = FlaskApiSpec(app)
+    provider: EkbABCProvider = VivaProvider()
 
     with app.app_context():
         api = CustomFlaskRestfulApi(app)
