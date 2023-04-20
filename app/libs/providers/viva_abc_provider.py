@@ -1,5 +1,6 @@
-from typing import List
+from typing import List, cast
 from abc import abstractmethod
+
 from app.libs.providers.ekb_abc_provider import EkbABCProvider
 from app.libs.data_domain.ekb_user import EkbUser
 from app.libs.data_domain.ekb_status import EkbStatus
@@ -21,14 +22,9 @@ class AbstractVivaProvider(EkbABCProvider):
         return viva_application_status.get()
 
     def get_mypages(self, id: str) -> EkbMyPages:
-        return VivaMyPages(
-            client=self.create_client(wsdl_name='MyPages'), user=id).person  # type: ignore
+        return cast(EkbMyPages, VivaMyPages(
+            client=self.create_client(wsdl_name='MyPages'), user=id).person)
 
     def get_user(self, id: str) -> EkbUser:
-        return EkbUser(
-            personalNumber=id,
-            firstName='Petronella',
-            lastName='Malteskog',
-            cases=[],
-            persons=[]
-        )
+        return cast(EkbUser, VivaMyPages(client=self.create_client(
+            wsdl_name='MyPages'), user=id).user)
