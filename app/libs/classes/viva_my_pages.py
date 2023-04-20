@@ -24,12 +24,16 @@ class VivaMyPages():
 
     @property
     def user(self):
+        client = self.get_case_client()
+        persons = self.get_case_persons() if self.get_case_persons() else []
+        cases = self.get_workflow_list() if self.get_workflow_list() else []
+
         return {
-            'personal_number': self._user,
-            'first_name': self.get_case_client(),
-            'last_name': self.get_case_client(),
-            'persons': self.get_case_persons(),
-            'cases': self.get_workflow_list(),
+            'personal_number': client['pnumber'] if client else None,
+            'first_name': client['fname'] if client else None,
+            'last_name': client['lname'] if client else None,
+            'persons': persons,
+            'cases': cases,
         }
 
     def get_case_client(self):
