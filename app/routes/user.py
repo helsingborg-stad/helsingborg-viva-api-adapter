@@ -27,7 +27,7 @@ class User(MethodResource, Resource):
     def __init__(self, provider: Union[EkbABCProvider, None] = None) -> None:
         self.provider = provider
 
-    @doc(description='EKB user data', tags=['User'],)
+    @doc(description='EKB user data', tags=['User'])
     @marshal_with(UserResponseSchema)
     def get(self, hash_id):
         personal_number = hash_to_personal_number(hash_id=hash_id)
