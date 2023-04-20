@@ -5,11 +5,10 @@ from apispec.ext.marshmallow import MarshmallowPlugin
 
 from app.cache import cache
 from app.api import CustomFlaskRestfulApi
-from app.libs.providers.viva_provider import VivaProvider
 from app.libs.providers.ekb_abc_provider import EkbABCProvider
 
 
-def create_app(test_config=None, env=None) -> Flask:
+def create_app(provider: EkbABCProvider, test_config=None, env=None) -> Flask:
     app: Flask = Flask(__name__, instance_relative_config=False)
 
     if test_config:
@@ -47,7 +46,6 @@ def create_app(test_config=None, env=None) -> Flask:
 
     cache.init_app(app)
     docs = FlaskApiSpec(app)
-    provider: EkbABCProvider = VivaProvider()
 
     with app.app_context():
         api = CustomFlaskRestfulApi(app)
