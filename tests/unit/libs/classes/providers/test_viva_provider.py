@@ -1,20 +1,4 @@
-from typing import Any
-from app.libs.providers.viva_provider import AbstractVivaProvider
-
-
-class TestVivaProvider(AbstractVivaProvider):
-    APPLICATIONSTATUS: Any = callable
-    PERSONAPPLICATION: Any = callable
-    PERSONCASES: Any = callable
-    PERSONINFO: Any = callable
-    PERSONCASEWORKFLOW: Any = callable
-    NEWAPPLICATION: Any = callable
-    NEWREAPPLICATION: Any = callable
-    NEWCOMPLETION: Any = callable
-    SAVEDATA: Any = callable
-
-    def create_client(self, wsdl_name: str) -> Any:
-        return self
+from tests.conftest import TestVivaProvider
 
 
 def create_viva_xml_mock() -> str:
