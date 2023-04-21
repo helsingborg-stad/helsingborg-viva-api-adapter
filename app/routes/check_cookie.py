@@ -8,7 +8,7 @@ class CheckCookie(Resource):
     method_decorators = [authenticate]
 
     def get(self):
-        session = Session()
+        session = Session(config={'cookie_auth_name': 'DomAuthSessId'})
         transport = session.get_transport()
 
         return {
