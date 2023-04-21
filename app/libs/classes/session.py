@@ -1,21 +1,10 @@
 import requests
-from abc import abstractmethod, ABC
 from flask import current_app
 from zeep.transports import Transport
 from zeep.cache import SqliteCache
 
 from app.cache import cache
-
-
-class AbstractSession(ABC):
-
-    @abstractmethod
-    def __init__(self, config) -> None:
-        self._config = config
-
-    @abstractmethod
-    def get_transport(self):
-        pass
+from app.libs.classes.session.abstract_session import AbstractSession
 
 
 class Session(AbstractSession):
