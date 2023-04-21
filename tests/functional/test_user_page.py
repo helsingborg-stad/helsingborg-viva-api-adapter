@@ -5,7 +5,6 @@ from app.libs.personal_number_helper import get_hash_ids
 from tests.conftest import TestVivaProvider
 from tests.unit.libs.classes.providers.test_viva_provider import create_viva_xml_person_cases_mock
 from tests.unit.libs.classes.providers.test_viva_provider import create_viva_xml_person_application_mock
-from tests.unit.libs.classes.providers.test_viva_provider import create_viva_xml_person_case_workflow
 
 env = 'development'
 
