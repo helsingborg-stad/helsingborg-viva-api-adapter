@@ -169,23 +169,19 @@ def test_viva_provider_get_mypages():
 
     assert viva_provider.get_mypages(id='123') == EkbMyPages(**{
         'application': {
-            'vivadata': {
-                'vivacases': {
-                    'vivacase': {
-                        'casessi': {
-                            'server': 'abc',
-                        },
+            'vivacases': {
+                'vivacase': {
+                    'casessi': {
+                        'server': 'abc',
                     },
                 },
             },
         },
         'cases': {
-            'vivadata': {
-                'vivacases': {
-                    'vivacase': {
-                        'casessi': {
-                            'personCases': 'abc123',
-                        },
+            'vivacases': {
+                'vivacase': {
+                    'casessi': {
+                        'personCases': 'abc123',
                     },
                 },
             },
