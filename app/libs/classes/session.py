@@ -4,7 +4,7 @@ from zeep.transports import Transport
 from zeep.cache import SqliteCache
 
 from app.cache import cache
-from app.libs.classes.session.abstract_session import AbstractSession
+from app.libs.classes.abstracts.session import AbstractSession
 
 
 class Session(AbstractSession):

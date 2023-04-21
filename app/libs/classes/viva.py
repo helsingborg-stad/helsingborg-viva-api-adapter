@@ -1,6 +1,6 @@
 from zeep.client import Client
 
-from app.libs.classes.session.abstract_session import AbstractSession
+from app.libs.classes.abstracts.session import AbstractSession
 
 
 class Viva():
