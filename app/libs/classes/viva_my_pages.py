@@ -6,7 +6,7 @@ from app.cache import cache
 
 
 class VivaMyPages:
-    def __init__(self, client: Any, user: str):
+    def __init__(self, client: Any, user: str) -> None:
         self._client = client
 
         self._user = user
@@ -16,14 +16,14 @@ class VivaMyPages:
         self.person_application = self._get_person_application()
 
     @property
-    def person(self):
+    def person(self) -> dict:
         return {
             'cases': self.person_cases,
             'application': self.person_application,
         }
 
     @property
-    def user(self):
+    def user(self) -> dict:
         client = self.get_case_client()
         persons = self.get_case_persons() if self.get_case_persons() else []
         cases = self.get_workflow_list() if self.get_workflow_list() else []
@@ -130,7 +130,7 @@ class VivaMyPages:
 
         return xmltodict.parse(response_info)
 
-    @cache.memoize(timeout=300)
+    @cache.memoize(timeout=3600)  # 1 hour
     def _get_person_cases(self):
         service_response = self._client.PERSONCASES(
             USER=self._user,
@@ -141,6 +141,7 @@ class VivaMyPages:
 
         return xmltodict.parse(service_response)
 
+    @cache.memoize(timeout=300)  # 5 minutes
     def _get_person_caseworkflow(self, limit=None):
         assert isinstance(
             limit, int), f'{limit} should be type int. Got {type(limit)}'
@@ -155,7 +156,7 @@ class VivaMyPages:
 
         return xmltodict.parse(service_response)
 
-    @cache.memoize(timeout=300)
+    @cache.memoize(timeout=300)  # 5 minutes
     def _get_person_application(self):
         service_response = self._client.PERSONAPPLICATION(
             USER=self._user,
