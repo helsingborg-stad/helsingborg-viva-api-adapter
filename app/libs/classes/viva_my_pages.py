@@ -29,9 +29,9 @@ class VivaMyPages:
         cases = self.get_workflow_list() if self.get_workflow_list() else []
 
         return {
-            'personal_number': client['pnumber'] if client else None,
-            'first_name': client['fname'] if client else None,
-            'last_name': client['lname'] if client else None,
+            'personal_number': client['pnumber'] if client['pnumber'] else None,
+            'first_name': client['fname'] if client['fname'] else None,
+            'last_name': client['lname'] if client['lname'] else None,
             'persons': persons,
             'cases': cases,
         }
