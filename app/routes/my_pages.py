@@ -19,8 +19,12 @@ class MyPages(Resource):
             return {'users': USERS}, 200
 
         personal_number = hash_to_personal_number(hash_id=hash_id)
+        my_pages = self.provider.get_mypages(id=personal_number)
 
         return {
-            'type': 'getMyPages',
-            'attributes': self.provider.get_mypages(id=personal_number)
+            'type': 'myPages',
+            'attributes': {
+                'cases': my_pages.cases,
+                'application': my_pages.application,
+            }
         }, 200

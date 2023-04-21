@@ -18,8 +18,8 @@ class VivaMyPages:
     @property
     def person(self) -> dict:
         return {
-            'cases': self.person_cases,
-            'application': self.person_application,
+            'cases': self.person_cases['vivadata'] if self.person_cases['vivadata'] else None,
+            'application': self.person_application['vivadata'] if self.person_application['vivadata'] else None,
         }
 
     @property
