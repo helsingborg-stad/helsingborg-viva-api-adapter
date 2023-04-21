@@ -15,8 +15,8 @@ class UserResponseSchema(Schema):
         'personalNumber': ma_fields.String(allow_none=True),
         'firstName': ma_fields.String(allow_none=True),
         'lastName': ma_fields.String(allow_none=True),
-        'cases': ma_fields.List(ma_fields.Dict(allow_none=True)),
-        'persons': ma_fields.List(ma_fields.Dict(allow_none=True)),
+        'cases': ma_fields.List(ma_fields.Dict(), allow_none=True),
+        'persons': ma_fields.List(ma_fields.Dict(), allow_none=True),
     })
 
 
