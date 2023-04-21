@@ -1,4 +1,4 @@
-from typing import List, cast
+from typing import List
 from abc import abstractmethod
 
 from app.libs.providers.ekb_abc_provider import EkbABCProvider
