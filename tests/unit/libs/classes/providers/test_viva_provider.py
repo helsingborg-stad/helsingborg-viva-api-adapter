@@ -1,4 +1,6 @@
 from tests.conftest import TestVivaProvider
+from app.libs.data_domain.ekb_user import EkbUser
+from app.libs.data_domain.ekb_mypages import EkbMyPages
 
 
 def create_viva_xml_mock() -> str:
@@ -165,7 +167,7 @@ def test_viva_provider_get_mypages():
     viva_provider.PERSONAPPLICATION = lambda USER, PNR, SSI, WORKFLOWID, RETURNAS: create_viva_xml_alt_mock()
     viva_provider.PERSONCASES = lambda USER, PNR, SYSTEM, RETURNAS: create_viva_xml_mock()
 
-    assert viva_provider.get_mypages(id='123') == {
+    assert viva_provider.get_mypages(id='123') == EkbMyPages(**{
         'application': {
             'vivadata': {
                 'vivacases': {
@@ -188,7 +190,7 @@ def test_viva_provider_get_mypages():
                 },
             },
         },
-    }
+    })
 
 
 def test_viva_provider_get_user():
@@ -210,7 +212,7 @@ def test_viva_provider_get_user():
             'last_name': last_name,
         })
 
-    assert viva_provider.get_user(id=personal_number) == {
+    assert viva_provider.get_user(id=personal_number) == EkbUser(**{
         'personal_number': personal_number,
         'first_name': first_name,
         'last_name': last_name,
@@ -234,4 +236,4 @@ def test_viva_provider_get_user():
             },
         },
         'persons': [],
-    }
+    })
