@@ -22,9 +22,22 @@ class AbstractVivaProvider(EkbABCProvider):
         return viva_application_status.get()
 
     def get_mypages(self, id: str) -> EkbMyPages:
-        return cast(EkbMyPages, VivaMyPages(
-            client=self.create_client(wsdl_name='MyPages'), user=id).person)
+        viva_person = VivaMyPages(
+            client=self.create_client(wsdl_name='MyPages'), user=id).person
+
+        return EkbMyPages(
+            application=viva_person['application'],
+            cases=viva_person['cases'],
+        )
 
     def get_user(self, id: str) -> EkbUser:
-        return cast(EkbUser, VivaMyPages(client=self.create_client(
-            wsdl_name='MyPages'), user=id).user)
+        viva_user = VivaMyPages(client=self.create_client(
+            wsdl_name='MyPages'), user=id).user
+
+        return EkbUser(
+            personal_number=viva_user['personal_number'],
+            first_name=viva_user['first_name'],
+            last_name=viva_user['last_name'],
+            persons=viva_user['persons'],
+            cases=viva_user['cases'],
+        )
