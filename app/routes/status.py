@@ -15,6 +15,6 @@ class Status(Resource):
         personal_number = hash_to_personal_number(hash_id=hash_id)
 
         return {
-            'type': 'getStatus',
+            'type': 'status',
             'attributes': self.provider.get_status(id=personal_number)
         }, 200
