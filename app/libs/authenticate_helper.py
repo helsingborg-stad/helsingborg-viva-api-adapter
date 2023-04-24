@@ -32,7 +32,9 @@ def authenticate(f):
             if will_skip_auth:
                 return f(*args, **kwargs)
 
-            public_key = open(current_app.config['PUBLIC_KEY_FILE']).read()
+            with open(current_app.config['PUBLIC_KEY_FILE']) as public_key_file:
+                public_key = public_key_file.read()
+
             token = request.headers.get('X-Api-Key')
 
             if not validate_token(token=token, public_key=public_key):

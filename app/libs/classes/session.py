@@ -17,8 +17,8 @@ class Session(AbstractSession):
     def get_transport(self):
         self._cookie = self._get_cookie()
 
-        session = requests.Session()
-        session.cookies.set(self._config.cookie_auth_name, self._cookie)
+        with requests.Session() as session:
+            session.cookies.set(self._config.cookie_auth_name, self._cookie)
 
         transport = Transport(
             session=session, cache=SqliteCache('/tmp/viva_sqlite.db'))
