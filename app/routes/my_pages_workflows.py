@@ -1,5 +1,7 @@
+from typing import Union
 from flask_restful import Resource
 
+from app.libs.providers.ekb_abc_provider import EkbABCProvider
 from app.libs.classes.viva_my_pages import VivaMyPages
 from app.libs.personal_number_helper import hash_to_personal_number
 from app.libs.authenticate_helper import authenticate
@@ -8,9 +10,12 @@ from app.libs.authenticate_helper import authenticate
 class MyPagesWorkflows(Resource):
     method_decorators = [authenticate]
 
+    def __init__(self, provider: Union[EkbABCProvider, None] = None) -> None:
+        self.provider = provider
+
     def get(self, hash_id, workflow_id=None):
         personal_number = hash_to_personal_number(hash_id=hash_id)
-        self.my_pages = VivaMyPages(user=personal_number)
+        self.my_pages = VivaMyPages(client=self.provider, user=personal_number)
 
         self.workflow_id = workflow_id
 

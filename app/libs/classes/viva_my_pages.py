@@ -1,5 +1,5 @@
-from typing import Any
 import xmltodict
+from typing import Any
 from werkzeug.exceptions import NotFound
 
 from app.cache import cache
