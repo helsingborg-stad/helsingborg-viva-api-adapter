@@ -17,12 +17,13 @@ def catch_viva_error(function):
             viva_request_response)
 
         viva_response_status = str(
-            validated_viva_request_response['status']).lower()
+            validated_viva_request_response['status']).lower()  # type: ignore
 
         if not viva_response_status == 'ok':
-            current_app.logger.info(msg={**validated_viva_request_response})
+            current_app.logger.info(
+                msg={**validated_viva_request_response})  # type: ignore
             raise VivaRequestError(
-                message={**validated_viva_request_response})
+                message={**validated_viva_request_response})  # type: ignore
 
         return validated_viva_request_response
 

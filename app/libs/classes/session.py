@@ -4,45 +4,42 @@ from zeep.transports import Transport
 from zeep.cache import SqliteCache
 
 from app.cache import cache
+from app.libs.classes.abstracts.session import AbstractSession
 
 
-class Session():
+class Session(AbstractSession):
 
     _cookie = None
 
-    def __init__(self, transport=Transport, requests=requests, current_app=current_app):
-        self._config = current_app.config
-        self._requests = requests
-        self._transport = transport
-        self._sqlite_cache = SqliteCache('/tmp/viva_sqlite.db')
+    def __init__(self, config):
+        self._config = config
 
     def get_transport(self):
         self._cookie = self._get_cookie()
 
-        cookie_jar = self._requests.cookies.RequestsCookieJar()
-        cookie_jar.set(self._config['COOKIE_AUTH_NAME'], self._cookie)
+        with requests.Session() as session:
+            session.cookies.set(self._config.cookie_auth_name, self._cookie)
 
-        session = self._requests.Session()
-        session.cookies = cookie_jar
-        transport = self._transport(session=session, cache=self._sqlite_cache)
+        transport = Transport(
+            session=session, cache=SqliteCache('/tmp/viva_sqlite.db'))
 
         return transport
 
     @cache.memoize(timeout=300)
     def _get_cookie(self):
         current_app.logger.debug(msg='COOKIE')
-        login_conf = self._config['VIVA']['login']
+        login_config = self._config.login
 
-        response = self._requests.post(
-            login_conf['url'],
+        response = requests.post(
+            login_config.url,
             data={
-                'username': login_conf['username'],
-                'password': login_conf['password'],
+                'username': login_config.username,
+                'password': login_config.password,
             },
             allow_redirects=False,
         )
 
-        cookie = response.cookies[self._config['COOKIE_AUTH_NAME']]
+        cookie = response.cookies[self._config.cookie_auth_name]
         return cookie
 
     def __repr__(self) -> str:

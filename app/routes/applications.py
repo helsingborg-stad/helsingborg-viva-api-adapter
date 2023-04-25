@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource
 
 from app.libs.enum import ApplicationType
+from app.libs.providers.viva_abc_provider import AbstractVivaProvider
 from app.libs.classes.viva_application_data import DataClassApplication
 from app.libs.classes.viva_my_pages import VivaMyPages
 from app.libs.classes.viva_attachments import VivaAttachments
@@ -13,6 +14,9 @@ from app.schemas.application_schema import ApplicationSchema
 
 class Applications(Resource):
     method_decorators = [authenticate]
+
+    def __init__(self, provider: AbstractVivaProvider) -> None:
+        self.provider = provider
 
     def post(self):
         json_payload = request.json
@@ -34,14 +38,26 @@ class Applications(Resource):
         }
 
     def _recurring_application(self) -> VivaApplication:
+
+        client = self.provider.create_client(
+            wsdl_name='VivaApplication')
+
+        my_pages = VivaMyPages(user=self.personal_number, client=self.provider.create_client(
+            wsdl_name='MyPages'))
+
+        viva_attachments = VivaAttachments(
+            client=self.provider.create_client(wsdl_name='VivaAttachment'), user=self.personal_number)
+
         return VivaApplication(
-            my_pages=VivaMyPages(user=self.personal_number),
+            client=client,
+            my_pages=my_pages,
             application=DataClassApplication(
                 operation_type=ApplicationType.RECURRING,
                 personal_number=self.personal_number,
                 workflow_id=self.validated_application['workflow_id'],
                 answers=self.validated_application['answers'],
-                raw_data=self.validated_application['raw_data']))
+                raw_data=self.validated_application['raw_data']),
+            viva_attachments=viva_attachments)
 
     def _new_application(self) -> VivaApplication:
         return VivaApplication(

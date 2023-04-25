@@ -1,16 +1,10 @@
-from app import create_app
 
-
-def test_index_page():
+def test_index_page(test_client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/' page is requested (GET)
-    THEN check that the response is valid
+    THEN check that the response status code is 200
     """
 
-    flask_app = create_app()
-    flask_app.testing = True
-
-    with flask_app.test_client() as test_client:
-        response = test_client.get('/')
-        assert response.status_code == 200
+    response = test_client.get('/')
+    assert response.status_code == 200

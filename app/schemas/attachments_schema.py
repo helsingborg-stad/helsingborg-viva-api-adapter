@@ -4,11 +4,11 @@ from marshmallow import Schema, fields, validates, ValidationError
 
 class AttachmentsSchema(Schema):
     hashid = fields.Str(required=True)
-    attachment_id = fields.Str(
+    id = fields.Str(
         data_key='attachmentId',
         required=True
     )
-    file_name = fields.Str(
+    name = fields.Str(
         data_key='filename',
         required=True
     )
