@@ -1,19 +1,15 @@
-from app.libs.classes.viva import Viva
+from typing import Any
+from zeep.helpers import serialize_object
 
 
-class VivaAttachments(Viva):
+class VivaAttachments:
 
-    def __init__(self, user, wsdl='VivaAttachment'):
-        super(VivaAttachments, self).__init__()
-
-        self._service = self._get_service(wsdl)
+    def __init__(self, client: Any,  user: str) -> None:
+        self._client = client
         self._user = user
 
     def save(self, attachment):
-        assert isinstance(
-            attachment, dict), f'attachment should be type dict. Got {type(attachment)}'
-
-        viva_save_soap_response = self._service.SAVEDATA(
+        viva_save_soap_response = self._client.SAVEDATA(
             SUSER=self._user,
             SIP='0.0.0.0',
             STEMP='5',
@@ -23,4 +19,4 @@ class VivaAttachments(Viva):
             SDATA=attachment['file_base64']
         )
 
-        return self._helpers.serialize_object(viva_save_soap_response)
+        return serialize_object(viva_save_soap_response)
