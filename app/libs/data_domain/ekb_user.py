@@ -6,9 +6,6 @@ from typing import List
 class EkbCase:
     id: str = ''
 
-    def __iter__(self):
-        return iter(self.__dict__.items())
-
 
 @dataclass
 class EkbPerson:
@@ -16,9 +13,6 @@ class EkbPerson:
     first_name: str = ''
     last_name: str = ''
     role: str = ''
-
-    def __iter__(self):
-        return iter(self.__dict__.items())
 
 
 @dataclass
