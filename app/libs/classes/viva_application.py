@@ -1,8 +1,8 @@
-from typing import List
+from typing import List, Any
+from zeep.helpers import serialize_object
 
 from app.libs.enum import ApplicationType
 from app.libs.classes.viva_application_data import DataClassApplication, Answer
-from app.libs.classes.viva import Viva
 from app.libs.classes.viva_my_pages import VivaMyPages
 from app.libs.classes.viva_attachments import VivaAttachments
 from app.libs.classes.application_answer.answer import ApplicationAnswer
@@ -14,30 +14,17 @@ from app.libs.classes.application_answer.zeep_person_info import ZeepPersonInfo
 from app.libs.viva_error_helper import catch_viva_error
 
 
-class VivaApplication(Viva):
+class VivaApplication:
 
     def __init__(self,
+                 client: Any,
                  application: DataClassApplication,
-                 my_pages: VivaMyPages = None,
-                 viva_attachments: VivaAttachments = None,
-                 wsdl='VivaApplication'):
-        super(VivaApplication, self).__init__()
+                 my_pages: VivaMyPages,
+                 viva_attachments: VivaAttachments) -> None:
 
-        if not isinstance(application, DataClassApplication):
-            raise TypeError(
-                f'{application} is not an instance of class DataClassApplication')
-
-        if my_pages and not isinstance(my_pages, VivaMyPages):
-            raise TypeError(
-                f'{my_pages} is not an instance of class VivaMyPages')
-
-        if viva_attachments and not isinstance(viva_attachments, VivaAttachments):
-            raise TypeError(
-                f'{viva_attachments} is not an instance of class VivaAttachments')
-
+        self._client = client
         self._my_pages = my_pages
         self._viva_attachments = viva_attachments
-        self._service = self._get_service(wsdl)
 
         self._viva_soap_operation_types = {
             ApplicationType.NEW: self._new_application,
@@ -170,7 +157,7 @@ class VivaApplication(Viva):
         self._save_attachments()
         new_application = self._create_new_application()
 
-        response = self._service.NEWAPPLICATION(
+        response = self._client.NEWAPPLICATION(
             KEY='',
             USER=self._personal_number,
             IP='0.0.0.0',
@@ -179,12 +166,12 @@ class VivaApplication(Viva):
             APPLICATION=new_application,
         )
 
-        return self._helpers.serialize_object(response)
+        return serialize_object(response)
 
     def _new_re_application(self):
         personal_number = self._my_pages.get_personal_number()
 
-        response = self._service.NEWREAPPLICATION(
+        response = self._client.NEWREAPPLICATION(
             KEY='',
             USER=personal_number,
             IP='0.0.0.0',
@@ -207,7 +194,7 @@ class VivaApplication(Viva):
             }
         )
 
-        return self._helpers.serialize_object(response)
+        return serialize_object(response)
 
     def _new_completion(self):
         self._save_attachments()
@@ -216,7 +203,7 @@ class VivaApplication(Viva):
         case_ssi = self._my_pages.get_casessi()
         completion = self._get_zeep_attachment_list()
 
-        completion_response = self._service.NEWCOMPLETION(
+        completion_response = self._client.NEWCOMPLETION(
             KEY='',
             USER=personal_number,
             IP='0.0.0.0',
@@ -225,4 +212,4 @@ class VivaApplication(Viva):
             COMPLETION=completion
         )
 
-        return self._helpers.serialize_object(completion_response)
+        return serialize_object(completion_response)
