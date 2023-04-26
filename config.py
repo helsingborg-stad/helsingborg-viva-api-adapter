@@ -1,19 +1,20 @@
 import os
+from typing import Union
 from dataclasses import dataclass
 
 
 @dataclass
 class VivaLoginConfig:
-    url: str | None
-    username: str | None
-    password: str | None
+    url: Union[str, None]
+    username: Union[str, None]
+    password: Union[str, None]
 
 
 @dataclass
 class VivaConfig:
-    wsdl_url: str | None
-    cookie_auth_name: str | None
-    login: VivaLoginConfig | None
+    wsdl_url: Union[str, None]
+    cookie_auth_name: Union[str, None]
+    login: Union[VivaLoginConfig, None]
 
 
 class DevConfig:
