@@ -9,8 +9,6 @@ from app.libs.data_domain.ekb_case import TimeSpan
 class VivaWorkflowsToEkbCasesMapper:
     def __init__(self, workflows: VivaPersonCaseWorkflow) -> None:
         self._workflows = workflows.vivadata.vivacaseworkflows
-        self._completions_mapper = VivaWorkflowCompletionsMapper(
-            viva_workflow=self._workflows)
 
     def get_ekb_cases(self) -> List[EkbCase]:
         return [self._create_ekb_case(w) for w in self._workflows]
