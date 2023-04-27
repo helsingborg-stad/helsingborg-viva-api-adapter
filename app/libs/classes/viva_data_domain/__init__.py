@@ -191,7 +191,14 @@ class Payment:
 
 @dataclass
 class Journal:
-    pass
+    createdby: Union[str, None] = None
+    createddatetime: Union[str, None] = None
+    eventdate: Union[str, None] = None
+    periodenddate: Union[str, None] = None
+    periodstartdate: Union[str, None] = None
+    responsible: Union[str, None] = None
+    ssi: Union[Ssi, None] = None
+    subject: Union[str, None] = None
 
 
 @dataclass
