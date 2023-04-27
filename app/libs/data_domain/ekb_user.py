@@ -1,10 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-
-@dataclass
-class EkbCase:
-    id: str = ''
+from app.libs.data_domain.ekb_case import EkbCase
 
 
 @dataclass
