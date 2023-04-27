@@ -8,7 +8,7 @@ class VivaData:
 
 
 @dataclass
-class CaseSsi:
+class Ssi:
     server: str
     path: str
     id: str
@@ -50,7 +50,7 @@ class Person:
 
 @dataclass
 class VivaCase:
-    casessi: CaseSsi
+    casessi: Ssi
     idunique: str
     idenclair: str
     type: str
@@ -75,7 +75,7 @@ class Application:
     completiondate: Union[str, None] = None
     completionreceiveddate: Union[str, None] = None
     completionsreceived: Union[str, None] = None
-    completions: Union[str, None] = None
+    completions: Union[List[str], None] = None
     completiondescription: Union[str, None] = None
     completionduedate: Union[str, None] = None
     islockedwithoutcompletionreceived: Union[str, None] = None
@@ -88,8 +88,62 @@ class Calculation:
 
 
 @ dataclass
+class CalculationPerson:
+    daycare: Union[str, None] = None
+    days: Union[str, None] = None
+    home: Union[str, None] = None
+    name: Union[str, None] = None
+    norm: Union[str, None] = None
+    pnumber: Union[str, None] = None
+
+
+@ dataclass
+class CalculationCost:
+    actual: Union[str, None] = None
+    approved: Union[str, None] = None
+    note: Union[str, None] = None
+    type: Union[str, None] = None
+
+
+@ dataclass
+class CalculationNormPart:
+    actual: Union[str, None] = None
+    note: Union[str, None] = None
+    type: Union[str, None] = None
+
+
+@ dataclass
 class Decision:
-    pass
+    createdby: Union[str, None] = None
+    createddatetime: Union[str, None] = None
+    amount: Union[str, None] = None
+    author: Union[str, None] = None
+    cause: Union[str, None] = None
+    causepartner: Union[str, None] = None
+    causetext: Union[str, None] = None
+    causetextpartner: Union[str, None] = None
+    code: Union[str, None] = None
+    codetext: Union[str, None] = None
+    createdby: Union[str, None] = None
+    createddatetime: Union[str, None] = None
+    date: Union[str, None] = None
+    explanation: Union[str, None] = None
+    id: Union[str, None] = None
+    purpose: Union[str, None] = None
+    type: Union[str, None] = None
+    typecode: Union[str, None] = None
+
+
+@ dataclass
+class DecisionBase:
+    createdby: Union[str, None] = None
+    createddatetime: Union[str, None] = None
+    parentssi: Union[Ssi, None] = None
+    decisions: Union[List[Decision], None] = None
+    periodenddate: Union[str, None] = None
+    periodstartdate: Union[str, None] = None
+    ssi: Union[Ssi, None] = None
+    subject: Union[str, None] = None
 
 
 @ dataclass
@@ -105,11 +159,11 @@ class Journal:
 @ dataclass
 class Workflow:
     workflowid: str
+    application: Application
     calculations: Optional[List[Calculation]] = None
-    decisions: Optional[List[Decision]] = None
+    decisions: Optional[List[DecisionBase]] = None
     payments: Optional[List[Payment]] = None
     journals: Optional[List[Journal]] = None
-    application: Optional[Application] = None
 
 
 @ dataclass
