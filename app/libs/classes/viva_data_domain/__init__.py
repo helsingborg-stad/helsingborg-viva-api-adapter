@@ -82,12 +82,7 @@ class Application:
     islocked: Union[str, None] = None
 
 
-@ dataclass
-class Calculation:
-    pass
-
-
-@ dataclass
+@dataclass
 class CalculationPerson:
     daycare: Union[str, None] = None
     days: Union[str, None] = None
@@ -97,7 +92,7 @@ class CalculationPerson:
     pnumber: Union[str, None] = None
 
 
-@ dataclass
+@dataclass
 class CalculationCost:
     actual: Union[str, None] = None
     approved: Union[str, None] = None
@@ -105,14 +100,37 @@ class CalculationCost:
     type: Union[str, None] = None
 
 
-@ dataclass
+@dataclass
 class CalculationNormPart:
     actual: Union[str, None] = None
     note: Union[str, None] = None
     type: Union[str, None] = None
 
 
-@ dataclass
+@dataclass
+class Calculation:
+    calculationsum: Union[str, None] = None
+    calculationtype: Union[str, None] = None
+    costsum: Union[str, None] = None
+    createdby: Union[str, None] = None
+    createddatetime: Union[str, None] = None
+    incomes: Union[str, None] = None
+    incomesum: Union[str, None] = None
+    normgemsum: Union[str, None] = None
+    normsubtotal: Union[str, None] = None
+    normsum: Union[str, None] = None
+    note: Union[str, None] = None
+    periodenddate: Union[str, None] = None
+    periodstartdate: Union[str, None] = None
+    reductions: Union[str, None] = None
+    reductionsum: Union[str, None] = None
+    subject: Union[str, None] = None
+    parentssi: Union[Ssi, None] = None
+    ssi: Union[Ssi, None] = None
+    norm: Union[List[CalculationNormPart], None] = None
+
+
+@dataclass
 class Decision:
     createdby: Union[str, None] = None
     createddatetime: Union[str, None] = None
@@ -134,7 +152,7 @@ class Decision:
     typecode: Union[str, None] = None
 
 
-@ dataclass
+@dataclass
 class DecisionBase:
     createdby: Union[str, None] = None
     createddatetime: Union[str, None] = None
@@ -146,17 +164,17 @@ class DecisionBase:
     subject: Union[str, None] = None
 
 
-@ dataclass
+@dataclass
 class Payment:
     pass
 
 
-@ dataclass
+@dataclass
 class Journal:
     pass
 
 
-@ dataclass
+@dataclass
 class Workflow:
     workflowid: str
     application: Application
@@ -166,21 +184,21 @@ class Workflow:
     journals: Optional[List[Journal]] = None
 
 
-@ dataclass
+@dataclass
 class VivaCaseWorkflows(VivaData):
     vivacaseworkflows: List[Workflow]
 
 
-@ dataclass
+@dataclass
 class VivaCases(VivaData):
     vivacases: List[VivaCase]
 
 
-@ dataclass
+@dataclass
 class VivaPersonCases:
     vivadata: VivaCases
 
 
-@ dataclass
+@dataclass
 class VivaPersonCaseWorkflow:
     vivadata: VivaCaseWorkflows
