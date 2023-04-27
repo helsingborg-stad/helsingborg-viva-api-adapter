@@ -110,7 +110,9 @@ class CalculationNormPart:
 @dataclass
 class Calculation:
     calculationsum: Union[str, None] = None
+    calculationpersons: Union[List[CalculationPerson], None] = None
     calculationtype: Union[str, None] = None
+    costs: Union[List[CalculationCost], None] = None
     costsum: Union[str, None] = None
     createdby: Union[str, None] = None
     createddatetime: Union[str, None] = None
