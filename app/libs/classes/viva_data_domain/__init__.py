@@ -168,7 +168,25 @@ class DecisionBase:
 
 @dataclass
 class Payment:
-    pass
+    amount: Union[str, None] = None
+    canceled: Union[str, None] = None
+    createdby: Union[str, None] = None
+    createddatetime: Union[str, None] = None
+    givedate: Union[str, None] = None
+    method: Union[str, None] = None
+    msg1: Union[str, None] = None
+    msg2: Union[str, None] = None
+    paymentid: Union[str, None] = None
+    parentssi: Union[Ssi, None] = None
+    periodenddate: Union[str, None] = None
+    periodstartdate: Union[str, None] = None
+    purpose: Union[str, None] = None
+    receivername: Union[str, None] = None
+    receiverpnumber: Union[str, None] = None
+    ssi: Union[Ssi, None] = None
+    status: Union[str, None] = None
+    subject: Union[str, None] = None
+    type: Union[str, None] = None
 
 
 @dataclass
