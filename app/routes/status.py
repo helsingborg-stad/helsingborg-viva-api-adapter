@@ -11,10 +11,10 @@ class Status(Resource):
     def __init__(self, provider: EkbABCProvider) -> None:
         self.provider = provider
 
-    def get(self, hash_id) -> tuple:
+    def get(self, hash_id):
         personal_number = hash_to_personal_number(hash_id=hash_id)
 
         return {
             'type': 'status',
-            'attributes': self.provider.get_status(id=personal_number)
+            'attributes': self.provider.get_status(id=personal_number).status
         }, 200

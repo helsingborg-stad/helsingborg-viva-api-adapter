@@ -15,11 +15,12 @@ class AbstractVivaProvider(EkbABCProvider):
     def create_client(self, wsdl_name: str):
         pass
 
-    def get_status(self, id: str) -> List[EkbStatus]:
+    def get_status(self, id: str) -> EkbStatus:
         viva_application_status = VivaApplicationStatus(
-            personal_number=id, client=self.create_client(wsdl_name='VivaApplication'))
+            client=self.create_client(wsdl_name='VivaApplication'))
 
-        return viva_application_status.get()
+        return EkbStatus(
+            status=viva_application_status.get(personal_number=id))
 
     def get_mypages(self, id: str) -> EkbMyPages:
         viva_person = VivaMyPages(client=self.create_client(

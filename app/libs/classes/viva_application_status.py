@@ -40,18 +40,13 @@ STATUS_DESCRIPTION = {
 
 
 class VivaApplicationStatus():
-    def __init__(self, client: Any, personal_number: str):
-
-        if not isinstance(personal_number, str):
-            raise TypeError('personal_number should be type string')
-
-        self._personal_number = personal_number
+    def __init__(self, client: Any):
         self._client = client
 
-    def get(self):
+    def get(self, personal_number: str):
         status_code = self._client.APPLICATIONSTATUS(
-            SUSER=self._personal_number,
-            SPNR=self._personal_number,
+            SUSER=personal_number,
+            SPNR=personal_number,
             SCASETYPE='01',  # 01 = EKB
             SSYSTEM=1
         )
