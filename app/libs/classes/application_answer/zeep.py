@@ -1,10 +1,15 @@
-import locale
+import re
 
 from app.libs.classes.application_answer.collection import ApplicationAnswerCollection
 from app.libs.strings import trim_last_character
 from app.libs.datetime_helper import milliseconds_to_date_string
 
-locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')
+
+def amount_to_float(value: str):
+    matches = re.search(r'[0-9]*[.,]?[0-9]+', value)
+    may_be_number = matches.group()
+    clean_value = re.sub(r'[,]', '.', may_be_number)
+    return float(clean_value)
 
 
 class ZeepApplication(dict):
@@ -107,12 +112,10 @@ class ZeepApplication(dict):
                     post['DESCRIPTION'] = ZeepApplication.POST_TYPES[post_type]
 
             elif attribute == 'DATE':
-                post['DATE'] = milliseconds_to_date_string(
-                    milliseconds=value)
+                post['DATE'] = milliseconds_to_date_string(milliseconds=value)
 
             elif attribute == 'AMOUNT':
-                if isinstance(value, (int, float, str)):
-                    post['AMOUNT'] = locale.atof(str(value))
+                post['AMOUNT'] = amount_to_float(value=str(value))
 
             elif attribute == 'APPLIESTO' and value == 'COAPPLICANT':
                 post['APPLIESTO'] = 'coapplicant'
