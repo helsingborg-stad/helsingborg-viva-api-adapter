@@ -216,6 +216,9 @@ def test_answer_amount_value_is_string():
         answer('1234', ['expenses', 'boende', 'amount']),
         answer('1234,20', ['expenses', 'bredband', 'amount']),
         answer('765.34', ['incomes', 'underhallsbidrag', 'amount']),
+        answer('bad text2000 bad text', [
+               'incomes', 'aldreforsorjningsstod', 'amount']),
+        answer('bad text123,12', ['incomes', 'lon', 'amount']),
     ))
 
     assert zeep_dict == {
@@ -237,12 +240,30 @@ def test_answer_amount_value_is_string():
                     'PERIOD': '',
                     'APPLIESTO': 'applicant',
                     'DESCRIPTION': 'Bredband',
-                    'AMOUNT': 1234.20,
+                    'AMOUNT': 1234.2,
                 },
             ],
         },
         'INCOMES': {
             'INCOME': [
+                {
+                    'TYPE': 'lon',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Lön',
+                    'AMOUNT': 123.12,
+                },
+                {
+                    'TYPE': 'aldreforsorjningsstod',
+                    'FREQUENCY': 12,
+                    'DATE': '',
+                    'PERIOD': '',
+                    'APPLIESTO': 'applicant',
+                    'DESCRIPTION': 'Äldreförsörjningsstöd',
+                    'AMOUNT': 2000,
+                },
                 {
                     'TYPE': 'underhallsbidrag',
                     'FREQUENCY': 12,
