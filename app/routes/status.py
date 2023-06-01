@@ -16,5 +16,7 @@ class Status(Resource):
 
         return {
             'type': 'status',
-            'attributes': self.provider.get_status(id=personal_number).status
+            'attributes': {
+                'status': self.provider.get_status(id=personal_number).status
+            }
         }, 200
