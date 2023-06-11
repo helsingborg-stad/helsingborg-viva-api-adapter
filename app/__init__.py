@@ -122,7 +122,6 @@ def create_app(provider: EkbABCProvider, test_config=None, env=None) -> Flask:
         api.add_resource(
             CheckCookie,
             '/testcookie',
-            resource_class_kwargs={'provider': provider},
         )
 
         api.add_resource(
