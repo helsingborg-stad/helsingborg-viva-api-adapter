@@ -141,7 +141,6 @@ class VivaMyPages:
 
         return xmltodict.parse(service_response)
 
-    @cache.memoize(timeout=300)  # 5 minutes
     def _get_person_caseworkflow(self, limit=None):
         assert isinstance(
             limit, int), f'{limit} should be type int. Got {type(limit)}'
